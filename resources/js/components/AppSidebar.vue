@@ -14,6 +14,11 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Proveedores',
+        href: '/panel/suppliers',
+        icon: LayoutGrid,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

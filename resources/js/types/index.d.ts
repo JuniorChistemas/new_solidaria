@@ -9,6 +9,7 @@ export interface Auth {
 export interface BreadcrumbItem {
     title: string;
     href: string;
+    download?: boolean;
 }
 
 export interface NavItem {
@@ -16,6 +17,10 @@ export interface NavItem {
     href: string;
     icon?: LucideIcon;
     isActive?: boolean;
+    items?: {
+        title: string
+        href: string
+    }[]
 }
 
 export interface SharedData extends PageProps {
@@ -23,6 +28,10 @@ export interface SharedData extends PageProps {
     quote: { message: string; author: string };
     auth: Auth;
     ziggy: Config & { location: string };
+    flash: {
+        message: string;
+        error: string;
+    };
 }
 
 export interface User {
