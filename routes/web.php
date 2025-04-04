@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Panel\CategoryController;
 use App\Http\Controllers\Panel\SupplierController;
+use App\Http\Controllers\LaboratoryController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,8 +28,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('categories', CategoryController::class);
         # list categories
             Route::get('listar-categories',[CategoryController::class,'listarCategories'])->name('categories.listar');    
-
-        
+        # module laboratories
+            Route::resource('laboratories', LaboratoryController::class);
+        # list laboratories
+            Route::get('listar-laboratories',[LaboratoryController::class,'listarLaboratories'])->name('laboratories.listar');
     });
 });
 
