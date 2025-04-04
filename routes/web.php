@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Panel\CategoryController;
 use App\Http\Controllers\Panel\SupplierController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -21,7 +22,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::resource('suppliers', SupplierController::class);
         # list suppliers
             Route::get('listar-suppliers',[SupplierController::class,'listarProveedor'])->name('suppliers.listar');    
-
+        
+        # module categories
+        Route::resource('categories', CategoryController::class);
+        # list categories
+            Route::get('listar-categories',[CategoryController::class,'listarCategories'])->name('categories.listar');    
 
         
     });

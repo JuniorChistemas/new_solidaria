@@ -40,7 +40,7 @@ import DeleteSupplier from '../../../components/delete.vue';
 import EditSupplier from './components/editSupplier.vue';
 import { useSupplier } from '@/composables/useSupplier';
 import { BreadcrumbItem } from '@/types';
-import FilterSupplier from '../../../components/filter.vue';
+import FilterSupplier from '@/components/filter.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
 {

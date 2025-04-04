@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             SupplierSeeder::class,
+            CategorySeeder::class,
         ]);
     }
 }
