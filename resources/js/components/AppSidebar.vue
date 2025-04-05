@@ -34,6 +34,11 @@ const mainNavItems: NavItem[] = [
         href: '/panel/laboratories',
         icon: FlaskConical,
     },
+    {
+        title: 'Tipos de cliente',
+        href: '/panel/clientTypes',
+        icon: FlaskConical,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

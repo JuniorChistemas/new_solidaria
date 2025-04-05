@@ -19,10 +19,11 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
-            // SupplierSeeder::class,
-            // CategorySeeder::class,
-            // LaboratorySeeder::class,
-            // DoctorSeeder::class,
+            SupplierSeeder::class,
+            CategorySeeder::class,
+            LaboratorySeeder::class,
+            DoctorSeeder::class,
+            ClientTypeSeeder::class,
         ]);
     }
 }
