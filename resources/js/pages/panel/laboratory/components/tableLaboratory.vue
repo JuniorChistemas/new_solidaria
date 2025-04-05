@@ -1,46 +1,83 @@
 <template>
-    <div class="container mx-auto px-0">
-        <LoadingTable v-if="loading" :headers="4" :row-count="10" />
-        <Table v-else class="my-3 w-full overflow-clip rounded-lg border border-gray-100">
-            <TableCaption>Laboratorio {{ laboratoryPaginate.current_page }} de {{ laboratoryPaginate.total }} Laboratorios</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead class="text-center">N°</TableHead>
-                    <TableHead class="w-[250px]">Laboratorio</TableHead>
-                    <TableHead class="w-[200px]">Fecha de creación</TableHead>
-                    <TableHead class="w-[200px]">Fecha de modificación</TableHead>
-                    <TableHead>Estado</TableHead>
-                    <TableHead class="text-center">Acciones</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody class="cursor-pointer">
-                <TableRow v-for="laboratory in laboratoryList" :key="laboratory.id">
-                    <td class="text-center font-bold">{{ laboratory.id }}</td>
-                    <td>{{ laboratory.name }}</td>
-                    <td>{{ laboratory.created_at }}</td>
-                    <td>{{ laboratory.updated_at }}</td>
-                    <td class="w-[100px] text-center">
-                        <span v-if="laboratory.state" class="rounded-full bg-green-400 px-2 py-1 text-white">Activo</span>
-                        <span v-else class="rounded-full bg-red-400 px-2 py-1 text-white">Inactivo</span>
-                    </td>
-                    <td class="flex justify-center gap-2">
-                        <Button variant="outline" class="bg-orange-400 text-white shadow-md hover:bg-orange-600" @click="openModal(laboratory.id)">
-                            <UserPen class="h-5 w-5" />
-                        </Button>
-                        <Button variant="outline" class="bg-red-400 text-white shadow-md hover:bg-red-600" @click="openModalDelete(laboratory.id)">
-                            <Trash class="h-5 w-5" />
-                        </Button>
-                    </td>
-                </TableRow>
-            </TableBody>
-        </Table>
-        <PaginationLaboratory :meta="laboratoryPaginate" @page-change="$emit('page-change', $event)" />
+    <div class="container-table">
+        <LoadingTable v-if="loading" :headers="7" :row-count="12" />
+        <div v-else class="table-content">
+            <div class="table-container">
+                <div class="table-responsive">
+                    <Table>
+                        <TableHeader>
+                            <TableRow class="table-header-row">
+                                <TableHead class="table-head-id">N°</TableHead>
+                                <TableHead class="table-head">Laboratorio</TableHead>
+                                <TableHead class="table-head">Fecha de creación</TableHead>
+                                <TableHead class="table-head">Fecha de modificación</TableHead>
+                                <TableHead class="table-head-status">Estado</TableHead>
+                                <TableHead class="table-head-actions">Acciones</TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody class="table-body">
+                            <TableRow v-for="laboratory in laboratoryList" :key="laboratory.id" class="table-row">
+                                <td class="cell-id">{{ laboratory.id }}</td>
+                                <td class="cell-data">{{ laboratory.name }}</td>
+                                <td class="cell-data">{{ laboratory.created_at }}</td>
+                                <td class="cell-data">{{ laboratory.updated_at }}</td>
+                                <td class="cell-status">
+                                    <span v-if="laboratory.state" class="status-badge status-active">
+                                        <span class="status-indicator status-indicator-active"></span>
+                                        Activo
+                                    </span>
+                                    <span v-else class="status-badge status-inactive">
+                                        <span class="status-indicator status-indicator-inactive"></span>
+                                        Inactivo
+                                    </span>
+                                </td>
+                                <td class="cell-actions">
+                                    <div class="actions-container">
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            class="action-button"
+                                            @click="openModal(laboratory.id)"
+                                            title="Editar laboratorio"
+                                        >
+                                            <UserPen class="action-icon" />
+                                            <span class="sr-only">Editar laboratorio</span>
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            class="action-button"
+                                            @click="openModalDelete(laboratory.id)"
+                                            title="Eliminar laboratorio"
+                                        >
+                                            <Trash class="action-icon" />
+                                            <span class="sr-only">Eliminar laboratorio</span>
+                                        </Button>
+                                    </div>
+                                </td>
+                            </TableRow>
+                        </TableBody>
+                    </Table>
+                </div>
+            </div>
+
+            <div class="pagination-container">
+                <div class="pagination-summary">
+                    Mostrando <span class="pagination-emphasis">{{ laboratoryPaginate.from || 0 }}</span> a
+                    <span class="pagination-emphasis">{{ laboratoryPaginate.to || 0 }}</span> de
+                    <span class="pagination-emphasis">{{ laboratoryPaginate.total }}</span> laboratorios
+                </div>
+                <PaginationLaboratory :meta="laboratoryPaginate" @page-change="$emit('page-change', $event)" />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import LoadingTable from '@/components/loadingTable.vue';
+import PaginationLaboratory from '@/components/pagination.vue';
 import Button from '@/components/ui/button/Button.vue';
-import { Table, TableBody, TableCaption, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/components/ui/toast';
 import { Pagination } from '@/interface/paginacion';
 import { SharedData } from '@/types';
