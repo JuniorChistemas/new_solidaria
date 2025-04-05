@@ -2,7 +2,7 @@
     <Dialog :open="modal" @update:open="closeModal">
         <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Editando el doctor</DialogTitle>
+                <DialogTitle>Editando el tipo de cliente</DialogTitle>
                 <DialogDescription>Los datos están validados, llenar con precaución.</DialogDescription>
             </DialogHeader>
             <form @submit="onSubmit" class="flex flex-col gap-4 py-4">
@@ -15,16 +15,7 @@
                         <FormMessage />
                     </FormItem>
                 </FormField>
-                <FormField v-slot="{ componentField }" name="code">
-                    <FormItem>
-                        <FormLabel>Código</FormLabel>
-                        <FormControl>
-                            <Input id="code" type="text" v-bind="componentField" />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="status">
+                <FormField v-slot="{ componentField }" name="state">
                     <FormItem>
                         <FormLabel>Estado</FormLabel>
                         <FormControl>
@@ -40,15 +31,6 @@
                                     </SelectGroup>
                                 </SelectContent>
                             </Select>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="start_date">
-                    <FormItem>
-                        <FormLabel>Fecha de inicio</FormLabel>
-                        <FormControl>
-                            <Input id="start_date" type="datetime-local" v-bind="componentField" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -71,66 +53,50 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { watch } from 'vue';
-import { z } from 'zod';
-import { DoctorResource, updateDoctorRequest } from '../interface/Doctor';
+import * as z from 'zod';
+import { ClientTypeResource, ClientTypeUpdateRequest } from '../interface/ClientType';
 
-const props = defineProps<{
-    modal: boolean;
-    doctorData: DoctorResource;
-}>();
-
+const props = defineProps<{ modal: boolean; clientTypeData: ClientTypeResource }>();
 const emit = defineEmits<{
     (e: 'emit-close', open: boolean): void;
-    (e: 'update-doctor', doctor: updateDoctorRequest, id_doctor: number): void;
+    (e: 'update-client-type', clientType: ClientTypeUpdateRequest, id_clientType: number): void;
 }>();
 
-const closeModal = () => {
-    emit('emit-close', false);
-    console.log('close modal');
-};
+const closeModal = () => emit('emit-close', false);
 
+// Schema de validación
 const formSchema = toTypedSchema(
     z.object({
-        name: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').max(150, 'Máximo 150 caracteres'),
-        code: z.string().min(2, 'El código debe tener al menos 2 caracteres').max(6, 'Máximo 6 caracteres'),
-        status: z.enum(['activo', 'inactivo']),
-        start_date: z.string().refine((date) => !isNaN(Date.parse(date)), { message: 'Fecha inválida' }),
+        name: z.string().min(2, 'El Nombre debe tener al menos 5 caracteres').max(40, 'Máximo 40 caracteres'),
+        state: z.enum(['activo', 'inactivo']),
     }),
 );
 
+// Inicialización del formulario
 const { handleSubmit, setValues } = useForm({
     validationSchema: formSchema,
     initialValues: {
-        name: props.doctorData.name,
-        code: props.doctorData.code,
-        status: props.doctorData.state ? 'activo' : 'inactivo',
-        start_date: props.doctorData.start_date,
+        name: props.clientTypeData.name,
+        state: props.clientTypeData.state ? 'activo' : 'inactivo',
     },
 });
 
 watch(
-    () => props.doctorData,
+    () => props.clientTypeData,
     (newData) => {
         if (newData) {
             setValues({
                 name: newData.name,
-                code: newData.code,
-                status: newData.state ? 'activo' : 'inactivo',
-                start_date: newData.start_date,
+                state: newData.state ? 'activo' : 'inactivo',
             });
         }
     },
+    { deep: true, immediate: true },
 );
 
 const onSubmit = handleSubmit((values) => {
-    const doctor: updateDoctorRequest = {
-        name: values.name,
-        code: values.code,
-        state: values.status === 'activo',
-        start_date: values.start_date,
-    };
-    emit('update-doctor', doctor, props.doctorData.id);
+    console.log('Formulario enviado con:', values);
+    emit('update-client-type', values, props.clientTypeData.id);
     closeModal();
 });
 </script>
-<style scoped></style>

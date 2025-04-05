@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientTypeController;
 use App\Http\Controllers\Panel\CategoryController;
 use App\Http\Controllers\Panel\ZoneController;
 use App\Http\Controllers\Panel\DoctorController;
@@ -38,10 +39,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('laboratories', LaboratoryController::class);
         # list laboratories
         Route::get('listar-laboratories',[LaboratoryController::class,'listarLaboratories'])->name('laboratories.listar');
-         # module zones
-         Route::resource('zones', ZoneController::class);
-         # list zones
-         Route::get('listar-zones',[ZoneController::class,'listarZones'])->name('zones.listar');
+        # module zones
+        Route::resource('zones', ZoneController::class);
+        # list zones
+        Route::get('listar-zones',[ZoneController::class,'listarZones'])->name('zones.listar');  
+        # module Client Types
+        Route::resource('clientTypes', ClientTypeController::class);
+        # list Client Types
+        Route::get('listar-clientTypes',[ClientTypeController::class,'listarClientTypes'])->name('clientTypes.listar');
     });
 });
 

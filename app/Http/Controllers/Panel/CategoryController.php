@@ -7,7 +7,9 @@ use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -31,9 +33,12 @@ class CategoryController extends Controller
 
         try {
             $name = $request->get('name');
-            $categories = Category::when($name, function ($query, $name) {
-                return $query->whereLike('name', "%$name%");
-            })->orderBy('id','asc')->paginate(12);
+            $categories = app(Pipeline::class)
+                ->send(Category::query())
+                ->through([
+                    new FilterByName($name),
+                ])
+                ->thenReturn()->orderBy('id','asc')->paginate(12);
             return response()->json([
                 'categories'=> CategoryResource::collection($categories),
                 'pagination' => [
