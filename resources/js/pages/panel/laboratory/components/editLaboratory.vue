@@ -9,9 +9,14 @@
                 <!-- Campo para editar el nombre del laboratorio -->
                 <FormField v-slot="{ componentField }" name="name">
                     <FormItem>
-                        <FormLabel>Nombre</FormLabel>
+                        <FormLabel>Laboratorio</FormLabel>
                         <FormControl>
-                            <Input id="name" type="text" v-bind="componentField" />
+                            <Input
+                                id="name"
+                                type="text"
+                                v-bind="componentField"
+                                @input="componentField.onChange(($event.target.value as string).toUpperCase())"
+                            />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -54,12 +59,10 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrig
 import Button from '@/components/ui/button/Button.vue';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { watch } from 'vue';
 import * as z from 'zod';
-
 import { LaboratoryResource, LaboratoryUpdateRequest } from '../interface/Laboratory';
 
 const props = defineProps<{ modal: boolean; laboratoryData: LaboratoryResource }>();
