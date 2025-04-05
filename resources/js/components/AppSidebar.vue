@@ -34,6 +34,11 @@ const mainNavItems: NavItem[] = [
         href: '/panel/laboratories',
         icon: FlaskConical,
     },
+    {
+        title: 'Zonas',
+        href: '/panel/zones',
+        icon: FlaskConical,
+    },
 ];
 
 const footerNavItems: NavItem[] = [

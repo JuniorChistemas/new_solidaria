@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Panel\CategoryController;
+use App\Http\Controllers\Panel\ZoneController;
 use App\Http\Controllers\Panel\DoctorController;
 use App\Http\Controllers\Panel\SupplierController;
 use App\Http\Controllers\LaboratoryController;
@@ -37,6 +38,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('laboratories', LaboratoryController::class);
         # list laboratories
         Route::get('listar-laboratories',[LaboratoryController::class,'listarLaboratories'])->name('laboratories.listar');
+         # module zones
+         Route::resource('zones', ZoneController::class);
+         # list zones
+         Route::get('listar-zones',[ZoneController::class,'listarZones'])->name('zones.listar');
     });
 });
 
