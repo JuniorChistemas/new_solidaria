@@ -5,7 +5,6 @@ import {
     storeDoctorRequest,
     updateDoctorRequest,
 } from '@/pages/panel/doctor/interface/Doctor';
-import { backendDateToHtmlDate } from '@/utils/date';
 import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -22,15 +21,16 @@ export const DoctorServices = {
     // show doctors
     async show(id: number): Promise<showDoctorResponse> {
         const response = await axios.get(`doctors/${id}`);
-        const doctorData = {
-            ...response.data.doctor,
-            start_date: backendDateToHtmlDate(response.data.doctor.start_date),
-        };
-        return {
-            ...response.data,
-            doctor: doctorData,
-        };
-        // return response.data;
+        // const doctorData = {
+        //     ...response.data.doctor,
+        //     start_date: backendDateToHtmlDate(response.data.doctor.start_date),
+        // };
+        // return {
+        //     ...response.data,
+        //     doctor: doctorData,
+        // };
+        // console.log('hol23332' + response.data.doctor.start_date);
+        return response.data;
     },
     // update doctors
     async update(id: number, data: updateDoctorRequest): Promise<showDoctorResponse> {

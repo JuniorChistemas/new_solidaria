@@ -48,7 +48,7 @@
                     <FormItem>
                         <FormLabel>Fecha de inicio</FormLabel>
                         <FormControl>
-                            <Input id="start_date" type="date" v-bind="componentField" />
+                            <Input id="start_date" type="datetime-local" v-bind="componentField" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
@@ -68,7 +68,6 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { formatForBackend } from '@/utils/date';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { watch } from 'vue';
@@ -88,7 +87,7 @@ const emit = defineEmits<{
 const closeModal = () => {
     emit('emit-close', false);
     console.log('close modal');
-}; // Fixed typo from clouseModal to closeModal
+};
 
 const formSchema = toTypedSchema(
     z.object({
@@ -128,7 +127,7 @@ const onSubmit = handleSubmit((values) => {
         name: values.name,
         code: values.code,
         state: values.status === 'activo',
-        start_date: formatForBackend(new Date(values.start_date)),
+        start_date: values.start_date,
     };
     emit('update-doctor', doctor, props.doctorData.id);
     closeModal();
