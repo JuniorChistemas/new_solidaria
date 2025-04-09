@@ -63,5 +63,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'eliminar tipos_clientes']);
         Permission::create(['name' => 'ver tipos_clientes']);
 
+        // model Locales
+        Permission::create(['name' => 'crear locales']);
+        Permission::create(['name' => 'editar locales']);
+        Permission::create(['name' => 'eliminar locales']);
+        Permission::create(['name' => 'ver locales']);
+
     }
 }
