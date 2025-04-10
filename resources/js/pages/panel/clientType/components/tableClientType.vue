@@ -19,8 +19,8 @@
                             <TableRow v-for="clientType in clientTypeList" :key="clientType.id" class="table-row">
                                 <td class="cell-id">{{ clientType.id }}</td>
                                 <td class="cell-data">{{ clientType.name }}</td>
-                                <td class="cell-data">{{ clientType.created_at }}</td>
-                                <td class="cell-data">{{ clientType.updated_at }}</td>
+                                <td class="cell-data">{{ formatDate(clientType.created_at) }}</td>
+                                <td class="cell-data">{{ formatDate(clientType.updated_at) }}</td>
                                 <td class="cell-status">
                                     <span v-if="clientType.state === true" class="status-badge status-active">
                                         <span class="status-indicator status-indicator-active"></span>
@@ -111,6 +111,11 @@ const { clientTypeList, clientTypePaginate } = defineProps<{
     clientTypePaginate: Pagination;
     loading: boolean;
 }>();
+
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  return new Date(dateString).toLocaleDateString();
+};
 
 const openModal = (id: number) => {
     emit('open-modal', id);
