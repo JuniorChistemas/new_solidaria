@@ -68,6 +68,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'editar locales']);
         Permission::create(['name' => 'eliminar locales']);
         Permission::create(['name' => 'ver locales']);
-
+      
+        // model productos
+        Permission::create(['name' => 'crear productos']);
+        Permission::create(['name' => 'editar productos']);
+        Permission::create(['name' => 'eliminar productos']);
+        Permission::create(['name' => 'ver productos']);
     }
 }
