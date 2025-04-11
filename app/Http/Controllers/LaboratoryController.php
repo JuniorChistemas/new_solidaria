@@ -6,7 +6,9 @@ use App\Models\Laboratory;
 use App\Http\Requests\StoreLaboratoryRequest;
 use App\Http\Requests\UpdateLaboratoryRequest;
 use App\Http\Resources\LaboratoryResource;
+use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
@@ -27,9 +29,12 @@ class LaboratoryController extends Controller
 
         try {
             $name = $request->get('name');
-            $laboratories = Laboratory::when($name, function ($query, $name) {
-                return $query->whereLike('name', "%$name%");
-            })->orderBy('id','asc')->paginate(15);
+            $laboratories = app(Pipeline::class)
+                ->send(Laboratory::query())
+                ->through([
+                    new FilterByName($name),
+                ])
+                ->thenReturn()->orderBy('id','asc')->paginate(12);
 
             return response()->json([
                 'laboratories'=> LaboratoryResource::collection($laboratories),

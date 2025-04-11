@@ -24,7 +24,7 @@ class UpdateDoctorRequest extends FormRequest
         return [
             'name' => 'required|string|max:150',
             'code' => 'required|string|max:6',
-            'start_date' => 'required|string|date_format:d/m/Y H:i:s',
+            'start_date' => 'required|date',
             'state' => 'required|boolean',
         ];
     }

@@ -7,7 +7,9 @@ use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
 use App\Http\Resources\SupplierResource;
+use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -29,9 +31,12 @@ class SupplierController extends Controller
 
         try {
             $name = $request->get('name');
-            $suppliers = Supplier::when($name, function ($query, $name) {
-                return $query->whereLike('name', "%$name%");
-            })->orderBy('id','asc')->paginate(12);
+            $suppliers = app(Pipeline::class)
+                ->send(Supplier::query())
+                ->through([
+                    new FilterByName($name),
+                ])
+                ->thenReturn()->orderBy('id','asc')->paginate(12);
             return response()->json([
                 'suppliers'=> SupplierResource::collection($suppliers),
                 'pagination' => [

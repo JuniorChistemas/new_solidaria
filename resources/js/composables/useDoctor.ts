@@ -39,7 +39,7 @@ export const useDoctors = () => {
             code: '',
             start_date: '',
             state: true,
-            created_at: null,
+            created_at: '',
         },
     });
 
@@ -78,7 +78,7 @@ export const useDoctors = () => {
                     code: '',
                     start_date: '',
                     state: true,
-                    created_at: null,
+                    created_at: '',
                 };
                 return;
             }

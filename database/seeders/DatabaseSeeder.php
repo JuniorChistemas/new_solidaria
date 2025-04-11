@@ -2,9 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use App\Models\Supplier;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +22,10 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LaboratorySeeder::class,
             DoctorSeeder::class,
+            ZoneSeeder::class,
+            ClientTypeSeeder::class,
+            LocalSeeder::class,
+            ProductSeeder::class,
         ]);
     }
 }

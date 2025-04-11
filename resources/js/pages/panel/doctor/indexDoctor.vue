@@ -42,7 +42,7 @@ import EditDoctor from './components/editDoctor.vue';
 import TableDoctor from './components/tableDoctor.vue';
 import { updateDoctorRequest } from './interface/Doctor';
 
-const { principal, loadingDoctors, createDoctor, getDoctor, updateDoctor, deleteDoctor } = useDoctors();
+const { principal, loadingDoctors, getDoctor, updateDoctor, deleteDoctor } = useDoctors();
 
 onMounted(() => {
     loadingDoctors();

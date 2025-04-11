@@ -48,5 +48,29 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'editar laboratorios']);
         Permission::create(['name' => 'eliminar laboratorios']);
         Permission::create(['name' => 'ver laboratorios']);
+
+        // model Zones
+        Permission::create(['name' => 'crear zonas']);
+        Permission::create(['name' => 'editar zonas']);
+        Permission::create(['name' => 'eliminar zonas']);
+        Permission::create(['name' => 'ver zonas']);
+
+        // model tipos_clientes
+        Permission::create(['name' => 'crear tipos_clientes']);
+        Permission::create(['name' => 'editar tipos_clientes']);
+        Permission::create(['name' => 'eliminar tipos_clientes']);
+        Permission::create(['name' => 'ver tipos_clientes']);
+
+        // model Locales
+        Permission::create(['name' => 'crear locales']);
+        Permission::create(['name' => 'editar locales']);
+        Permission::create(['name' => 'eliminar locales']);
+        Permission::create(['name' => 'ver locales']);
+      
+        // model productos
+        Permission::create(['name' => 'crear productos']);
+        Permission::create(['name' => 'editar productos']);
+        Permission::create(['name' => 'eliminar productos']);
+        Permission::create(['name' => 'ver productos']);
     }
 }
