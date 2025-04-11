@@ -35,9 +35,19 @@ const mainNavItems: NavItem[] = [
         icon: FlaskConical,
     },
     {
+        title: 'Zonas',
+        href: '/panel/zones',
+         icon: List,
+    },
+    {
         title: 'Tipos de cliente',
         href: '/panel/clientTypes',
         icon: FlaskConical,
+    },
+    {
+        title: 'Productos',
+        href: '/panel/products',
+        icon: Car,
     },
 ];
 

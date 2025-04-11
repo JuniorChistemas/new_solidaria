@@ -38,18 +38,26 @@ class UserSeeder extends Seeder
             'password' => Hash::make('27062706'),
             'status' => 1,
         ]);
-        $adminRole->syncPermissions($permissions);
-        $admin_1->assignRole($adminRole);
-        $admin_2->assignRole($adminRole);
-
-        $admin_3= User::create([
+        $admin_3 = User::create([
+            'name' => 'Pablo Lupu',
+            'email' => 'pablolupu2020@gmail.com',
+            'username' => 'PabloLupu',
+            'password' => Hash::make('12345678'),
+            'status' => 1,
+        ]);
+      
+         $admin_4= User::create([
             'name' => 'Anthony Marck',
             'email' => 'thonymarck385213xd@gmail.com',
             'username' => 'thonymarck',
             'password' => Hash::make('12345678'),
             'status' => 1,
-        ]);
+        ]);   
+      
         $adminRole->syncPermissions($permissions);
+        $admin_1->assignRole($adminRole);
+        $admin_2->assignRole($adminRole);
         $admin_3->assignRole($adminRole);
+        $admin_4->assignRole($adminRole);
     }
 }

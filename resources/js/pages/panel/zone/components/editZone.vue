@@ -2,28 +2,20 @@
     <Dialog :open="modal" @update:open="clouseModal">
         <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>Editando el laboratorio</DialogTitle>
+                <DialogTitle>Editando la Zona</DialogTitle>
                 <DialogDescription>Los datos están validados, llenar con precaución.</DialogDescription>
             </DialogHeader>
             <form @submit="onSubmit" class="flex flex-col gap-4 py-4">
-                <!-- Campo para editar el nombre del laboratorio -->
                 <FormField v-slot="{ componentField }" name="name">
                     <FormItem>
-                        <FormLabel>Laboratorio</FormLabel>
+                        <FormLabel>Nombre</FormLabel>
                         <FormControl>
-                            <Input
-                                id="name"
-                                type="text"
-                                v-bind="componentField"
-                                @input="componentField.onChange(($event.target.value as string).toUpperCase())"
-                            />
+                            <Input id="name" type="text" v-bind="componentField" />
                         </FormControl>
                         <FormMessage />
                     </FormItem>
                 </FormField>
-
-                <!-- Campo para editar el estado del laboratorio -->
-                <FormField v-slot="{ componentField }" name="state">
+                <FormField v-slot="{ componentField }" name="status">
                     <FormItem>
                         <FormLabel>Estado</FormLabel>
                         <FormControl>
@@ -43,7 +35,6 @@
                         <FormMessage />
                     </FormItem>
                 </FormField>
-
                 <DialogFooter>
                     <Button type="submit">Guardar cambios</Button>
                     <Button type="button" variant="outline" @click="clouseModal">Cancelar</Button>
@@ -54,21 +45,21 @@
 </template>
 
 <script setup lang="ts">
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@///components/ui/form';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@///components/ui/select';
 import Button from '@/components/ui/button/Button.vue';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { watch } from 'vue';
 import * as z from 'zod';
-import { LaboratoryResource, LaboratoryUpdateRequest } from '../interface/Laboratory';
+import { ZoneResource, ZoneUpdateRequest } from '../interface/Zone';
 
-const props = defineProps<{ modal: boolean; laboratoryData: LaboratoryResource }>();
+const props = defineProps<{ modal: boolean; zoneData: ZoneResource }>();
 const emit = defineEmits<{
     (e: 'emit-close', open: boolean): void;
-    (e: 'update-laboratory', laboratory: LaboratoryUpdateRequest, id_laboratory: number): void;
+    (e: 'update-zone', zone: ZoneUpdateRequest, id_zone: number): void;
 }>();
 
 const clouseModal = () => emit('emit-close', false);
@@ -76,8 +67,8 @@ const clouseModal = () => emit('emit-close', false);
 // Schema de validación
 const formSchema = toTypedSchema(
     z.object({
-        name: z.string().min(2, 'El nombre es requerido').max(100, 'El nombre no puede tener más de 100 caracteres'),
-        state: z.enum(['activo', 'inactivo']),
+        name: z.string().min(2, 'El Nombre debe tener al menos 5 caracteres').max(50, 'Máximo 50 caracteres'),
+        status: z.enum(['activo', 'inactivo']),
     }),
 );
 
@@ -85,18 +76,17 @@ const formSchema = toTypedSchema(
 const { handleSubmit, setValues } = useForm({
     validationSchema: formSchema,
     initialValues: {
-        name: props.laboratoryData.name,
-        state: props.laboratoryData.state ? 'activo' : 'inactivo',
+        name: props.zoneData.name,
+        status: props.zoneData.status ? 'activo' : 'inactivo',
     },
 });
-
 watch(
-    () => props.laboratoryData,
+    () => props.zoneData,
     (newData) => {
         if (newData) {
             setValues({
                 name: newData.name,
-                state: newData.state ? 'activo' : 'inactivo',
+                status: newData.status ? 'activo' : 'inactivo',
             });
         }
     },
@@ -104,14 +94,8 @@ watch(
 );
 
 const onSubmit = handleSubmit((values) => {
-    const updatedLaboratory: LaboratoryUpdateRequest = {
-        name: values.name,
-        state: values.state === 'activo',
-    };
-
-    emit('update-laboratory', updatedLaboratory, props.laboratoryData.id);
+    console.log('Formulario enviado con:', values);
+    emit('update-zone', values, props.zoneData.id);
     clouseModal();
 });
 </script>
-
-<style scoped lang="css"></style>

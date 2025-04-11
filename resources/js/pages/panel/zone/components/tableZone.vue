@@ -16,20 +16,21 @@
                             </TableRow>
                         </TableHeader>
                         <TableBody class="table-body">
-                            <TableRow v-for="clientType in clientTypeList" :key="clientType.id" class="table-row">
-                                <td class="cell-id">{{ clientType.id }}</td>
-                                <td class="cell-data">{{ clientType.name }}</td>
-                                <td class="cell-data">{{ clientType.created_at }}</td>
-                                <td class="cell-data">{{ clientType.updated_at }}</td>
+                            <TableRow v-for="zone in zoneList" :key="zone.id" class="table-row">
+                                <td class="cell-id">{{ zone.id }}</td>
+                                <td class="cell-data">{{ zone.name }}</td>
+                                <td class="cell-data">{{ zone.created_at }}</td>
+                                <td class="cell-data">{{ zone.updated_at }}</td>
                                 <td class="cell-status">
-                                    <span v-if="clientType.state === true" class="status-badge status-active">
-                                        <span class="status-indicator status-indicator-active"></span>
-                                        Activo
-                                    </span>
-                                    <span v-else class="status-badge status-inactive">
-                                        <span class="status-indicator status-indicator-inactive"></span>
-                                        Inactivo
-                                    </span>
+                                    <span v-if="zone.status === true" class="status-badge status-active">
+  <span class="status-indicator status-indicator-active"></span>
+  Activo
+</span>
+<span v-else class="status-badge status-inactive">
+  <span class="status-indicator status-indicator-inactive"></span>
+  Inactivo
+</span>
+
                                 </td>
                                 <td class="cell-actions">
                                     <div class="actions-container">
@@ -37,21 +38,21 @@
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
-                                            @click="openModal(clientType.id)"
-                                            title="Editar tipo de cliente"
+                                            @click="openModal(zone.id)"
+                                            title="Editar proveedor"
                                         >
                                             <UserPen class="action-icon" />
-                                            <span class="sr-only">Editar tipo de cliente</span>
+                                            <span class="sr-only">Editar proveedor</span>
                                         </Button>
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
-                                            @click="openModalDelete(clientType.id)"
-                                            title="Eliminar tipo de cliente"
+                                            @click="openModalDelete(zone.id)"
+                                            title="Eliminar proveedor"
                                         >
                                             <Trash class="action-icon" />
-                                            <span class="sr-only">Eliminar tipo de cliente</span>
+                                            <span class="sr-only">Eliminar proveedor</span>
                                         </Button>
                                     </div>
                                 </td>
@@ -62,19 +63,18 @@
             </div>
             <div class="pagination-container">
                 <div class="pagination-summary">
-                    Mostrando <span class="pagination-emphasis">{{ clientTypePaginate.from || 0 }}</span> a
-                    <span class="pagination-emphasis">{{ clientTypePaginate.to || 0 }}</span> de
-                    <span class="pagination-emphasis">{{ clientTypePaginate.total }}</span> tipos de cliente
+                    Mostrando <span class="pagination-emphasis">{{ zonePaginate.from || 0 }}</span> a
+                    <span class="pagination-emphasis">{{ zonePaginate.to || 0 }}</span> de
+                    <span class="pagination-emphasis">{{ zonePaginate.total }}</span> proveedores
                 </div>
-                <PaginationClientType :meta="clientTypePaginate" @page-change="$emit('page-change', $event)" />
+                <PaginationZone :meta="zonePaginate" @page-change="$emit('page-change', $event)" />
             </div>
         </div>
     </div>
 </template>
-
 <script setup lang="ts">
 import LoadingTable from '@/components/loadingTable.vue';
-import PaginationClientType from '@/components/pagination.vue';
+import PaginationZone from '@/components/pagination.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/components/ui/toast';
@@ -83,16 +83,15 @@ import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { Trash, UserPen } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
-import { ClientTypeResource } from '../interface/ClientType';
+import { ZoneResource } from '../interface/Zone';
 
 const { toast } = useToast();
 
 const emit = defineEmits<{
     (e: 'page-change', page: number): void;
-    (e: 'open-modal', id_clientType: number): void;
-    (e: 'open-modal-delete', id_clientType: number): void;
+    (e: 'open-modal', id_zone: number): void;
+    (e: 'open-modal-delete', id_zone: number): void;
 }>();
-
 const page = usePage<SharedData>();
 
 const message = ref(page.props.flash?.message || '');
@@ -106,11 +105,12 @@ onMounted(() => {
     }
 });
 
-const { clientTypeList, clientTypePaginate } = defineProps<{
-    clientTypeList: ClientTypeResource[];
-    clientTypePaginate: Pagination;
+const { zoneList, zonePaginate } = defineProps<{
+    zoneList: ZoneResource[];
+    zonePaginate: Pagination;
     loading: boolean;
 }>();
+
 const openModal = (id: number) => {
     emit('open-modal', id);
 };
@@ -119,5 +119,4 @@ const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
 </script>
-
 <style scoped lang="css"></style>
