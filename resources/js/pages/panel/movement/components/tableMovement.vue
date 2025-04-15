@@ -28,7 +28,7 @@
                                 <td class="cell-data">{{ formatDate(movement.fechaCredito) }}</td>
                                 <td class="cell-data">{{ movement.supplier.name }}</td>  <!-- Nombre del proveedor -->
                                 <td class="cell-data">{{ movement.user.name }}</td>  <!-- Nombre del local -->
-                                <td class="cell-data">{{ movement.tipoMovimientoTexto }}</td> <!-- Show the movement type text -->
+                                <td class="cell-data">{{ movement.typemovement.nombre }}</td> <!-- Show the movement type text -->
                               <!-- Estado principal -->
                                 <td class="cell-status">
                                     <span v-if="movement.estado === 1" class="status-badge status-active">

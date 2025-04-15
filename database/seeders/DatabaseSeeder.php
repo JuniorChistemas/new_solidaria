@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             ClientTypeSeeder::class,
             LocalSeeder::class,
             ProductSeeder::class,
-            // MovementSeeder::class,
+            TypeMovementSeeder::class,
         ]);
     }
 }

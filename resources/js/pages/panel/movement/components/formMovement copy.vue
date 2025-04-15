@@ -43,17 +43,18 @@
                             <FormItem>
                                 <FormLabel>Proveedor</FormLabel>
                                 <FormControl>
-                                    <SupplierCombobox @select="onSelectProveedor" />
+                                    <Input type="number" placeholder="ID Proveedor" v-bind="componentField" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         </FormField>
                         
+                        
                         <FormField v-slot="{ componentField }" name="idUser">
                             <FormItem>
                                 <FormLabel>Usuario</FormLabel>
                                 <FormControl>
-                                    <UserCombobox @select="onSelectUser" />
+                                    <Input type="number" placeholder="ID Usuario" v-bind="componentField" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -63,20 +64,7 @@
                             <FormItem>
                                 <FormLabel>Tipo de Movimiento</FormLabel>
                                 <FormControl>
-                                    <Select v-bind="componentField">
-                                        <SelectTrigger class="w-full">
-                                            <SelectValue placeholder="Seleccione el estado" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>Tipo</SelectLabel>
-                                                <SelectItem value="1">Factura</SelectItem>
-                                                <SelectItem value="2">Guia</SelectItem>
-                                                <SelectItem value="3">Boleta</SelectItem>
-                                                <SelectItem value="4">Venta</SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
+                                    <Input type="number" placeholder="ID Tipo Movimiento" v-bind="componentField" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -172,9 +160,6 @@ import { Head } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import * as z from 'zod';
-import SupplierCombobox from '@/components/inputs/SupplierCombobox.vue';
-import UserCombobox from '@/components/inputs/UserCombobox.vue';
-import { ref } from 'vue';
 
 // Composable
 import { useMovement } from '@/composables/useMovement';
@@ -191,10 +176,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-// ID del proveedor y usuario seleccionados
-const selectedProveedor = ref<number | null>(null);
-const selectedUser = ref<number | null>(null);
-
 // Form validation
 const formSchema = toTypedSchema(
     z.object({
@@ -203,8 +184,8 @@ const formSchema = toTypedSchema(
             .max(40, { message: 'Código debe tener máximo 40 caracteres' }),
         fechaEmision: z.string({ message: 'Campo obligatorio' }),
         fechaCredito: z.string().optional(),
-        idProveedor: z.number({ message: 'Seleccione un proveedor' }),
-        idUser: z.number({ message: 'Seleccione un usuario' }),
+        idProveedor: z.string().or(z.number()).transform(val => Number(val)),
+        idUser: z.string().or(z.number()).transform(val => Number(val)),
         idTipoMovimiento: z.string().or(z.number()).transform(val => Number(val)),
         estado: z.string().or(z.number()).transform(val => Number(val)),
         estadoIgv: z.string().or(z.number()).transform(val => Number(val)),
@@ -212,28 +193,11 @@ const formSchema = toTypedSchema(
     }),
 );
 
-// Form
-const { handleSubmit, setFieldValue } = useForm({
+// Form submit
+const { handleSubmit } = useForm({
     validationSchema: formSchema,
-    initialValues: {
-        idProveedor: null,
-        idUser: null,
-    }
 });
 
-// Función para manejar la selección de proveedor desde el combobox
-const onSelectProveedor = (id: number) => {
-    selectedProveedor.value = id;
-    setFieldValue('idProveedor', id);
-};
-
-// Función para manejar la selección de usuario desde el combobox
-const onSelectUser = (id: number) => {
-    selectedUser.value = id;
-    setFieldValue('idUser', id);
-};
-
-// Form submit
 const onSubmit = handleSubmit((values) => {
     createMovement(values);
 });

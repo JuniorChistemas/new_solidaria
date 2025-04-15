@@ -132,6 +132,7 @@ export const useSupplier = () => {
             principal.stateModal.delete = false;
         }
     };
+
     return {
         principal,
         loadingSuppliers,

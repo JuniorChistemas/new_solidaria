@@ -22,13 +22,6 @@ class MovementResource extends JsonResource
             'idProveedor' => $this->idProveedor,
             'idUser' => $this->idUser,
             'idTipoMovimiento' => $this->idTipoMovimiento,
-            'tipoMovimientoTexto' => match ($this->idTipoMovimiento) {
-                1 =>'Factura',
-                2 =>'Guia',
-                3=>'Boleta',
-                4=>'Venta',
-                default => 'Desconocido',
-            },
             'estado' => $this->estado,
            'estadoTexto' => match ($this->estado) {
                 0 => 'Eliminado',
@@ -44,6 +37,7 @@ class MovementResource extends JsonResource
             'supplier' => $this->whenLoaded('supplier'),
             'local' => $this->whenLoaded('local'),
             'user' => $this->whenLoaded('user'),
+            'typemovement' => $this->whenLoaded('typemovement'),
         ];
     }
 

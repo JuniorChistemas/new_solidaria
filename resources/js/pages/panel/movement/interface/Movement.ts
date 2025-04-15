@@ -1,3 +1,4 @@
+// Movements.ts
 import { Pagination } from "@/interface/paginacion";
 
 export type MovementResource {

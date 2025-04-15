@@ -69,6 +69,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     # get laboratory list
                     Route::get('laboratory_list',[SelectController::class,'getLaboratoryList'])->name('laboratory_list');
                     Route::get('category_list',[SelectController::class,'getCategoryList'])->name('category_list');
+
+                    Route::get('suppliers', [SelectController::class, 'getSuppliers'])->name('suppliers_list');
+                    Route::get('users', [SelectController::class, 'getUsers'])->name('users_list');
+                    Route::get('movement-types', [SelectController::class, 'getMovementTypes'])->name('movement-types_list');
+                    
                 });
     });
 });

@@ -17,12 +17,13 @@ return new class extends Migration
             // Relaciones
             $table->unsignedBigInteger('idProveedor');
             $table->unsignedBigInteger('idUser');
-    
+            $table->unsignedBigInteger('idTipoMovimiento')->default(1)->comment('1 factura, 2 guía, 3 boleta, 4 es venta');
+
             // Foreign keys
             $table->foreign('idProveedor')->references('id')->on('suppliers')->onDelete('cascade');
             $table->foreign('idUser')->references('id')->on('users')->onDelete('cascade');
-    
-            $table->unsignedTinyInteger('idTipoMovimiento')->default(1)->comment('1 factura, 2 guía, 3 boleta, 4 es venta');
+            $table->foreign('idTipoMovimiento')->references('id')->on('type_movements')->onDelete('cascade');
+
             $table->unsignedTinyInteger('estado')->default(1)->comment('0 eliminado, 1 activo, 2 anulado');
             $table->unsignedTinyInteger('estadoIgv')->default(1)->comment('1 incluye, 2 no incluye');
             $table->enum('tipoPago', ['contado','credito'])->default('contado');
