@@ -12,21 +12,17 @@ class Movement extends Model
     protected $fillable = [
         'codigo',
         'fechaEmision',
-        'fechaEjecucion',
         'fechaCredito',
         'idProveedor',
-        'idLocal',
         'idUser',
         'idTipoMovimiento',
         'estado',
         'estadoIgv',
-        'estadoIngreso',
         'tipoPago',
     ];
 
     protected $casts = [
         'fechaEmision' => 'date',
-        'fechaEjecucion' => 'date',
         'fechaCredito' => 'date',
         'tipoPago' => 'string',
     ];

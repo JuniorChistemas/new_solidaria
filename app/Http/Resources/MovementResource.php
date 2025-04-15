@@ -18,10 +18,8 @@ class MovementResource extends JsonResource
             'id' => $this->id,
             'codigo' => $this->codigo,
             'fechaEmision' => $this->fechaEmision,
-            'fechaEjecucion' => $this->fechaEjecucion,
             'fechaCredito' => $this->fechaCredito,
             'idProveedor' => $this->idProveedor,
-            'idLocal' => $this->idLocal,
             'idUser' => $this->idUser,
             'idTipoMovimiento' => $this->idTipoMovimiento,
             'tipoMovimientoTexto' => match ($this->idTipoMovimiento) {
@@ -39,7 +37,6 @@ class MovementResource extends JsonResource
                 default => 'Desconocido',
             },
             'estadoIgv' => $this->estadoIgv,
-            'estadoIngreso' => $this->estadoIngreso,
             'tipoPago' => $this->tipoPago,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

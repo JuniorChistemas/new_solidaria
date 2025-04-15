@@ -14,12 +14,10 @@ class MovementFactory extends Factory
             'fechaEjecucion' => $this->faker->date(),
             'fechaCredito' => $this->faker->optional()->date(),
             'idProveedor' => 1,
-            'idLocal' => 1,
             'idUser' => 1,
             'idTipoMovimiento' => $this->faker->numberBetween(1, 4),
             'estado' => 1,
             'estadoIgv' => $this->faker->randomElement([1, 2]),
-            'estadoIngreso' => $this->faker->randomElement([0, 1]),
             'tipoPago' => $this->faker->randomElement(['contado']),
         ];
     }

@@ -10,14 +10,12 @@
                                 <TableHead class="table-head-id">ID</TableHead>
                                 <TableHead class="table-head">Código</TableHead>
                                 <TableHead class="table-head">Fecha Emisión</TableHead>
-                                <TableHead class="table-head">Fecha Ejecución</TableHead>
+                                <TableHead class="table-head">Fecha Credito</TableHead>
                                 <TableHead class="table-head">Proveedor</TableHead>
-                                <TableHead class="table-head">Local</TableHead>
                                 <TableHead class="table-head">Usuario</TableHead>
                                 <TableHead class="table-head">Tipo Movimiento</TableHead>
                                 <TableHead class="table-head-status">Estado</TableHead>
                                 <TableHead class="table-head-status">Estado IGV</TableHead>
-                                <TableHead class="table-head-status">Estado Ingreso</TableHead>
                                 <TableHead class="table-head">Tipo Pago</TableHead>
                                 <TableHead class="table-head-actions">Acciones</TableHead>
                             </TableRow>
@@ -26,10 +24,9 @@
                             <TableRow v-for="movement in movementList" :key="movement.id" class="table-row">
                                 <td class="cell-id">{{ movement.id }}</td>
                                 <td class="cell-data">{{ movement.codigo }}</td>
-                                <td class="cell-data">{{ new Date(movement.fechaEmision).toLocaleDateString() }}</td>
-                                <td class="cell-data">{{ new Date(movement.fechaEjecucion).toLocaleDateString() }}</td>
+                                <td class="cell-data">{{ formatDate(movement.fechaEmision) }}</td>
+                                <td class="cell-data">{{ formatDate(movement.fechaCredito) }}</td>
                                 <td class="cell-data">{{ movement.supplier.name }}</td>  <!-- Nombre del proveedor -->
-                                <td class="cell-data">{{ movement.local.name }}</td>  <!-- Nombre del local -->
                                 <td class="cell-data">{{ movement.user.name }}</td>  <!-- Nombre del local -->
                                 <td class="cell-data">{{ movement.tipoMovimientoTexto }}</td> <!-- Show the movement type text -->
                               <!-- Estado principal -->
@@ -56,17 +53,6 @@
                                     <span v-else class="status-badge status-inactive">
                                         <span class="status-indicator status-indicator-inactive"></span>
                                         Sin IGV
-                                    </span>
-                                </td>
-                                <!-- Estado Ingreso -->
-                                <td class="cell-status">
-                                    <span v-if="movement.estadoIngreso === 1" class="status-badge status-active">
-                                        <span class="status-indicator status-indicator-active"></span>
-                                        Ingresado
-                                    </span>
-                                    <span v-else class="status-badge status-inactive">
-                                        <span class="status-indicator status-indicator-inactive"></span>
-                                        Salida
                                     </span>
                                 </td>
                                 <!-- Tipo de Pago -->
@@ -161,6 +147,18 @@ const openModal = (id: number) => {
 
 const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
+};
+
+const formatDate = (dateString) => {
+  if (!dateString) return 'No disponible';
+  
+  try {
+    // Extraemos directamente las partes de la cadena ISO
+    const [year, month, day] = dateString.split('T')[0].split('-');
+    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+  } catch (e) {
+    return 'Fecha inválida';
+  }
 };
 </script>
 

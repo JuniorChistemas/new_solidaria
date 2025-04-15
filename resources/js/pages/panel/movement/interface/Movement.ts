@@ -1,21 +1,17 @@
 import { Pagination } from "@/interface/paginacion";
 
-
 export type MovementResource {
   id: number;
   codigo: string;
   fechaEmision: string;
-  fechaEjecucion: string;
   fechaCredito: string;
   idProveedor: number;
-  idLocal: number;
   idUser: number;
   idTipoMovimiento: number;
   tipoMovimientoTexto: string;
   estado: number;
   estadoTexto: string;
   estadoIgv: number;
-  estadoIngreso: number;
   tipoPago: string;
   created_at: string;
   updated_at: string;
@@ -36,15 +32,12 @@ export type MovementResource {
 export type MovementRequest = {
   codigo: string;
   fechaEmision: string;
-  fechaEjecucion: string;
   fechaCredito?: string;
   idProveedor: number;
-  idLocal: number;
   idUser: number;
   idTipoMovimiento: number;
   estado: number;
   estadoIgv: number;
-  estadoIngreso: number;
   tipoPago: string;
 };
 
@@ -62,15 +55,12 @@ export type MovementDeleteResponse = {
 export type MovementUpdateRequest = {
   codigo?: string;
   fechaEmision?: string;
-  fechaEjecucion?: string;
   fechaCredito?: string;
   idProveedor?: number;
-  idLocal?: number;
   idUser?: number;
   idTipoMovimiento?: number;
   estado?: number;
   estadoIgv?: number;
-  estadoIngreso?: number;
   tipoPago?: string;
 };
 

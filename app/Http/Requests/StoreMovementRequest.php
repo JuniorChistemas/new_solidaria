@@ -17,15 +17,12 @@ class StoreMovementRequest extends FormRequest
         return [
             'codigo' => 'required|string|max:15',
             'fechaEmision' => 'required|date',
-            'fechaEjecucion' => 'required|date',
             'fechaCredito' => 'nullable|date',
             'idProveedor' => 'required|exists:suppliers,id',
-            'idLocal' => 'required|exists:locals,id',
             'idUser' => 'required|exists:users,id',
             'idTipoMovimiento' => 'required|integer',
             'estado' => 'required|integer',
             'estadoIgv' => 'required|integer',
-            'estadoIngreso' => 'required|integer',
             'tipoPago' => 'required|in:contado,credito',
         ];
     }

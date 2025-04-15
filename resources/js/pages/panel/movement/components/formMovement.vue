@@ -28,17 +28,7 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        
-                        <FormField v-slot="{ componentField }" name="fechaEjecucion">
-                            <FormItem>
-                                <FormLabel>Fecha de Ejecución</FormLabel>
-                                <FormControl>
-                                    <Input type="date" v-bind="componentField" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                        
+
                         <FormField v-slot="{ componentField }" name="fechaCredito">
                             <FormItem>
                                 <FormLabel>Fecha de Crédito</FormLabel>
@@ -59,15 +49,6 @@
                             </FormItem>
                         </FormField>
                         
-                        <FormField v-slot="{ componentField }" name="idLocal">
-                            <FormItem>
-                                <FormLabel>Local</FormLabel>
-                                <FormControl>
-                                    <Input type="number" placeholder="ID Local" v-bind="componentField" />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
                         
                         <FormField v-slot="{ componentField }" name="idUser">
                             <FormItem>
@@ -124,27 +105,6 @@
                                                 <SelectLabel>Estado IGV</SelectLabel>
                                                 <SelectItem value="2">No Incluye</SelectItem>
                                                 <SelectItem value="1">Incluye</SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
-                        
-                        <FormField v-slot="{ componentField }" name="estadoIngreso">
-                            <FormItem>
-                                <FormLabel>Estado Ingreso</FormLabel>
-                                <FormControl>
-                                    <Select v-bind="componentField">
-                                        <SelectTrigger class="w-full">
-                                            <SelectValue placeholder="Seleccione el estado de ingreso" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>Estado Ingreso</SelectLabel>
-                                                <SelectItem value="1">Ingreso</SelectItem>
-                                                <SelectItem value="0">Salida</SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
@@ -223,15 +183,12 @@ const formSchema = toTypedSchema(
             .min(2, { message: 'Código debe tener al menos 2 caracteres' })
             .max(40, { message: 'Código debe tener máximo 40 caracteres' }),
         fechaEmision: z.string({ message: 'Campo obligatorio' }),
-        fechaEjecucion: z.string({ message: 'Campo obligatorio' }),
         fechaCredito: z.string().optional(),
         idProveedor: z.string().or(z.number()).transform(val => Number(val)),
-        idLocal: z.string().or(z.number()).transform(val => Number(val)),
         idUser: z.string().or(z.number()).transform(val => Number(val)),
         idTipoMovimiento: z.string().or(z.number()).transform(val => Number(val)),
         estado: z.string().or(z.number()).transform(val => Number(val)),
         estadoIgv: z.string().or(z.number()).transform(val => Number(val)),
-        estadoIngreso: z.string().or(z.number()).transform(val => Number(val)),
         tipoPago: z.string({ message: 'Campo obligatorio' }),
     }),
 );
