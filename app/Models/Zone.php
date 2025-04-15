@@ -18,5 +18,10 @@ class Zone extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_zone');
+    }
 }
 

@@ -11,8 +11,8 @@ class Product extends Model
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
 
-        # Tabla
-        protected $fillable = [
+    # Tabla
+    protected $fillable = [
         'name',
         'composition',
         'presentation',
@@ -31,10 +31,16 @@ class Product extends Model
     ];
 
 
-    public function laboratory(): BelongsTo{
-        return $this->belongsTo(Laboratory::class,'laboratory_id','id');
+    public function laboratory(): BelongsTo
+    {
+        return $this->belongsTo(Laboratory::class, 'laboratory_id', 'id');
     }
-    public function category(): BelongsTo{
-        return $this->belongsTo(Category::class,'category_id','id');
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+    public function zones()
+    {
+        return $this->belongsToMany(Zone::class, 'product_zone');
     }
 }
