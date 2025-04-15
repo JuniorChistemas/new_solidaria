@@ -27,12 +27,9 @@ class MovementController extends Controller
      */
     public function listMovements(Request $request)
     {
-       // Gate::authorize('viewAny', Movement::class);
+        Gate::authorize('viewAny', Movement::class);
         try {
-            // $codigo = $request->get('codigo');
-            // $movements = Movement::when($codigo, function ($query, $codigo) {
-            //     return $query->where('codigo', 'like', "%$codigo%");
-            // })->orderBy('id', 'asc')->paginate(15);
+
             $codigo = $request->get('codigo');
             $movements = Movement::with(['supplier', 'local' , 'user'])  // Cargar las relaciones
                 ->when($codigo, function ($query, $codigo) {

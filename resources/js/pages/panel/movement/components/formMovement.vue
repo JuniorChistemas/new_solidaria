@@ -164,8 +164,8 @@
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectLabel>Tipo de Pago</SelectLabel>
-                                                <SelectItem value="Contado">Contado</SelectItem>
-                                                <!-- <SelectItem value="credito">Crédito</SelectItem> -->
+                                                <SelectItem value="contado">Contado</SelectItem>
+                                                <SelectItem value="credito">Crédito</SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>

@@ -71,13 +71,7 @@
                                 </td>
                                 <!-- Tipo de Pago -->
                                 <td class="cell-data">
-                                    <span class="tipo-pago-badge"
-                                        :class="{
-                                            'tipo-pago-contado': movement.tipoPago === 'contado',
-                                            // 'tipo-pago-credito': movement.tipoPago === 'credito'
-                                        }">
-                                        {{ movement.tipoPago === 'contado' ? 'Contado' : 'Contado' }}
-                                    </span>
+                                    <span>{{ movement.tipoPago === 'contado' ? 'Contado' : 'Crédito' }}</span>
                                 </td>
                                 <!-- Acciones -->
                                 <td class="cell-actions">

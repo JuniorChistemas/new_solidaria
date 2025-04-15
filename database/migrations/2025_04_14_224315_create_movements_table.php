@@ -29,7 +29,7 @@ return new class extends Migration
             $table->unsignedTinyInteger('estado')->default(1)->comment('0 eliminado, 1 activo, 2 anulado');
             $table->unsignedTinyInteger('estadoIgv')->default(1)->comment('1 incluye, 2 no incluye');
             $table->unsignedTinyInteger('estadoIngreso')->default(1)->comment('1 es ingreso, 0 es salida');
-            $table->enum('tipoPago', ['Contado'])->default('Contado');
+            $table->enum('tipoPago', ['contado','credito'])->default('contado');
             $table->timestamps();
         });
     }

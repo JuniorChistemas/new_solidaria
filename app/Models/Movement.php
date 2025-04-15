@@ -28,6 +28,7 @@ class Movement extends Model
         'fechaEmision' => 'date',
         'fechaEjecucion' => 'date',
         'fechaCredito' => 'date',
+        'tipoPago' => 'string',
     ];
 
     /**

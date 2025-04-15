@@ -1,22 +1,5 @@
 import { Pagination } from "@/interface/paginacion";
 
-// export type MovementResource = {
-//   id: number;
-//   codigo: string;
-//   fechaEmision: string;
-//   fechaEjecucion: string;
-//   fechaCredito: string | null;
-//   idProveedor: number;
-//   idLocal: number;
-//   idUser: number;
-//   idTipoMovimiento: number;
-//   estado: number;
-//   estadoIgv: number;
-//   estadoIngreso: number;
-//   tipoPago: string;
-//   created_at: string;
-//   updated_at: string;
-// };
 
 export type MovementResource {
   id: number;

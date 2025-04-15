@@ -20,7 +20,7 @@ class MovementFactory extends Factory
             'estado' => 1,
             'estadoIgv' => $this->faker->randomElement([1, 2]),
             'estadoIngreso' => $this->faker->randomElement([0, 1]),
-            'tipoPago' => $this->faker->randomElement(['CONTADO']),
+            'tipoPago' => $this->faker->randomElement(['contado']),
         ];
     }
 }

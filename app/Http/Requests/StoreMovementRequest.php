@@ -11,21 +11,30 @@ class StoreMovementRequest extends FormRequest
         return true;
     }
 
-    public function rules(): array
+   // En tu StoreMovementRequest.php
+    public function rules()
     {
         return [
             'codigo' => 'required|string|max:15',
             'fechaEmision' => 'required|date',
             'fechaEjecucion' => 'required|date',
             'fechaCredito' => 'nullable|date',
-            'idProveedor' => 'required|integer|exists:suppliers,id',
-            'idLocal' => 'required|integer|exists:locals,id',
-            'idUser' => 'required|integer|exists:users,id',
-            'idTipoMovimiento' => 'required|integer|in:1,2,3,4',
-            'estado' => 'required|integer|in:0,1,2',
-            'estadoIgv' => 'required|integer|in:1,2',
-            'estadoIngreso' => 'required|integer|in:0,1',
-            'tipoPago' => 'required|in:Contado',
+            'idProveedor' => 'required|exists:suppliers,id',
+            'idLocal' => 'required|exists:locals,id',
+            'idUser' => 'required|exists:users,id',
+            'idTipoMovimiento' => 'required|integer',
+            'estado' => 'required|integer',
+            'estadoIgv' => 'required|integer',
+            'estadoIngreso' => 'required|integer',
+            'tipoPago' => 'required|in:contado,credito',
         ];
+    }
+
+    // Agrega este método para asegurarte de que tipoPago sea tratado como string
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'tipoPago' => (string) $this->tipoPago,
+        ]);
     }
 }
