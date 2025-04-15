@@ -48,7 +48,13 @@ const mainNavItems: NavItem[] = [
         title: 'Productos',
         href: '/panel/products',
         icon: Car,
+    }, 
+    {
+        title: 'Movimientos',
+        href: '/panel/movements',
+        icon: Car,
     },
+
 ];
 
 const footerNavItems: NavItem[] = [

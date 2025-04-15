@@ -21,5 +21,12 @@ class Local extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
+
+    
+    // Relación con movements
+    public function movements()
+    {
+        return $this->hasMany(Movement::class, 'idLocal');
+    }
 }
 
