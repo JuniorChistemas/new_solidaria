@@ -26,9 +26,9 @@
                                 <td class="cell-data">{{ movement.codigo }}</td>
                                 <td class="cell-data">{{ formatDate(movement.fechaEmision) }}</td>
                                 <td class="cell-data">{{ formatDate(movement.fechaCredito) }}</td>
-                                <td class="cell-data">{{ movement.supplier.name }}</td>  <!-- Nombre del proveedor -->
-                                <td class="cell-data">{{ movement.user.name }}</td>  <!-- Nombre del local -->
-                                <td class="cell-data">{{ movement.typemovement.nombre }}</td> <!-- Show the movement type text -->
+                                <td class="cell-data">{{ movement.supplier.name }}</td> 
+                                <td class="cell-data">{{ movement.user.name }}</td>
+                                <td class="cell-data">{{ movement.typemovement.nombre }}</td>
                               <!-- Estado principal -->
                                 <td class="cell-status">
                                     <span v-if="movement.estado === 1" class="status-badge status-active">
@@ -149,15 +149,26 @@ const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
 
+// Add this function to your edit modal component
 const formatDate = (dateString) => {
-  if (!dateString) return 'No disponible';
+  if (!dateString) return '';
   
   try {
-    // Extraemos directamente las partes de la cadena ISO
-    const [year, month, day] = dateString.split('T')[0].split('-');
-    return `${day.padStart(2, '0')}/${month.padStart(2, '0')}/${year}`;
+    // If the date is already in ISO format (YYYY-MM-DDT...)
+    if (dateString.includes('T')) {
+      return dateString.split('T')[0]; // Returns YYYY-MM-DD
+    }
+    
+    // If the date is in DD/MM/YYYY format (as displayed in the table)
+    if (dateString.includes('/')) {
+      const [day, month, year] = dateString.split('/');
+      return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    }
+    
+    return dateString;
   } catch (e) {
-    return 'Fecha inválida';
+    console.error('Error formatting date:', e);
+    return '';
   }
 };
 </script>

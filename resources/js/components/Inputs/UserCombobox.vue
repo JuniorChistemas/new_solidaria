@@ -1,4 +1,3 @@
-<!-- @/components/inputs/UserCombobox.vue -->
 <template>
     <!-- Estado de carga inicial -->
     <div v-if="isLoading" class="flex items-center space-x-2 py-2">
@@ -9,12 +8,12 @@
     <!-- Mensaje de error -->
     <div v-else-if="error" class="py-2 text-sm text-red-500">Error al cargar usuarios. Intente nuevamente.</div>
     
-    <!-- Combobox -->
+    <!-- Combobox con altura controlada -->
     <Combobox v-else by="id" v-model="selectedUser">
         <ComboboxAnchor>
             <div class="relative w-full items-center">
                 <ComboboxInput
-                    class="pl-9"
+                    class="pl-9 pr-7"
                     :display-value="(val) => val?.name ?? ''"
                     :model-value="searchText"
                     placeholder="Seleccionar usuario..."
@@ -24,18 +23,31 @@
                     <Search class="size-4 text-muted-foreground" />
                 </span>
                 <!-- Indicador de búsqueda -->
-                <span v-if="isSearching" class="absolute inset-y-0 end-0 flex items-center justify-center px-3">
+                <span v-if="isSearching" class="absolute inset-y-0 end-0 flex items-center justify-center px-2">
                     <div class="h-4 w-4 animate-spin rounded-full border-b-2 border-t-2 border-primary"></div>
                 </span>
             </div>
         </ComboboxAnchor>
-        <ComboboxList>
-            <ComboboxEmpty>No se encontró ningún usuario.</ComboboxEmpty>
+        
+        <!-- Lista con scroll controlado -->
+        <ComboboxList class="max-h-[280px] overflow-y-auto">
+            <ComboboxEmpty class="px-4 py-2 text-sm text-muted-foreground">
+                No se encontraron usuarios
+            </ComboboxEmpty>
             <ComboboxGroup>
-                <ComboboxItem v-for="user in filteredUsers" :key="user.id" :value="user" @select="onSelect(user)">
-                    {{ user.name }} <span class="text-sm text-muted-foreground ml-2">({{ user.email }})</span>
-                    <ComboboxItemIndicator>
-                        <Check class="ml-auto h-4 w-4" />
+                <ComboboxItem 
+                    v-for="user in filteredUsers" 
+                    :key="user.id" 
+                    :value="user" 
+                    @select="onSelect(user)"
+                    class="px-4 py-2 text-sm hover:bg-accent hover:text-accent-foreground"
+                >
+                    <div class="flex items-center">
+                        <span class="truncate">{{ user.name }}</span>
+                        <span class="ml-2 truncate text-xs text-muted-foreground">{{ user.email }}</span>
+                    </div>
+                    <ComboboxItemIndicator class="ml-auto">
+                        <Check class="h-4 w-4" />
                     </ComboboxItemIndicator>
                 </ComboboxItem>
             </ComboboxGroup>
@@ -73,7 +85,6 @@ const isSearching = ref<boolean>(false);
 const selectedUser = ref<UserResource | null>(null);
 const initialLoadDone = ref<boolean>(false);
 
-// Filtrar usuarios en el cliente para respuesta inmediata
 const filteredUsers = computed(() => {
     if (!searchText.value) return users.value;
     
@@ -83,7 +94,6 @@ const filteredUsers = computed(() => {
     );
 });
 
-// Cargar usuarios desde la API - carga inicial
 const initialLoadUsers = async () => {
     if (initialLoadDone.value) return;
     
@@ -101,7 +111,6 @@ const initialLoadUsers = async () => {
     }
 };
 
-// Búsqueda de usuarios - para actualizaciones posteriores
 const searchUsers = async (query: string) => {
     if (!initialLoadDone.value) return;
     
@@ -112,40 +121,30 @@ const searchUsers = async (query: string) => {
         error.value = false;
     } catch (e) {
         console.error('Error al buscar usuarios:', e);
-        // No cambiamos error.value aquí para evitar un mensaje de error en búsquedas
     } finally {
         isSearching.value = false;
     }
 };
 
-// Manejar la búsqueda con debounce
 const handleSearchInput = (value: string) => {
     searchText.value = value;
-    
-    // Solo iniciamos búsqueda si ya se completó la carga inicial
     if (initialLoadDone.value) {
         debouncedSearch(value);
     }
 };
 
-// Función de búsqueda con debounce
 const debouncedSearch = debounce((value: string) => {
-    // Solo realizamos búsqueda en servidor si hay al menos 3 caracteres o está vacío
     if (value.length >= 3 || value === '') {
         searchUsers(value);
     }
 }, 400);
 
-// Selección de usuario
 const onSelect = (user: UserResource) => {
     selectedUser.value = user;
     emit('select', user.id);
 };
 
-// Cargar usuarios solo una vez al montar el componente
 onMounted(() => {
     initialLoadUsers();
 });
 </script>
-
-<style scoped></style>

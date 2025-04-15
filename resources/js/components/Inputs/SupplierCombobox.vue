@@ -8,7 +8,7 @@
     <!-- Mensaje de error -->
     <div v-else-if="error" class="py-2 text-sm text-red-500">Error al cargar proveedores. Intente nuevamente.</div>
     
-    <!-- Combobox -->
+    <!-- Combobox con altura controlada -->
     <Combobox v-else by="id" v-model="selectedSupplier">
         <ComboboxAnchor>
             <div class="relative w-full items-center">
@@ -28,10 +28,18 @@
                 </span>
             </div>
         </ComboboxAnchor>
-        <ComboboxList>
+        
+        <!-- Contenedor con scroll -->
+        <ComboboxList class="max-h-60 overflow-y-auto">
             <ComboboxEmpty>No se encontró ningún proveedor.</ComboboxEmpty>
             <ComboboxGroup>
-                <ComboboxItem v-for="supplier in filteredSuppliers" :key="supplier.id" :value="supplier" @select="onSelect(supplier)">
+                <ComboboxItem 
+                    v-for="supplier in filteredSuppliers" 
+                    :key="supplier.id" 
+                    :value="supplier" 
+                    @select="onSelect(supplier)"
+                    class="px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
+                >
                     {{ supplier.name }}
                     <ComboboxItemIndicator>
                         <Check class="ml-auto h-4 w-4" />
