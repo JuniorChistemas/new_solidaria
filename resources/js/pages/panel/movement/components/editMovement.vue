@@ -167,8 +167,8 @@ import { useForm } from 'vee-validate';
 import { watch, ref } from 'vue';
 import * as z from 'zod';
 import { MovementResource, MovementUpdateRequest } from '../interface/Movement';
-import SupplierCombobox from '@/components/inputs/SupplierCombobox.vue';
-import UserCombobox from '@/components/inputs/UserCombobox.vue';
+import SupplierCombobox from '@/components/Inputs/SupplierCombobox.vue';
+import UserCombobox from '@/components/Inputs/UserCombobox.vue';
 
 const props = defineProps<{ modal: boolean; movementData: MovementResource }>();
 const emit = defineEmits<{

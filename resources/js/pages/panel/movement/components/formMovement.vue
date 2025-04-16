@@ -172,8 +172,8 @@ import { Head } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import * as z from 'zod';
-import SupplierCombobox from '@/components/inputs/SupplierCombobox.vue';
-import UserCombobox from '@/components/inputs/UserCombobox.vue';
+import SupplierCombobox from '@/components/Inputs/SupplierCombobox.vue';
+import UserCombobox from '@/components/Inputs/UserCombobox.vue';
 import { ref } from 'vue';
 
 // Composable
