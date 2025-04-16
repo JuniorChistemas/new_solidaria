@@ -13,14 +13,12 @@ class PermissionSeeder extends Seeder
      */
     public function run(): void
     {
-               // create permissions
-
         // model users
         Permission::create(['name' => 'crear usuarios']);
         Permission::create(['name' => 'editar usuarios']);
         Permission::create(['name' => 'eliminar usuarios']);
         Permission::create(['name' => 'ver usuarios']);
-    
+
         // model clients
         Permission::create(['name' => 'crear clientes']);
         Permission::create(['name' => 'editar clientes']);
@@ -74,6 +72,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'editar productos']);
         Permission::create(['name' => 'eliminar productos']);
         Permission::create(['name' => 'ver productos']);
+
 
         // model movimientos
         Permission::create(['name' => 'crear movimientos']);

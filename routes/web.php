@@ -64,6 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         # list Movements
         Route::get('listar-movements',[MovementController::class,'listMovements'])->name('movements.listar');
       
+      
                 # Route group for inputs, selects and autocomplete
                 Route::prefix('inputs')->name('inputs.')->group(function(){
                     # get laboratory list
