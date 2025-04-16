@@ -8,7 +8,7 @@
             <form @submit="onSubmit" class="py-4">
                 <div class="grid grid-cols-3 gap-4">
                     <!-- Primera columna -->
-                    <FormField v-slot="{ componentField }" name="codigo">
+                    <FormField v-slot="{ componentField }" name="code">
                         <FormItem>
                             <FormLabel>Código</FormLabel>
                             <FormControl>
@@ -18,7 +18,7 @@
                         </FormItem>
                     </FormField>
                     
-                    <FormField v-slot="{ componentField }" name="fechaEmision">
+                    <FormField v-slot="{ componentField }" name="issue_date">
                         <FormItem>
                             <FormLabel>Fecha de Emisión</FormLabel>
                             <FormControl>
@@ -28,7 +28,7 @@
                         </FormItem>
                     </FormField>
                     
-                    <FormField v-slot="{ componentField }" name="fechaCredito">
+                    <FormField v-slot="{ componentField }" name="credit_date">
                         <FormItem>
                             <FormLabel>Fecha de Crédito</FormLabel>
                             <FormControl>
@@ -38,7 +38,7 @@
                         </FormItem>
                     </FormField>
                     
-                    <FormField v-slot="{ componentField }" name="idProveedor">
+                    <FormField v-slot="{ componentField }" name="supplier_id">
                         <FormItem>
                             <FormLabel>Proveedor</FormLabel>
                             <FormControl>
@@ -48,7 +48,7 @@
                         </FormItem>
                     </FormField>
 
-                    <FormField v-slot="{ componentField }" name="idUser">
+                    <FormField v-slot="{ componentField }" name="user_id">
                         <FormItem>
                             <FormLabel>Usuario</FormLabel>
                             <FormControl>
@@ -58,7 +58,7 @@
                         </FormItem>
                     </FormField>
                     
-                    <FormField v-slot="{ componentField }" name="idTipoMovimiento">
+                    <FormField v-slot="{ componentField }" name="type_movement_id">
                         <FormItem>
                         <FormLabel>Tipo de Movimiento</FormLabel>
                         <FormControl>
@@ -82,7 +82,7 @@
                     </FormField>
 
                     
-                    <FormField v-slot="{ componentField }" name="estado">
+                    <FormField v-slot="{ componentField }" name="status">
                         <FormItem>
                             <FormLabel>Estado</FormLabel>
                             <FormControl>
@@ -104,7 +104,7 @@
                         </FormItem>
                     </FormField>
                     
-                    <FormField v-slot="{ componentField }" name="estadoIgv">
+                    <FormField v-slot="{ componentField }" name="igv_status">
                         <FormItem>
                             <FormLabel>Estado IGV</FormLabel>
                             <FormControl>
@@ -125,7 +125,7 @@
                         </FormItem>
                     </FormField>
                     
-                    <FormField v-slot="{ componentField }" name="tipoPago">
+                    <FormField v-slot="{ componentField }" name="payment_type">
                         <FormItem>
                             <FormLabel>Tipo de Pago</FormLabel>
                             <FormControl>
@@ -189,16 +189,15 @@ const closeModal = () => emit('emit-close', false);
 // Schema de validación
 const formSchema = toTypedSchema(
     z.object({
-        codigo: z.string().min(2, 'El código debe tener al menos 2 caracteres').max(40, 'Máximo 40 caracteres'),
-        fechaEmision: z.string().min(1, 'La fecha de emisión es requerida'),
-        fechaCredito: z.string().nullable(),
-        idProveedor: z.number({ message: 'Seleccione un proveedor' }),
-        idUser: z.number({ message: 'Seleccione un usuario' }),
-        idTipoMovimiento: z.string().or(z.number()).transform(val => Number(val)),
-        estado: z.string().or(z.number()).transform(val => Number(val)),
-        estadoIgv: z.string().or(z.number()).transform(val => Number(val)),
-        estadoIngreso: z.string().or(z.number()).transform(val => Number(val)),
-        tipoPago: z.string().min(1, 'El tipo de pago es requerido'),
+        code: z.string().min(2, 'El código debe tener al menos 2 caracteres').max(40, 'Máximo 40 caracteres'),
+        issue_date: z.string().min(1, 'La fecha de emisión es requerida'),
+        credit_date: z.string().nullable(),
+        supplier_id: z.number({ message: 'Seleccione un proveedor' }),
+        user_id: z.number({ message: 'Seleccione un usuario' }),
+        type_movement_id: z.string().or(z.number()).transform(val => Number(val)),
+        status: z.string().or(z.number()).transform(val => Number(val)),
+        igv_status: z.string().or(z.number()).transform(val => Number(val)),
+        payment_type: z.string().min(1, 'El tipo de pago es requerido'),
     }),
 );
 
@@ -206,16 +205,15 @@ const formSchema = toTypedSchema(
 const { handleSubmit, setValues, setFieldValue } = useForm({
     validationSchema: formSchema,
     initialValues: {
-        codigo: props.movementData.codigo,
-        fechaEmision: props.movementData.fechaEmision,
-        fechaCredito: props.movementData.fechaCredito || '',
-        idProveedor: props.movementData.idProveedor,
-        idUser: props.movementData.idUser,
-        idTipoMovimiento: props.movementData.idTipoMovimiento,
-        estado: String(props.movementData.estado),
-        estadoIgv: String(props.movementData.estadoIgv),
-        estadoIngreso: String(props.movementData.estadoIngreso),
-        tipoPago: props.movementData.tipoPago,
+        code: props.movementData.code,
+        issue_date: props.movementData.issue_date,
+        credit_date: props.movementData.credit_date || '',
+        supplier_id: props.movementData.supplier_id,
+        user_id: props.movementData.user_id,
+        type_movement_id: props.movementData.type_movement_id,
+        status: String(props.movementData.status),
+        igv_status: String(props.movementData.igv_status),
+        payment_type: props.movementData.payment_type,
     },
 });
 
@@ -249,25 +247,24 @@ watch(
         if (newData) {
             // Actualizar valores del formulario
             setValues({
-                codigo: newData.codigo,
-                fechaEmision: formatDateForInput(newData.fechaEmision),
-                fechaCredito: formatDateForInput(newData.fechaCredito),
-                idProveedor: newData.idProveedor,
-                idUser: newData.idUser,
-                idTipoMovimiento: newData.idTipoMovimiento,
-                estado: String(newData.estado),
-                estadoIgv: String(newData.estadoIgv),
-                estadoIngreso: String(newData.estadoIngreso),
-                tipoPago: newData.tipoPago,
+                code: newData.code,
+                issue_date: formatDateForInput(newData.issue_date),
+                credit_date: formatDateForInput(newData.credit_date),
+                supplier_id: newData.supplier_id,
+                user_id: newData.user_id,
+                type_movement_id: newData.type_movement_id,
+                status: String(newData.status),
+                igv_status: String(newData.igv_status),
+                payment_type: newData.payment_type,
             });
             
             // Actualizar IDs iniciales para los comboboxes
-            initialProveedorId.value = newData.idProveedor;
-            initialUserId.value = newData.idUser;
+            initialProveedorId.value = newData.supplier_id;
+            initialUserId.value = newData.user_id;
             
             // Mantener valores seleccionados
-            selectedProveedor.value = newData.idProveedor;
-            selectedUser.value = newData.idUser;
+            selectedProveedor.value = newData.supplier_id;
+            selectedUser.value = newData.user_id;
         }
     },
     { deep: true, immediate: true },
@@ -276,12 +273,12 @@ watch(
 // Funciones para manejar la selección en los comboboxes
 const onSelectProveedor = (id: number) => {
     selectedProveedor.value = id;
-    setFieldValue('idProveedor', id);
+    setFieldValue('supplier_id', id);
 };
 
 const onSelectUser = (id: number) => {
     selectedUser.value = id;
-    setFieldValue('idUser', id);
+    setFieldValue('user_id', id);
 };
 
 const onSubmit = handleSubmit((values) => {

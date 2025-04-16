@@ -31,7 +31,7 @@ class MovementController extends Controller
         try {
 
             $codigo = $request->get('codigo');
-            $movements = Movement::with(['supplier', 'local' , 'user' , 'typemovement'])  // Cargar las relaciones
+            $movements = Movement::with(['supplier', 'user' , 'typemovement'])  // Cargar las relaciones
                 ->when($codigo, function ($query, $codigo) {
                     return $query->where('codigo', 'like', "%$codigo%");
                 })

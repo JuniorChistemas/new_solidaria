@@ -23,36 +23,36 @@
                         <TableBody class="table-body">
                             <TableRow v-for="movement in movementList" :key="movement.id" class="table-row">
                                 <td class="cell-id text-center">{{ movement.id }}</td>
-                                <td class="cell-data text-center">{{ movement.codigo }}</td>
-                                <td class="cell-data text-center">{{ formatDate(movement.fechaEmision) }}</td>
-                                <td class="cell-data text-center">{{ formatDate(movement.fechaCredito) }}</td>
+                                <td class="cell-data text-center">{{ movement.code }}</td>
+                                <td class="cell-data text-center">{{ formatDate(movement.issue_date) }}</td>
+                                <td class="cell-data text-center">{{ formatDate(movement.credit_date) }}</td>
                                 <td class="cell-data text-center">{{ movement.supplier.name }}</td> 
                                 <td class="cell-data text-center">{{ movement.user.name }}</td>
                                 <!-- Tipo Movimiento con estilos -->
                                 <td class="cell-data text-center">
-                                    <span :class="getTypeMovementClass(movement.typemovement.nombre)" class="type-movement-badge">
+                                    <span :class="getTypeMovementClass(movement.typemovement.name)" class="type-movement-badge">
                                         <span class="type-indicator"></span>
-                                        {{ movement.typemovement.nombre }}
+                                        {{ movement.typemovement.name }}
                                     </span>
                                 </td>
                               <!-- Estado principal -->
                                 <td class="cell-status text-center">
-                                    <span v-if="movement.estado === 1" class="status-badge status-active">
+                                    <span v-if="movement.status === 1" class="status-badge status-active">
                                         <span class="status-indicator status-indicator-active"></span>
                                         Activo
                                     </span>
-                                    <span v-if="movement.estado === 0" class="status-badge status-inactive">
+                                    <span v-if="movement.status === 0" class="status-badge status-inactive">
                                         <span class="status-indicator status-indicator-inactive"></span>
                                         Eliminado
                                     </span>
-                                    <span v-if="movement.estado === 2" class="status-badge status-anulado">
+                                    <span v-if="movement.status === 2" class="status-badge status-anulado">
                                         <span class="status-indicator status-indicator-anulado"></span>
                                         Anulado
                                     </span>
                                 </td>
                                 <!-- Estado IGV -->
                                 <td class="cell-status text-center">
-                                    <span v-if="movement.estadoIgv === 1" class="status-badge status-active">
+                                    <span v-if="movement.igv_status === 1" class="status-badge status-active">
                                         <span class="status-indicator status-indicator-active"></span>
                                         Con IGV
                                     </span>
@@ -63,9 +63,9 @@
                                 </td>
                                 <!-- Tipo de Pago -->
                                 <td class="cell-data text-center">
-                                    <span :class="getPaymentTypeClass(movement.tipoPago)" class="payment-type-badge">
+                                    <span :class="getPaymentTypeClass(movement.payment_type)" class="payment-type-badge">
                                         <span class="payment-indicator"></span>
-                                        {{ movement.tipoPago === 'contado' ? 'Contado' : 'Crédito' }}
+                                        {{ movement.payment_type === 'contado' ? 'Contado' : 'Crédito' }}
                                     </span>
                                 </td>
                                 <!-- Acciones -->

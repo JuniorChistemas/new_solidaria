@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('type_movements', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100); // Ej: 'Factura', 'Boleta', etc.
+            $table->string('name', 100);
+            $table->string('serie', 40)->nullable(); // Serie Movimeinto Ej. B0001 , G0001 , F0001  , etc.
+            $table->integer('correlativo')->default(0);
             $table->timestamps();
         });        
     }

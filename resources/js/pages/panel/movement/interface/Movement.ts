@@ -3,26 +3,21 @@ import { Pagination } from "@/interface/paginacion";
 
 export type MovementResource {
   id: number;
-  codigo: string;
-  fechaEmision: string;
-  fechaCredito: string;
-  idProveedor: number;
-  idUser: number;
-  idTipoMovimiento: number;
-  tipoMovimientoTexto: string;
-  estado: number;
-  estadoTexto: string;
-  estadoIgv: number;
-  tipoPago: string;
+  code: string;
+  issue_date: string;
+  credit_date: string;
+  supplier_id: number;
+  user_id: number;
+  type_movement_id: number;
+  status: number;
+  statustext: string;
+  igv_status: number;
+  payment_type: string;
   created_at: string;
   updated_at: string;
   supplier?: {
       id: number;
       name: string; // Add other supplier details here
-  };
-  local?: {
-      id: number;
-      name: string; // Add other local details here
   };
   user?: {
       id: number;
@@ -31,15 +26,15 @@ export type MovementResource {
 }
 
 export type MovementRequest = {
-  codigo: string;
-  fechaEmision: string;
-  fechaCredito?: string;
-  idProveedor: number;
-  idUser: number;
-  idTipoMovimiento: number;
-  estado: number;
-  estadoIgv: number;
-  tipoPago: string;
+  code: string;
+  issue_date: string;
+  credit_date: string;
+  supplier_id: number;
+  user_id: number;
+  type_movement_id: number;
+  status: number;
+  statustext: string;
+  igv_status: number;
 };
 
 export type showMovementResponse = {
@@ -54,15 +49,15 @@ export type MovementDeleteResponse = {
 };
 
 export type MovementUpdateRequest = {
-  codigo?: string;
-  fechaEmision?: string;
-  fechaCredito?: string;
-  idProveedor?: number;
-  idUser?: number;
-  idTipoMovimiento?: number;
-  estado?: number;
-  estadoIgv?: number;
-  tipoPago?: string;
+  code?: string;
+  issue_date?: string;
+  credit_date?: string;
+  supplier_id?: number;
+  user_id?: number;
+  type_movement_id?: number;
+  status?: number;
+  statustext?: string;
+  igv_status?: number;
 };
 
 export type MovementResponse = {
