@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Inputs\SelectController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\Panel\GuideController;
+use App\Http\Controllers\Panel\RoleController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -70,8 +71,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('movements', MovementController::class); 
         # list Movements
         Route::get('listar-movements',[MovementController::class,'listMovements'])->name('movements.listar');
-      
-      
+        # module role
+        Route::resource('roles', RoleController::class);
+        # list roles
+        Route::get('listar-roles',[RoleController::class,'listarRoles'])->name('roles.listar');
+
                 # Route group for inputs, selects and autocomplete
                 Route::prefix('inputs')->name('inputs.')->group(function(){
                     # get laboratory list
