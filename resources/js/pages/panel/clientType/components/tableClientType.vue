@@ -111,7 +111,6 @@ const { clientTypeList, clientTypePaginate } = defineProps<{
     clientTypePaginate: Pagination;
     loading: boolean;
 }>();
-
 const openModal = (id: number) => {
     emit('open-modal', id);
 };

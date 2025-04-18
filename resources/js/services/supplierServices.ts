@@ -29,4 +29,8 @@ export const SupplierServices = {
         const response = await axios.delete(`/panel/suppliers/${id}`);
         return response.data;
     },
+    async getSuppliers(search: string = ''): Promise<SupplierResponse> {
+        const response = await axios.get(`/panel/inputs/suppliers${search ? `?search=${encodeURIComponent(search)}` : ''}`);
+        return response.data;
+    },
 };
