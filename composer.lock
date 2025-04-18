@@ -1119,21 +1119,23 @@
             "support": {
                 "issues": "https://github.com/inertiajs/inertia-laravel/issues",
                 "source": "https://github.com/inertiajs/inertia-laravel/tree/v2.0.2"
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v2.0.2"
             },
+            "time": "2025-04-10T15:08:36+00:00"
             "time": "2025-04-10T15:08:36+00:00"
         },
         {
             "name": "laravel/framework",
-            "version": "v12.9.2",
+            "version": "v12.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "3db59aa0f382c349c78a92f3e5b5522e00e3301b"
+                "reference": "d413f9e297b62238c6c633c082f8f45a888e31b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/3db59aa0f382c349c78a92f3e5b5522e00e3301b",
-                "reference": "3db59aa0f382c349c78a92f3e5b5522e00e3301b",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d413f9e297b62238c6c633c082f8f45a888e31b6",
+                "reference": "d413f9e297b62238c6c633c082f8f45a888e31b6",
                 "shasum": ""
             },
             "require": {
@@ -1243,6 +1245,7 @@
                 "mockery/mockery": "^1.6.10",
                 "orchestra/testbench-core": "^10.0.0",
                 "pda/pheanstalk": "^5.0.6|^7.0.0",
+                "pda/pheanstalk": "^5.0.6|^7.0.0",
                 "php-http/discovery": "^1.15",
                 "phpstan/phpstan": "^2.0",
                 "phpunit/phpunit": "^10.5.35|^11.5.3|^12.0.1",
@@ -1335,7 +1338,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-            "time": "2025-04-16T15:44:19+00:00"
+            "time": "2025-04-15T15:36:35+00:00"
         },
         {
             "name": "laravel/prompts",
@@ -3357,13 +3360,17 @@
         {
             "name": "spatie/laravel-permission",
             "version": "6.17.0",
+            "version": "6.17.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
                 "reference": "02ada8f638b643713fa2fb543384738e27346ddb"
+                "reference": "02ada8f638b643713fa2fb543384738e27346ddb"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/02ada8f638b643713fa2fb543384738e27346ddb",
+                "reference": "02ada8f638b643713fa2fb543384738e27346ddb",
                 "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/02ada8f638b643713fa2fb543384738e27346ddb",
                 "reference": "02ada8f638b643713fa2fb543384738e27346ddb",
                 "shasum": ""
@@ -3428,6 +3435,7 @@
             "support": {
                 "issues": "https://github.com/spatie/laravel-permission/issues",
                 "source": "https://github.com/spatie/laravel-permission/tree/6.17.0"
+                "source": "https://github.com/spatie/laravel-permission/tree/6.17.0"
             },
             "funding": [
                 {
@@ -3435,6 +3443,7 @@
                     "type": "github"
                 }
             ],
+            "time": "2025-04-08T15:06:14+00:00"
             "time": "2025-04-08T15:06:14+00:00"
         },
         {
@@ -6104,13 +6113,17 @@
         {
             "name": "doctrine/deprecations",
             "version": "1.1.5",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
                 "reference": "459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38"
+                "reference": "459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38",
+                "reference": "459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38",
                 "url": "https://api.github.com/repos/doctrine/deprecations/zipball/459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38",
                 "reference": "459c2f5dd3d6a4633d3b5f46ee2b1c40f57d3f38",
                 "shasum": ""
@@ -6121,10 +6134,16 @@
             "conflict": {
                 "phpunit/phpunit": "<=7.5 || >=13"
             },
+            "conflict": {
+                "phpunit/phpunit": "<=7.5 || >=13"
+            },
             "require-dev": {
                 "doctrine/coding-standard": "^9 || ^12 || ^13",
                 "phpstan/phpstan": "1.4.10 || 2.1.11",
+                "doctrine/coding-standard": "^9 || ^12 || ^13",
+                "phpstan/phpstan": "1.4.10 || 2.1.11",
                 "phpstan/phpstan-phpunit": "^1.0 || ^2",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6 || ^10.5 || ^11.5 || ^12",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.6 || ^10.5 || ^11.5 || ^12",
                 "psr/log": "^1 || ^2 || ^3"
             },
@@ -6146,7 +6165,9 @@
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
                 "source": "https://github.com/doctrine/deprecations/tree/1.1.5"
+                "source": "https://github.com/doctrine/deprecations/tree/1.1.5"
             },
+            "time": "2025-04-07T20:06:18+00:00"
             "time": "2025-04-07T20:06:18+00:00"
         },
         {
@@ -6536,13 +6557,17 @@
         {
             "name": "laravel/pint",
             "version": "v1.22.0",
+            "version": "v1.22.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/pint.git",
                 "reference": "7ddfaa6523a675fae5c4123ee38fc6bfb8ee4f36"
+                "reference": "7ddfaa6523a675fae5c4123ee38fc6bfb8ee4f36"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/7ddfaa6523a675fae5c4123ee38fc6bfb8ee4f36",
+                "reference": "7ddfaa6523a675fae5c4123ee38fc6bfb8ee4f36",
                 "url": "https://api.github.com/repos/laravel/pint/zipball/7ddfaa6523a675fae5c4123ee38fc6bfb8ee4f36",
                 "reference": "7ddfaa6523a675fae5c4123ee38fc6bfb8ee4f36",
                 "shasum": ""
@@ -6556,7 +6581,9 @@
             },
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^3.75.0",
+                "friendsofphp/php-cs-fixer": "^3.75.0",
                 "illuminate/view": "^11.44.2",
+                "larastan/larastan": "^3.3.1",
                 "larastan/larastan": "^3.3.1",
                 "laravel-zero/framework": "^11.36.1",
                 "mockery/mockery": "^1.6.12",
@@ -6597,6 +6624,7 @@
                 "issues": "https://github.com/laravel/pint/issues",
                 "source": "https://github.com/laravel/pint"
             },
+            "time": "2025-04-08T22:11:45+00:00"
             "time": "2025-04-08T22:11:45+00:00"
         },
         {
@@ -6844,19 +6872,24 @@
         {
             "name": "pestphp/pest",
             "version": "v3.8.1",
+            "version": "v3.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pestphp/pest.git",
+                "reference": "6080f51a0b0830715c48ba0e7458b06907febfe5"
                 "reference": "6080f51a0b0830715c48ba0e7458b06907febfe5"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/pestphp/pest/zipball/6080f51a0b0830715c48ba0e7458b06907febfe5",
                 "reference": "6080f51a0b0830715c48ba0e7458b06907febfe5",
+                "url": "https://api.github.com/repos/pestphp/pest/zipball/6080f51a0b0830715c48ba0e7458b06907febfe5",
+                "reference": "6080f51a0b0830715c48ba0e7458b06907febfe5",
                 "shasum": ""
             },
             "require": {
                 "brianium/paratest": "^7.8.3",
+                "nunomaduro/collision": "^8.8.0",
                 "nunomaduro/collision": "^8.8.0",
                 "nunomaduro/termwind": "^2.3.0",
                 "pestphp/pest-plugin": "^3.0.0",
@@ -6940,6 +6973,7 @@
             "support": {
                 "issues": "https://github.com/pestphp/pest/issues",
                 "source": "https://github.com/pestphp/pest/tree/v3.8.1"
+                "source": "https://github.com/pestphp/pest/tree/v3.8.1"
             },
             "funding": [
                 {
@@ -6951,6 +6985,7 @@
                     "type": "github"
                 }
             ],
+            "time": "2025-04-03T16:35:58+00:00"
             "time": "2025-04-03T16:35:58+00:00"
         },
         {
@@ -7413,13 +7448,17 @@
         {
             "name": "phpdocumentor/reflection-docblock",
             "version": "5.6.2",
+            "version": "5.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
                 "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62"
+                "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/92dde6a5919e34835c506ac8c523ef095a95ed62",
+                "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62",
                 "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/92dde6a5919e34835c506ac8c523ef095a95ed62",
                 "reference": "92dde6a5919e34835c506ac8c523ef095a95ed62",
                 "shasum": ""
@@ -7471,7 +7510,9 @@
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
                 "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.2"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.2"
             },
+            "time": "2025-04-13T19:20:35+00:00"
             "time": "2025-04-13T19:20:35+00:00"
         },
         {
