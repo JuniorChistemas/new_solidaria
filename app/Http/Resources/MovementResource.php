@@ -20,7 +20,9 @@ class MovementResource extends JsonResource
             'issue_date' => $this->issue_date,
             'credit_date' => $this->credit_date,
             'supplier_id' => $this->supplier_id,
+            'supplier_name' => $this->supplier ? $this->supplier->name : null,
             'user_id' => $this->user_id,
+            'user_name' => $this->user ? $this->user->name : null,
             'type_movement_id' => $this->type_movement_id,
             'status' => $this->status,
             'statustext' => match ($this->status) {

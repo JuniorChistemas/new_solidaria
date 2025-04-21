@@ -44,6 +44,11 @@
                             <FormControl>
                                 <SupplierCombobox @select="onSelectProveedor" :initialId="initialProveedorId" />
                             </FormControl>
+                            <!-- Información actual del proveedor -->
+                            <div v-if="movementData.supplier" class="mt-1 text-xs font-medium text-blue-600 dark:text-blue-400 flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 rounded-full bg-blue-400 dark:bg-blue-600"></span>
+                                Actual: {{ movementData.supplier.name }}
+                            </div>
                             <FormMessage />
                         </FormItem>
                     </FormField>
@@ -54,6 +59,11 @@
                             <FormControl>
                                 <UserCombobox @select="onSelectUser" :initialId="initialUserId" />
                             </FormControl>
+                            <!-- Información actual del usuario -->
+                            <div v-if="movementData.user" class="mt-1 text-xs font-medium text-blue-600 dark:text-blue-400 flex items-center">
+                                <span class="inline-block w-3 h-3 mr-1 rounded-full bg-blue-400 dark:bg-blue-600"></span>
+                                Actual: {{ movementData.user.name }}
+                            </div>
                             <FormMessage />
                         </FormItem>
                     </FormField>
@@ -186,6 +196,16 @@ const selectedUser = ref<number | null>(null);
 
 const closeModal = () => emit('emit-close', false);
 
+// Función para obtener la etiqueta del estado
+const getStatusLabel = (status: number): string => {
+    switch(status) {
+        case 0: return 'Eliminado';
+        case 1: return 'Activo';
+        case 2: return 'Anulado';
+        default: return 'Desconocido';
+    }
+};
+
 // Schema de validación
 const formSchema = toTypedSchema(
     z.object({
@@ -217,17 +237,17 @@ const { handleSubmit, setValues, setFieldValue } = useForm({
     },
 });
 
-// Add this function to your edit modal component
+// Función para formatear fechas para inputs
 const formatDateForInput = (dateString) => {
   if (!dateString) return '';
   
   try {
-    // If the date is already in ISO format (YYYY-MM-DDT...)
+    // Si la fecha ya está en formato ISO (YYYY-MM-DDT...)
     if (dateString.includes('T')) {
-      return dateString.split('T')[0]; // Returns YYYY-MM-DD
+      return dateString.split('T')[0]; // Devuelve YYYY-MM-DD
     }
     
-    // If the date is in DD/MM/YYYY format (as displayed in the table)
+    // Si la fecha está en formato DD/MM/YYYY (como se muestra en la tabla)
     if (dateString.includes('/')) {
       const [day, month, year] = dateString.split('/');
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
@@ -286,5 +306,4 @@ const onSubmit = handleSubmit((values) => {
     emit('update-movement', values, props.movementData.id);
     closeModal();
 });
-
 </script>
