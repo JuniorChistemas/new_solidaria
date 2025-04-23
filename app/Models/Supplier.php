@@ -7,17 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 
 class Supplier extends Model
 {
-        /** @use HasFactory<\Database\Factories\SupplierFactory> */
-        use HasFactory;
+    use HasFactory;
 
-        protected $fillable = [
-            'name',
-            'ruc',
-            'phone',
-            'address',
-            'state',
-        ];
-        protected $casts = [
-            'state' => 'boolean',
-        ];
+    protected $table = 'suppliers';
+
+    protected $fillable = [
+        'name',
+        'ruc',
+        'phone',
+        'address',
+        'state',
+    ];
+
+    protected $casts = [
+        'state' => 'boolean',
+    ];
+
+    // Relación con movements
+    public function movements()
+    {
+        return $this->hasMany(Movement::class, 'idProveedor');
+    }
 }

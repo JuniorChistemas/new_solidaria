@@ -1,8 +1,8 @@
 <template>
     <div class="container-table">
         <LoadingTable v-if="loading" :headers="7" :row-count="12" />
-
         <div v-else class="table-content">
+            <div class="table-container">
             <div class="table-responsive">
                 <Table>
                     <TableHeader>
@@ -16,7 +16,7 @@
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        <TableRow v-for="doctor in doctorList" :key="doctor.id">
+                        <TableRow v-for="doctor in doctorList" :key="doctor.id"class="table-row">
                             <td class="cell-id">{{ doctor.id }}</td>
                             <td class="cell-data">{{ doctor.name }}</td>
                             <td class="cell-data">{{ doctor.code }}</td>
@@ -69,11 +69,12 @@
             <PaginationDoctors :meta="doctorPaginate" @page-change="$emit('page-change', $event)" />
         </div>
     </div>
+</div>
 </template>
 <script setup lang="ts">
 import LoadingTable from '@/components/loadingTable.vue';
 import PaginationDoctors from '@/components/pagination.vue';
-import { Button } from '@/components/ui/button';
+import Button from '@/components/ui/button/Button.vue';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination } from '@/interface/paginacion';
 import { SharedData } from '@/types';
@@ -101,7 +102,7 @@ onMounted(() => {
     }
 });
 
-const { doctorList, doctorPaginate, loading } = defineProps<{
+const { doctorList, doctorPaginate} = defineProps<{
     doctorList: DoctorResource[];
     doctorPaginate: Pagination;
     loading: boolean;
@@ -115,4 +116,4 @@ const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
 </script>
-<style scoped></style>
+<style scoped land="css"></style>

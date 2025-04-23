@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Car, FlaskConical, Folder, GitPullRequest, LayoutGrid, List } from 'lucide-vue-next';
+import { BookOpen, Car, FlaskConical, Folder, GitPullRequest, LayoutGrid, List, UserCog } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -40,6 +40,11 @@ const mainNavItems: NavItem[] = [
          icon: List,
     },
     {
+        title: 'Locales',
+        href: '/panel/locals',
+         icon: List,
+    },
+    {
         title: 'Tipos de cliente',
         href: '/panel/clientTypes',
         icon: FlaskConical,
@@ -48,6 +53,16 @@ const mainNavItems: NavItem[] = [
         title: 'Productos',
         href: '/panel/products',
         icon: Car,
+    }, 
+    {
+        title: 'Movimientos',
+        href: '/panel/movements',
+        icon: Car,
+    },
+    {   
+        title: 'Roles',
+        href: '/panel/roles',
+        icon: UserCog, 
     },
 ];
 

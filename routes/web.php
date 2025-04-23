@@ -10,6 +10,9 @@ use App\Http\Controllers\LaboratoryController;
 use App\Http\Controllers\Panel\LocalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Inputs\SelectController;
+use App\Http\Controllers\MovementController;
+use App\Http\Controllers\Panel\GuideController;
+use App\Http\Controllers\Panel\RoleController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -20,6 +23,12 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
+
+# rutes no auth
+
+Route::resource('guides',GuideController::class);
 
 
 # route group for panel
@@ -58,12 +67,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('products', ProductController::class); 
         # list Products
         Route::get('listar-products',[ProductController::class,'listarProducts'])->name('products.listar');
-      
+        # module Movements
+        Route::resource('movements', MovementController::class); 
+        # list Movements
+        Route::get('listar-movements',[MovementController::class,'listMovements'])->name('movements.listar');
+        # module role
+        Route::resource('roles', RoleController::class);
+        # list roles
+        Route::get('listar-roles',[RoleController::class,'listarRoles'])->name('roles.listar');
+
                 # Route group for inputs, selects and autocomplete
                 Route::prefix('inputs')->name('inputs.')->group(function(){
                     # get laboratory list
                     Route::get('laboratory_list',[SelectController::class,'getLaboratoryList'])->name('laboratory_list');
                     Route::get('category_list',[SelectController::class,'getCategoryList'])->name('category_list');
+
+                    Route::get('suppliers', [SelectController::class, 'getSuppliers'])->name('suppliers_list');
+                    Route::get('users', [SelectController::class, 'getUsers'])->name('users_list');
+                    Route::get('movement-types', [SelectController::class, 'getMovementTypes'])->name('movement-types_list');
+                    
                 });
     });
 });
