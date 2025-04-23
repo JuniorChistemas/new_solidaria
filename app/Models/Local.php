@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Local extends Model
 {
@@ -27,6 +28,12 @@ class Local extends Model
     public function movements()
     {
         return $this->hasMany(Movement::class, 'idLocal');
+    }
+    public function guidesOrigin(): HasMany{
+        return $this->hasMany(Guide::class, 'origin_local_id', 'id');
+    }
+    public function guidesDestination(): HasMany{
+        return $this->hasMany(Guide::class, 'destination_local_id', 'id');
     }
 }
 

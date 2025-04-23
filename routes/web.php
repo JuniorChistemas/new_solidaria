@@ -11,6 +11,7 @@ use App\Http\Controllers\Panel\LocalController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Inputs\SelectController;
 use App\Http\Controllers\MovementController;
+use App\Http\Controllers\Panel\GuideController;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -21,6 +22,12 @@ Route::get('dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+
+
+
+# rutes no auth
+
+Route::resource('guides',GuideController::class);
 
 
 # route group for panel

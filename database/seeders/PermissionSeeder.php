@@ -79,6 +79,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'editar movimientos']);
         Permission::create(['name' => 'eliminar movimientos']);
         Permission::create(['name' => 'ver movimientos']);
-
+      
+        // model guias
+        Permission::create(['name' => 'crear guias']);
+        Permission::create(['name' => 'editar guias']);
+        Permission::create(['name' => 'eliminar guias']);
+        Permission::create(['name' => 'ver guias']);
     }
 }

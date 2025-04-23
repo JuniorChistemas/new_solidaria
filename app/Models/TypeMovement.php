@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TypeMovement extends Model
 {
@@ -19,5 +20,8 @@ class TypeMovement extends Model
     public function movements()
     {
         return $this->hasMany(Movement::class, 'type_movement_id');
+    }
+    public function guides():HasMany{
+        return $this->hasMany(Guide::class, 'type_movement_id', 'id');
     }
 }

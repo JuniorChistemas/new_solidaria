@@ -17,7 +17,6 @@
                             <FormMessage />
                         </FormItem>
                     </FormField>
-                    
                     <FormField v-slot="{ componentField }" name="issue_date">
                         <FormItem>
                             <FormLabel>Fecha de Emisión</FormLabel>
@@ -27,7 +26,6 @@
                             <FormMessage />
                         </FormItem>
                     </FormField>
-                    
                     <FormField v-slot="{ componentField }" name="credit_date">
                         <FormItem>
                             <FormLabel>Fecha de Crédito</FormLabel>
@@ -37,7 +35,7 @@
                             <FormMessage />
                         </FormItem>
                     </FormField>
-                    
+                   
                     <FormField v-slot="{ componentField }" name="supplier_id">
                         <FormItem>
                             <FormLabel>Proveedor</FormLabel>
@@ -52,7 +50,6 @@
                             <FormMessage />
                         </FormItem>
                     </FormField>
-
                     <FormField v-slot="{ componentField }" name="user_id">
                         <FormItem>
                             <FormLabel>Usuario</FormLabel>
@@ -90,8 +87,6 @@
                         <FormMessage />
                         </FormItem>
                     </FormField>
-
-                    
                     <FormField v-slot="{ componentField }" name="status">
                         <FormItem>
                             <FormLabel>Estado</FormLabel>
@@ -113,7 +108,6 @@
                             <FormMessage />
                         </FormItem>
                     </FormField>
-                    
                     <FormField v-slot="{ componentField }" name="igv_status">
                         <FormItem>
                             <FormLabel>Estado IGV</FormLabel>
@@ -134,7 +128,6 @@
                             <FormMessage />
                         </FormItem>
                     </FormField>
-                    
                     <FormField v-slot="{ componentField }" name="payment_type">
                         <FormItem>
                             <FormLabel>Tipo de Pago</FormLabel>

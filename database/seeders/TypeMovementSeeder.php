@@ -20,4 +20,3 @@ class TypeMovementSeeder extends Seeder
             TypeMovement::create($tipo);
         }
     }
-}

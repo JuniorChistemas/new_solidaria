@@ -172,7 +172,7 @@ const formatDate = (dateString) => {
     if (dateString.includes('T')) {
       return dateString.split('T')[0];
     }
-    
+   
     if (dateString.includes('/')) {
       const [day, month, year] = dateString.split('/');
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
@@ -184,7 +184,6 @@ const formatDate = (dateString) => {
     return '';
   }
 };
-
 // Función para determinar la clase del tipo de pago con Tailwind
 const getPaymentTypeClass = (tipoPago) => {
   if (tipoPago === 'contado') {

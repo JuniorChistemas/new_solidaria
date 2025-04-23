@@ -47,7 +47,6 @@ class Movement extends Model
     // Relación con TypeMovement
     public function typemovement()
     {
-        // Un movimiento pertenece a un tipo de movimiento
         return $this->belongsTo(TypeMovement::class, 'type_movement_id');
     }
 }

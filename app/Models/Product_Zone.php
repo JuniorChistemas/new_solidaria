@@ -10,6 +10,7 @@ class Product_Zone extends Model
 {
     use HasFactory;
 
+    protected $table = 'product_zones';
     protected $fillable = [
         'product_id',
         'zone_id',
@@ -22,7 +23,7 @@ class Product_Zone extends Model
     public function product(): BelongsTo{
         return $this->belongsTo(Product::class,'product_id','id');
     }
-    public function local(): BelongsTo{
-        return $this->belongsTo(Local::class,'local_id','id');
+    public function zone(): BelongsTo{
+        return $this->belongsTo(Zone::class,'zone_id','id');
     }
 }

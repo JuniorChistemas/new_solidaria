@@ -10,6 +10,7 @@ class Product_Local extends Model
 {
     use HasFactory;
 
+    protected $table = 'product_locals';
     protected $fillable = [
         'product_id',
         'local_id',

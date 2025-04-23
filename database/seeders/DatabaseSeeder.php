@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             LocalSeeder::class,
             ProductSeeder::class,
             TypeMovementSeeder::class,
+            GuideSeeder::class,
         ]);
     }
 }
