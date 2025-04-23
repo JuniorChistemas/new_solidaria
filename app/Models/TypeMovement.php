@@ -14,12 +14,12 @@ class TypeMovement extends Model
     protected $table = 'type_movements';
 
     // Campos que se pueden asignar masivamente
-    protected $fillable = ['nombre'];
+    protected $fillable = ['name','serie'];
 
     // Relación con movimientos
     public function movements()
     {
-        return $this->hasMany(Movement::class, 'idTipoMovimiento');
+        return $this->hasMany(Movement::class, 'type_movement_id');
     }
     public function guides():HasMany{
         return $this->hasMany(Guide::class, 'type_movement_id', 'id');

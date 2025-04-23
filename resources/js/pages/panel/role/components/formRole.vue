@@ -4,8 +4,8 @@
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <Card class="mt-4 flex flex-col gap-4">
                 <CardHeader>
-                    <CardTitle>NUEVA CATEGORÍA</CardTitle>
-                    <CardDescription>Complete los campos para crear una nueva categoría</CardDescription>
+                    <CardTitle>NUEVO ROL</CardTitle>
+                    <CardDescription>Complete los campos para crear un nuevo rol</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form @submit="onSubmit" class="flex flex-col gap-6">
@@ -18,25 +18,6 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        <FormField v-slot="{ componentField }" name="status">
-                    <FormItem>
-                        <FormLabel>Estado</FormLabel>
-                        <FormControl>
-                            <Select v-bind="componentField" disabled>
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona el estado" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Estado</SelectLabel>
-                                        <SelectItem value="activo">Activo</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
                         <div class="container flex justify-end gap-4">
                             <Button type="submit" variant="default"> Enviar </Button>
                             <Button type="reset" variant="outline"> Borrar </Button>
@@ -52,10 +33,6 @@ import Button from '@/components/ui/button/Button.vue';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Select, SelectGroup, SelectItem, SelectLabel } from '@/components/ui/select';
-import SelectContent from '@/components/ui/select/SelectContent.vue';
-import SelectTrigger from '@/components/ui/select/SelectTrigger.vue';
-import SelectValue from '@/components/ui/select/SelectValue.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
@@ -64,27 +41,27 @@ import { useForm } from 'vee-validate';
 import * as z from 'zod';
 
 //composable
-import { useCategory } from '@/composables/useCategory';
-const { createCategory } = useCategory();
+import { useRole } from '@/composables/useRole';
+const { createRole } = useRole();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Categorías',
-        href: '/panel/categories',
+        title: 'Roles',
+        href: '/panel/roles',
     },
     /*{
         title: 'Exportar a Excel',
-        href: '/panel/reports/export-excel-categories',
+        href: '/panel/reports/export-excel-roles',
         download: true,
     },
     {
         title: 'Exportar a PDF',
-        href: '/panel/reports/export-pdf-categories',
+        href: '/panel/reports/export-pdf-roles',
         download: true,
     },*/
     {
-        title: 'Crear categoría',
-        href: '/panel/categories/create',
+        title: 'Crear rol',
+        href: '/panel/roles/create',
     },
 ];
 
@@ -95,19 +72,16 @@ const formSchema = toTypedSchema(
             .string({ message: 'Campo obligatorio' })
             .min(1, { message: 'Nombre mayor a 5 letras' })
             .max(50, { message: 'Nombre menor a 50 letras' }),
-        status: z.enum(['activo', 'inactivo'], { message: 'Estado inválido' }),
     }),
 );
 
 // Form submit
 const { handleSubmit } = useForm({
     validationSchema: formSchema,
-    initialValues: {         
-        status: 'activo',     
-    },
 });
 const onSubmit = handleSubmit((values) => {
-    createCategory(values);
+    console.log('hola')
+    createRole(values);
 });
 </script>
 <style scoped></style>

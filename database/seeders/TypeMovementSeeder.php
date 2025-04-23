@@ -9,10 +9,14 @@ class TypeMovementSeeder extends Seeder
 {
     public function run(): void
     {
-        $tipos = ['Factura', 'Guía', 'Boleta', 'Venta'];
-
+        $tipos = [
+            ['name' => 'Factura', 'serie' => 'F001', 'correlativo' => 0],
+            ['name' => 'Guía', 'serie' => 'G001', 'correlativo' => 0],
+            ['name' => 'Boleta', 'serie' => 'B001', 'correlativo' => 0],
+            ['name' => 'Venta', 'serie' => 'V001', 'correlativo' => 0],
+        ];
+        
         foreach ($tipos as $tipo) {
-            TypeMovement::create(['nombre' => $tipo]);
+            TypeMovement::create($tipo);
         }
     }
-}

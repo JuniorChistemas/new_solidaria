@@ -10,23 +10,23 @@ return new class extends Migration
     {
         Schema::create('movements', function (Blueprint $table) {
             $table->id();
-            $table->string('codigo', 15);
-            $table->date('fechaEmision');
-            $table->date('fechaCredito')->nullable();
+            $table->string('code', 15);
+            $table->date('issue_date');
+            $table->date('credit_date')->nullable();
             
-            // Relaciones
-            $table->unsignedBigInteger('idProveedor');
-            $table->unsignedBigInteger('idUser');
-            $table->unsignedBigInteger('idTipoMovimiento')->default(1)->comment('1 factura, 2 guía, 3 boleta, 4 es venta');
-
+            // Relationships
+            $table->unsignedBigInteger('supplier_id');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('type_movement_id')->default(1)->comment('1 invoice, 2 guide, 3 receipt, 4 sale');
+            
             // Foreign keys
-            $table->foreign('idProveedor')->references('id')->on('suppliers')->onDelete('cascade');
-            $table->foreign('idUser')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('idTipoMovimiento')->references('id')->on('type_movements')->onDelete('cascade');
-
-            $table->unsignedTinyInteger('estado')->default(1)->comment('0 eliminado, 1 activo, 2 anulado');
-            $table->unsignedTinyInteger('estadoIgv')->default(1)->comment('1 incluye, 2 no incluye');
-            $table->enum('tipoPago', ['contado','credito'])->default('contado');
+            $table->foreign('supplier_id')->references('id')->on('suppliers')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('type_movement_id')->references('id')->on('type_movements')->onDelete('cascade');
+            
+            $table->unsignedTinyInteger('status')->default(1)->comment('0 eliminado, 1 activo, 2 anulado');
+            $table->unsignedTinyInteger('igv_status')->default(1)->comment('1 incluye, 2 no incluye');
+            $table->enum('payment_type', ['contado','credito'])->default('cash');
             $table->timestamps();
         });
     }

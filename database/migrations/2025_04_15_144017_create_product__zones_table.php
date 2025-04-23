@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_locals', function (Blueprint $table) {
+        Schema::create('product__zones', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products','id');
-            $table->foreignId('local_id')->constrained('locals','id');
-            $table->double('StockFraction', 8, 2)->default(0.00);
-            $table->double('StockBox', 8, 2);
-            $table->smallInteger('stock_min')->default(0);
-            $table->smallInteger('stock_max')->default(0);
+            $table->foreignId('zone_id')->constrained('zones','id');
+            $table->decimal('purchase_price', 8, 2);
+            $table->decimal('percentage', 8, 2);
+            $table->decimal('unit_price', 8, 2);
+            $table->decimal('fraction_price', 8, 2);
             $table->timestamps();
+
         });
     }
 
@@ -28,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_locals');
+        Schema::dropIfExists('product__zones');
     }
 };

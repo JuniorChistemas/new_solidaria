@@ -130,6 +130,5 @@ const openModalDelete = (id: number) => {
 };
 </script>
 
-<style scoped lang="css">
-/* Aquí puedes agregar tus estilos CSS personalizados */
-</style>
+<style scoped lang="css"></style>
+

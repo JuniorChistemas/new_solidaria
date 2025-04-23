@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_movements', function (Blueprint $table) {
+        Schema::create('product_zone', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('serie', 40)->nullable(); // Serie Movimeinto Ej. B0001 , G0001 , F0001  , etc.
-            $table->integer('correlativo')->default(0);
+            $table->foreignId('zone_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-        });        
+        });
+        
     }
 
     /**
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_movements');
+        Schema::dropIfExists('product_zone');
     }
 };

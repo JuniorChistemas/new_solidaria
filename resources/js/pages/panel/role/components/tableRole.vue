@@ -5,55 +5,42 @@
             <div class="table-container">
                 <div class="table-responsive">
                     <Table>
-                        <TableHeader>
-                            <TableRow class="table-header-row">
+                        <TableHeader class="table-header-row">
+                            <TableRow>
                                 <TableHead class="table-head-id">ID</TableHead>
                                 <TableHead class="table-head">Nombre</TableHead>
-                                <TableHead class="table-head">Ruc</TableHead>
-                                <TableHead class="table-head">Teléfono</TableHead>
-                                <TableHead class="table-head">Dirección</TableHead>
-                                <TableHead class="table-head-status">Estado</TableHead>
+                                <TableHead class="table-head">Fecha de creación</TableHead>
+                                <TableHead class="table-head">Fecha de modificación</TableHead>
                                 <TableHead class="table-head-actions">Acciones</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody class="table-body">
-                            <TableRow v-for="supplier in supplierList" :key="supplier.id" class="table-row">
-                                <td class="cell-id">{{ supplier.id }}</td>
-                                <td class="cell-data">{{ supplier.name }}</td>
-                                <td class="cell-data">{{ supplier.ruc }}</td>
-                                <td class="cell-data">{{ supplier.phone }}</td>
-                                <td class="cell-data">{{ supplier.address }}</td>
-                                <td class="cell-status">
-                                    <span v-if="supplier.state === true" class="status-badge status-active">
-                                        <span class="status-indicator status-indicator-active"></span>
-                                        Activo
-                                    </span>
-                                    <span v-else class="status-badge status-inactive">
-                                        <span class="status-indicator status-indicator-inactive"></span>
-                                        Inactivo
-                                    </span>
-                                </td>
+                            <TableRow v-for="role in roleList" :key="role.id" class="table-row">
+                                <td class="cell-id">{{ role.id }}</td>
+                                <td class="cell-data">{{ role.name }}</td>
+                                <td class="cell-data">{{ role.created_at }}</td>
+                                <td class="cell-data">{{ role.updated_at }}</td>
                                 <td class="cell-actions">
                                     <div class="actions-container">
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
-                                            @click="openModal(supplier.id)"
+                                            @click="openModal(role.id)"
                                             title="Editar proveedor"
                                         >
                                             <UserPen class="action-icon" />
-                                            <span class="sr-only">Editar proveedor</span>
+                                            <span class="sr-only">Editar rol</span>
                                         </Button>
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
-                                            @click="openModalDelete(supplier.id)"
+                                            @click="openModalDelete(role.id)"
                                             title="Eliminar proveedor"
                                         >
                                             <Trash class="action-icon" />
-                                            <span class="sr-only">Eliminar proveedor</span>
+                                            <span class="sr-only">Eliminar rol</span>
                                         </Button>
                                     </div>
                                 </td>
@@ -62,22 +49,20 @@
                     </Table>
                 </div>
             </div>
-
             <div class="pagination-container">
                 <div class="pagination-summary">
-                    Mostrando <span class="pagination-emphasis">{{ supplierPaginate.from || 0 }}</span> a
-                    <span class="pagination-emphasis">{{ supplierPaginate.to || 0 }}</span> de
-                    <span class="pagination-emphasis">{{ supplierPaginate.total }}</span> proveedores
+                    Mostrando <span class="pagination-emphasis">{{ rolePaginate.from || 0 }}</span> a
+                    <span class="pagination-emphasis">{{ rolePaginate.to || 0 }}</span> de
+                    <span class="pagination-emphasis">{{ rolePaginate.total }}</span> roles
                 </div>
-                <PaginationSupplier :meta="supplierPaginate" @page-change="$emit('page-change', $event)" />
+                <PaginationRole :meta="rolePaginate" @page-change="$emit('page-change', $event)" />
             </div>
         </div>
     </div>
 </template>
-
 <script setup lang="ts">
 import LoadingTable from '@/components/loadingTable.vue';
-import PaginationSupplier from '@/components/pagination.vue';
+import PaginationRole from '@/components/pagination.vue';
 import Button from '@/components/ui/button/Button.vue';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/components/ui/toast';
@@ -86,14 +71,14 @@ import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { Trash, UserPen } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
-import { SupplierResource } from '../interface/Supplier';
+import { RoleResource } from '../interface/Role';
 
 const { toast } = useToast();
 
 const emit = defineEmits<{
     (e: 'page-change', page: number): void;
-    (e: 'open-modal', id_supplier: number): void;
-    (e: 'open-modal-delete', id_supplier: number): void;
+    (e: 'open-modal', id_role: number): void;
+    (e: 'open-modal-delete', id_role: number): void;
 }>();
 const page = usePage<SharedData>();
 
@@ -108,9 +93,9 @@ onMounted(() => {
     }
 });
 
-const { supplierList, supplierPaginate } = defineProps<{
-    supplierList: SupplierResource[];
-    supplierPaginate: Pagination;
+const { roleList, rolePaginate } = defineProps<{
+    roleList: RoleResource[];
+    rolePaginate: Pagination;
     loading: boolean;
 }>();
 
@@ -123,4 +108,3 @@ const openModalDelete = (id: number) => {
 };
 </script>
 <style scoped lang="css"></style>
-

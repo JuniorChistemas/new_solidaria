@@ -15,15 +15,15 @@ class StoreMovementRequest extends FormRequest
     public function rules()
     {
         return [
-            'codigo' => 'required|string|max:15',
-            'fechaEmision' => 'required|date',
-            'fechaCredito' => 'nullable|date',
-            'idProveedor' => 'required|exists:suppliers,id',
-            'idUser' => 'required|exists:users,id',
-            'idTipoMovimiento' => 'required|integer',
-            'estado' => 'required|integer',
-            'estadoIgv' => 'required|integer',
-            'tipoPago' => 'required|in:contado,credito',
+            'code' => 'required|string|max:15',
+            'issue_date' => 'required|date',
+            'credit_date' => 'nullable|date',
+            'supplier_id' => 'required|exists:suppliers,id',
+            'user_id' => 'required|exists:users,id',
+            'type_movement_id' => 'required|integer',
+            'status' => 'required|integer',
+            'igv_status' => 'required|integer',
+            'payment_type' => 'required|in:contado,credito',
         ];
     }
 
@@ -31,7 +31,7 @@ class StoreMovementRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'tipoPago' => (string) $this->tipoPago,
+            'payment_type' => (string) $this->payment_type,
         ]);
     }
 }

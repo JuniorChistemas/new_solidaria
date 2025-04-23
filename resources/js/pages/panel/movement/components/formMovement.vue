@@ -9,7 +9,7 @@
                 </CardHeader>
                 <CardContent>
                     <form @submit="onSubmit" class="flex flex-col gap-6">
-                        <FormField v-slot="{ componentField }" name="codigo">
+                        <FormField v-slot="{ componentField }" name="code">
                             <FormItem>
                                 <FormLabel>Código</FormLabel>
                                 <FormControl>
@@ -19,7 +19,7 @@
                             </FormItem>
                         </FormField>
                         
-                        <FormField v-slot="{ componentField }" name="fechaEmision">
+                        <FormField v-slot="{ componentField }" name="issue_date">
                             <FormItem>
                                 <FormLabel>Fecha de Emisión</FormLabel>
                                 <FormControl>
@@ -28,8 +28,7 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-
-                        <FormField v-slot="{ componentField }" name="fechaCredito">
+                        <FormField v-slot="{ componentField }" name="credit_date">
                             <FormItem>
                                 <FormLabel>Fecha de Crédito</FormLabel>
                                 <FormControl>
@@ -38,18 +37,16 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        
-                        <FormField v-slot="{ componentField }" name="idProveedor">
+                        <FormField v-slot="{ componentField }" name="supplier_id">
                             <FormItem>
                                 <FormLabel>Proveedor</FormLabel>
                                 <FormControl>
-                                    <SupplierCombobox @select="onSelectProveedor" />
+                                    <SupplierCombobox @select="onSelectSupplier" />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        
-                        <FormField v-slot="{ componentField }" name="idUser">
+                        <FormField v-slot="{ componentField }" name="user_id">
                             <FormItem>
                                 <FormLabel>Usuario</FormLabel>
                                 <FormControl>
@@ -58,20 +55,19 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        
-                        <FormField v-slot="{ componentField }" name="idTipoMovimiento">
+                        <FormField v-slot="{ componentField }" name="type_movement_id">
                             <FormItem>
                                 <FormLabel>Tipo de Movimiento</FormLabel>
                                 <FormControl>
                                     <Select v-bind="componentField">
                                         <SelectTrigger class="w-full">
-                                            <SelectValue placeholder="Seleccione el estado" />
+                                            <SelectValue placeholder="Seleccione el tipo de movimiento" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectLabel>Tipo</SelectLabel>
                                                 <SelectItem value="1">Factura</SelectItem>
-                                                <SelectItem value="2">Guia</SelectItem>
+                                                <SelectItem value="2">Guía</SelectItem>
                                                 <SelectItem value="3">Boleta</SelectItem>
                                                 <SelectItem value="4">Venta</SelectItem>
                                             </SelectGroup>
@@ -82,7 +78,7 @@
                             </FormItem>
                         </FormField>
                         
-                        <FormField v-slot="{ componentField }" name="estado">
+                        <FormField v-slot="{ componentField }" name="status">
                             <FormItem>
                                 <FormLabel>Estado</FormLabel>
                                 <FormControl>
@@ -103,8 +99,7 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        
-                        <FormField v-slot="{ componentField }" name="estadoIgv">
+                        <FormField v-slot="{ componentField }" name="igv_status">
                             <FormItem>
                                 <FormLabel>Estado IGV</FormLabel>
                                 <FormControl>
@@ -124,8 +119,7 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
-                        
-                        <FormField v-slot="{ componentField }" name="tipoPago">
+                        <FormField v-slot="{ componentField }" name="payment_type">
                             <FormItem>
                                 <FormLabel>Tipo de Pago</FormLabel>
                                 <FormControl>
@@ -172,8 +166,8 @@ import { Head } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import * as z from 'zod';
-import SupplierCombobox from '@/components/inputs/SupplierCombobox.vue';
-import UserCombobox from '@/components/inputs/UserCombobox.vue';
+import SupplierCombobox from '@/components/Inputs/SupplierCombobox.vue';
+import UserCombobox from '@/components/Inputs/UserCombobox.vue';
 import { ref } from 'vue';
 
 // Composable
@@ -192,23 +186,23 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 // ID del proveedor y usuario seleccionados
-const selectedProveedor = ref<number | null>(null);
+const selectedSupplier = ref<number | null>(null);
 const selectedUser = ref<number | null>(null);
 
 // Form validation
 const formSchema = toTypedSchema(
     z.object({
-        codigo: z.string({ message: 'Campo obligatorio' })
+        code: z.string({ message: 'Campo obligatorio' })
             .min(2, { message: 'Código debe tener al menos 2 caracteres' })
-            .max(40, { message: 'Código debe tener máximo 40 caracteres' }),
-        fechaEmision: z.string({ message: 'Campo obligatorio' }),
-        fechaCredito: z.string().optional(),
-        idProveedor: z.number({ message: 'Seleccione un proveedor' }),
-        idUser: z.number({ message: 'Seleccione un usuario' }),
-        idTipoMovimiento: z.string().or(z.number()).transform(val => Number(val)),
-        estado: z.string().or(z.number()).transform(val => Number(val)),
-        estadoIgv: z.string().or(z.number()).transform(val => Number(val)),
-        tipoPago: z.string({ message: 'Campo obligatorio' }),
+            .max(15, { message: 'Código debe tener máximo 15 caracteres' }),
+        issue_date: z.string({ message: 'Campo obligatorio' }),
+        credit_date: z.string().optional(),
+        supplier_id: z.number({ message: 'Seleccione un proveedor' }),
+        user_id: z.number({ message: 'Seleccione un usuario' }),
+        type_movement_id: z.string().or(z.number()).transform(val => Number(val)),
+        status: z.string().or(z.number()).transform(val => Number(val)),
+        igv_status: z.string().or(z.number()).transform(val => Number(val)),
+        payment_type: z.string({ message: 'Campo obligatorio' }),
     }),
 );
 
@@ -216,21 +210,25 @@ const formSchema = toTypedSchema(
 const { handleSubmit, setFieldValue } = useForm({
     validationSchema: formSchema,
     initialValues: {
-        idProveedor: null,
-        idUser: null,
+        supplier_id: null,
+        user_id: null,
+        payment_type: 'contado',
+        status: 1,
+        igv_status: 1,
+        type_movement_id: 1,
     }
 });
 
 // Función para manejar la selección de proveedor desde el combobox
-const onSelectProveedor = (id: number) => {
-    selectedProveedor.value = id;
-    setFieldValue('idProveedor', id);
+const onSelectSupplier = (id: number) => {
+    selectedSupplier.value = id;
+    setFieldValue('supplier_id', id);
 };
 
 // Función para manejar la selección de usuario desde el combobox
 const onSelectUser = (id: number) => {
     selectedUser.value = id;
-    setFieldValue('idUser', id);
+    setFieldValue('user_id', id);
 };
 
 // Form submit

@@ -18,11 +18,11 @@ class MovementObserver
         // Registra información del nuevo movimiento
         Log::info('Nuevo movimiento creado', [
             'id' => $movement->id,
-            'codigo' => $movement->codigo,
-            'proveedor' => $movement->supplier->name ?? 'No proveedor',
-            'tipo_movimiento' => $movement->typemovement->nombre ?? 'No tipo',
-            'fecha_emision' => $movement->fechaEmision->format('Y-m-d'),
-            'usuario' => $movement->user->name ?? 'No usuario'
+            'code' => $movement->codigo,
+            'supplier' => $movement->supplier->name ?? 'No proveedor',
+            'type_movement' => $movement->typemovement->nombre ?? 'No tipo',
+            'issue_date' => $movement->issue_date->format('Y-m-d'),
+            'user' => $movement->user->name ?? 'No usuario'
         ]);
 
     }
@@ -37,7 +37,7 @@ class MovementObserver
     {
         Log::info('Movimiento actualizado', [
             'id' => $movement->id,
-            'cambios' => $movement->getChanges()
+            'changes' => $movement->getChanges()
         ]);
     }
 
@@ -51,7 +51,7 @@ class MovementObserver
     {
         Log::info('Movimiento eliminado', [
             'id' => $movement->id,
-            'codigo' => $movement->codigo
+            'code' => $movement->code
         ]);
     }
 

@@ -49,15 +49,14 @@
                             <FormItem>
                                 <FormLabel>Estado</FormLabel>
                                 <FormControl>
-                                    <Select v-bind="componentField" class="w-full rounded-md border border-slate-950 p-2">
+                                    <Select v-bind="componentField" disabled>
                                         <SelectTrigger class="w-full">
                                             <SelectValue placeholder="Selecciona el estado" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectGroup>
                                                 <SelectLabel>Estado</SelectLabel>
-                                                <SelectItem value="activo"> activo </SelectItem>
-                                                <SelectItem value="inactivo"> inactivo </SelectItem>
+                                                <SelectItem value="activo"> Activo </SelectItem>
                                             </SelectGroup>
                                         </SelectContent>
                                     </Select>
@@ -136,6 +135,9 @@ const formSchema = toTypedSchema(
 // Form submit
 const { handleSubmit } = useForm({
     validationSchema: formSchema,
+    initialValues: {         
+        state: 'activo',     
+    },
 });
 const onSubmit = handleSubmit((values) => {
     console.log('hola')
