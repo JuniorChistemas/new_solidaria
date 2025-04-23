@@ -40,6 +40,11 @@ const mainNavItems: NavItem[] = [
          icon: List,
     },
     {
+        title: 'Locales',
+        href: '/panel/locals',
+         icon: List,
+    },
+    {
         title: 'Tipos de cliente',
         href: '/panel/clientTypes',
         icon: FlaskConical,

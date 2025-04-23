@@ -29,12 +29,9 @@ class Local extends Model
     {
         return $this->hasMany(Movement::class, 'idLocal');
     }
-
-
     public function guidesOrigin(): HasMany{
         return $this->hasMany(Guide::class, 'origin_local_id', 'id');
     }
-
     public function guidesDestination(): HasMany{
         return $this->hasMany(Guide::class, 'destination_local_id', 'id');
     }

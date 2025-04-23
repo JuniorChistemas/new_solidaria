@@ -16,26 +16,27 @@ class MovementResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'codigo' => $this->codigo,
-            'fechaEmision' => $this->fechaEmision,
-            'fechaCredito' => $this->fechaCredito,
-            'idProveedor' => $this->idProveedor,
-            'idUser' => $this->idUser,
-            'idTipoMovimiento' => $this->idTipoMovimiento,
-            'estado' => $this->estado,
-           'estadoTexto' => match ($this->estado) {
+            'code' => $this->code,
+            'issue_date' => $this->issue_date,
+            'credit_date' => $this->credit_date,
+            'supplier_id' => $this->supplier_id,
+            'supplier_name' => $this->supplier ? $this->supplier->name : null,
+            'user_id' => $this->user_id,
+            'user_name' => $this->user ? $this->user->name : null,
+            'type_movement_id' => $this->type_movement_id,
+            'status' => $this->status,
+            'statustext' => match ($this->status) {
                 0 => 'Eliminado',
                 1 => 'Activo',
                 2=> 'Anulado',
                 default => 'Desconocido',
             },
-            'estadoIgv' => $this->estadoIgv,
-            'tipoPago' => $this->tipoPago,
+            'igv_status' => $this->igv_status,
+            'payment_type' => $this->payment_type,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             // You might want to include relationships
             'supplier' => $this->whenLoaded('supplier'),
-            'local' => $this->whenLoaded('local'),
             'user' => $this->whenLoaded('user'),
             'typemovement' => $this->whenLoaded('typemovement'),
         ];

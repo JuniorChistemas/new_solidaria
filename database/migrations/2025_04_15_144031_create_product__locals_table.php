@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_locals', function (Blueprint $table) {
+        Schema::create('product__locals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products','id');
-            $table->foreignId('local_id')->constrained('locals','id');
+            $table->foreignId('local_id')->constrained('categories','id');
             $table->double('StockFraction', 8, 2)->default(0.00);
             $table->double('StockBox', 8, 2);
             $table->smallInteger('stock_min')->default(0);
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_locals');
+        Schema::dropIfExists('product__locals');
     }
 };

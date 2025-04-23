@@ -122,3 +122,5 @@ const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
 </script>
+<style scoped lang="css"></style>
+

@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('type_movements', function (Blueprint $table) {
+        Schema::create('product__records', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 100);
-            $table->string('serie', 40)->nullable(); // Serie Movimeinto Ej. B0001 , G0001 , F0001  , etc.
-            $table->integer('correlativo')->default(0);
+            $table->string('description');
             $table->timestamps();
-        });        
+        });
     }
 
     /**
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('type_movements');
+        Schema::dropIfExists('product__records');
     }
 };

@@ -23,49 +23,56 @@
                         <TableBody class="table-body">
                             <TableRow v-for="movement in movementList" :key="movement.id" class="table-row">
                                 <td class="cell-id text-center">{{ movement.id }}</td>
-                                <td class="cell-data text-center">{{ movement.codigo }}</td>
-                                <td class="cell-data text-center">{{ formatDate(movement.fechaEmision) }}</td>
-                                <td class="cell-data text-center">{{ formatDate(movement.fechaCredito) }}</td>
+                                <td class="cell-data text-center">{{ movement.code }}</td>
+                                <td class="cell-data text-center">{{ formatDate(movement.issue_date) }}</td>
+                                <td class="cell-data text-center">{{ formatDate(movement.credit_date) }}</td>
                                 <td class="cell-data text-center">{{ movement.supplier.name }}</td> 
                                 <td class="cell-data text-center">{{ movement.user.name }}</td>
-                                <!-- Tipo Movimiento con estilos -->
+                                <!-- Tipo Movimiento con Tailwind -->
                                 <td class="cell-data text-center">
-                                    <span :class="getTypeMovementClass(movement.typemovement.nombre)" class="type-movement-badge">
-                                        <span class="type-indicator"></span>
-                                        {{ movement.typemovement.nombre }}
+                                    <span :class="getTypeMovementClass(movement.typemovement.name)" 
+                                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full"></span>
+                                        {{ movement.typemovement.name }}
                                     </span>
                                 </td>
-                              <!-- Estado principal -->
+                                <!-- Estado principal con Tailwind -->
                                 <td class="cell-status text-center">
-                                    <span v-if="movement.estado === 1" class="status-badge status-active">
-                                        <span class="status-indicator status-indicator-active"></span>
+                                    <span v-if="movement.status === 1" 
+                                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-green-500 dark:bg-green-400"></span>
                                         Activo
                                     </span>
-                                    <span v-if="movement.estado === 0" class="status-badge status-inactive">
-                                        <span class="status-indicator status-indicator-inactive"></span>
+                                    <span v-if="movement.status === 0" 
+                                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-red-500 dark:bg-red-400"></span>
                                         Eliminado
                                     </span>
-                                    <span v-if="movement.estado === 2" class="status-badge status-anulado">
-                                        <span class="status-indicator status-indicator-anulado"></span>
+                                    <span v-if="movement.status === 2" 
+                                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-orange-500 dark:bg-orange-400"></span>
                                         Anulado
                                     </span>
                                 </td>
-                                <!-- Estado IGV -->
+                                <!-- Estado IGV con Tailwind -->
                                 <td class="cell-status text-center">
-                                    <span v-if="movement.estadoIgv === 1" class="status-badge status-active">
-                                        <span class="status-indicator status-indicator-active"></span>
+                                    <span v-if="movement.igv_status === 1" 
+                                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-blue-500 dark:bg-blue-400"></span>
                                         Con IGV
                                     </span>
-                                    <span v-else class="status-badge status-inactive">
-                                        <span class="status-indicator status-indicator-inactive"></span>
+                                    <span v-else 
+                                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full bg-gray-500 dark:bg-gray-400"></span>
                                         Sin IGV
                                     </span>
                                 </td>
-                                <!-- Tipo de Pago -->
+                                <!-- Tipo de Pago con Tailwind -->
                                 <td class="cell-data text-center">
-                                    <span :class="getPaymentTypeClass(movement.tipoPago)" class="payment-type-badge">
-                                        <span class="payment-indicator"></span>
-                                        {{ movement.tipoPago === 'contado' ? 'Contado' : 'Crédito' }}
+                                    <span :class="getPaymentTypeClass(movement.payment_type)" 
+                                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium">
+                                        <span class="w-1.5 h-1.5 mr-1.5 rounded-full"></span>
+                                        {{ movement.payment_type === 'contado' ? 'Contado' : 'Crédito' }}
                                     </span>
                                 </td>
                                 <!-- Acciones -->
@@ -158,17 +165,14 @@ const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
 
-// Add this function to your edit modal component
 const formatDate = (dateString) => {
   if (!dateString) return '';
   
   try {
-    // If the date is already in ISO format (YYYY-MM-DDT...)
     if (dateString.includes('T')) {
-      return dateString.split('T')[0]; // Returns YYYY-MM-DD
+      return dateString.split('T')[0];
     }
-    
-    // If the date is in DD/MM/YYYY format (as displayed in the table)
+   
     if (dateString.includes('/')) {
       const [day, month, year] = dateString.split('/');
       return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
@@ -180,162 +184,28 @@ const formatDate = (dateString) => {
     return '';
   }
 };
-
-// Función para determinar la clase del tipo de pago
+// Función para determinar la clase del tipo de pago con Tailwind
 const getPaymentTypeClass = (tipoPago) => {
-  return tipoPago === 'contado' ? 'payment-type-contado' : 'payment-type-credito';
+  if (tipoPago === 'contado') {
+    return 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 [&>span]:bg-green-500 dark:[&>span]:bg-green-400';
+  } else {
+    return 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 [&>span]:bg-purple-500 dark:[&>span]:bg-purple-400';
+  }
 };
 
-// Función para determinar la clase del tipo de movimiento
+// Función para determinar la clase del tipo de movimiento con Tailwind
 const getTypeMovementClass = (tipoMovimiento) => {
   switch(tipoMovimiento) {
     case 'Factura':
-      return 'type-factura';
+      return 'bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-300 [&>span]:bg-cyan-500 dark:[&>span]:bg-cyan-400';
     case 'Guía':
-      return 'type-guia';
+      return 'bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 [&>span]:bg-amber-500 dark:[&>span]:bg-amber-400';
     case 'Boleta':
-      return 'type-boleta';
+      return 'bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 [&>span]:bg-pink-500 dark:[&>span]:bg-pink-400';
     case 'Venta':
-      return 'type-venta';
+      return 'bg-sky-100 dark:bg-sky-900/30 text-sky-700 dark:text-sky-300 [&>span]:bg-sky-500 dark:[&>span]:bg-sky-400';
     default:
-      return 'type-default';
+      return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 [&>span]:bg-slate-500 dark:[&>span]:bg-slate-400';
   }
 };
 </script>
-
-<style scoped lang="css">
-/* Estilos existentes */
-.tipo-pago-badge {
-    padding: 0.25rem 0.5rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-}
-
-
-.status-anulado {
-    background-color: rgba(234, 88, 12, 0.15);
-    color: #e4c6b1;
-    padding: 0.20rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-}
-
-.status-anulado::before {
-    content: "";
-    width: 0.4rem;
-    height: 0.4rem;
-    background-color: #f97316;
-    border-radius: 9999px;
-    margin-right: -2px; 
-}
-
-/* Nuevos estilos para tipo de pago */
-.payment-type-badge {
-    padding: 0.20rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.payment-type-contado {
-    background-color: rgba(33, 104, 65, 0.24);
-    color: #beecc6;
-}
-
-.payment-type-credito {
-    background-color: rgba(124, 58, 237, 0.15);
-    color: #dddae2;
-}
-
-.payment-indicator {
-    content: "";
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 9999px;
-    display: inline-block;
-}
-
-.payment-type-contado .payment-indicator {
-
-    background-color: #0caa61;
-}
-
-.payment-type-credito .payment-indicator {
-    background-color: #7c3aed;
-}
-
-/* Estilos para tipo de movimiento */
-.type-movement-badge {
-    padding: 0.20rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-}
-
-.type-factura {
-    background-color: rgba(6, 182, 212, 0.15);
-    color: #b9c9cc;
-}
-
-.type-guia {
-    background-color: rgba(245, 158, 11, 0.15);
-    color: #eedec2;
-}
-
-.type-boleta {
-    background-color: rgba(236, 72, 153, 0.15);
-    color: #d1acbf;
-}
-
-.type-venta {
-    background-color: rgba(14, 165, 233, 0.15);
-    color: #bed7e2;
-}
-
-.type-default {
-    background-color: rgba(100, 116, 139, 0.15);
-    color: #747b85;
-}
-
-.type-indicator {
-    content: "";
-    width: 0.4rem;
-    height: 0.4rem;
-    border-radius: 9999px;
-    display: inline-block;
-}
-
-.type-factura .type-indicator {
-    background-color: #06b6d4;
-}
-
-.type-guia .type-indicator {
-    background-color: #f59e0b;
-}
-
-.type-boleta .type-indicator {
-    background-color: #ec4899;
-}
-
-.type-venta .type-indicator {
-    background-color: #0ea5e9;
-}
-
-.type-default .type-indicator {
-    background-color: #64748b;
-}
-</style>

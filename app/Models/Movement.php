@@ -10,21 +10,21 @@ class Movement extends Model
     use HasFactory;
 
     protected $fillable = [
-        'codigo',
-        'fechaEmision',
-        'fechaCredito',
-        'idProveedor',
-        'idUser',
-        'idTipoMovimiento',
-        'estado',
-        'estadoIgv',
-        'tipoPago',
+        'code',
+        'issue_date',
+        'credit_date',
+        'supplier_id',
+        'user_id',
+        'type_movement_id',
+        'status',
+        'igv_status',
+        'payment_type',
     ];
 
     protected $casts = [
-        'fechaEmision' => 'date',
-        'fechaCredito' => 'date',
-        'tipoPago' => 'string',
+        'issue_date' => 'date',
+        'credit_date' => 'date',
+        'payment_type' => 'string',
     ];
 
     /**
@@ -32,29 +32,21 @@ class Movement extends Model
      */
     public function supplier()
     {
-        return $this->belongsTo(Supplier::class, 'idProveedor');
+        return $this->belongsTo(Supplier::class, 'supplier_id');
     }
 
-    /**
-     * Relación con el local
-     */
-    public function local()
-    {
-        return $this->belongsTo(Local::class, 'idLocal');
-    }
 
     /**
      * Relación con el usuario
      */
     public function user()
     {
-        return $this->belongsTo(User::class, 'idUser');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     // Relación con TypeMovement
     public function typemovement()
     {
-        // Un movimiento pertenece a un tipo de movimiento
-        return $this->belongsTo(TypeMovement::class, 'idTipoMovimiento');
+        return $this->belongsTo(TypeMovement::class, 'type_movement_id');
     }
 }
