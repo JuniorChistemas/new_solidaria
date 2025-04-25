@@ -18,9 +18,21 @@
                                 <FormMessage />
                             </FormItem>
                         </FormField>
+
+                        <!-- Permisos -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700">Permisos</label>
+                            <div class="grid grid-cols-3 gap-4">
+                                <div v-for="permiso in props.permisos" :key="permiso.id" class="flex items-center">
+                                    <input type="checkbox" :value="permiso.id" v-model="selectedPermissions" class="mr-2">
+                                    {{ permiso.name }}
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="container flex justify-end gap-4">
                             <Button type="submit" variant="default"> Enviar </Button>
-                            <Button type="reset" variant="outline"> Borrar </Button>
+                            <Button type="reset" variant="outline" @click="resetPermissions"> Borrar </Button>
                         </div>
                     </form>
                 </CardContent>
@@ -39,8 +51,8 @@ import { Head } from '@inertiajs/vue3';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import * as z from 'zod';
-
-//composable
+import { ref, onMounted } from 'vue'; 
+// composable
 import { useRole } from '@/composables/useRole';
 const { createRole } = useRole();
 
@@ -49,16 +61,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         title: 'Roles',
         href: '/panel/roles',
     },
-    /*{
-        title: 'Exportar a Excel',
-        href: '/panel/reports/export-excel-roles',
-        download: true,
-    },
-    {
-        title: 'Exportar a PDF',
-        href: '/panel/reports/export-pdf-roles',
-        download: true,
-    },*/
     {
         title: 'Crear rol',
         href: '/panel/roles/create',
@@ -79,9 +81,38 @@ const formSchema = toTypedSchema(
 const { handleSubmit } = useForm({
     validationSchema: formSchema,
 });
-const onSubmit = handleSubmit((values) => {
-    console.log('hola')
-    createRole(values);
+
+const selectedPermissions = ref<number[]>([]);  // Aquí está la definición de ref
+
+// Manejo de formulario
+const onSubmit = handleSubmit(async (values) => {
+    // Llamada al composable para crear el rol
+    await createRole({
+        name: values.name,
+        permisos: selectedPermissions.value, // Aquí pasamos los permisos seleccionados (IDs)
+    });
+    console.log('Rol creado con permisos:', selectedPermissions.value);
 });
+
+const props = defineProps<{
+    permisos: {
+        id: number;
+        name: string;
+    }[]; // Definir los permisos como un array de objetos con id y name
+}>();
+// Al cargar el componente, seleccionamos todos los permisos por defecto
+onMounted(() => {
+    selectedPermissions.value = props.permisos.map(permiso => permiso.id);
+});
+
+// Reset selectedPermissions when clicking "Borrar"
+const resetPermissions = () => {
+    selectedPermissions.value = [];
+};
+
+console.log(props.permisos);
+
+
 </script>
+
 <style scoped></style>

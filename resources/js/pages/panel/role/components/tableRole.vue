@@ -9,6 +9,7 @@
                             <TableRow>
                                 <TableHead class="table-head-id">ID</TableHead>
                                 <TableHead class="table-head">Nombre</TableHead>
+                                <TableHead class="table-head">Permisos</TableHead>
                                 <TableHead class="table-head">Fecha de creación</TableHead>
                                 <TableHead class="table-head">Fecha de modificación</TableHead>
                                 <TableHead class="table-head-actions">Acciones</TableHead>
@@ -18,6 +19,12 @@
                             <TableRow v-for="role in roleList" :key="role.id" class="table-row">
                                 <td class="cell-id">{{ role.id }}</td>
                                 <td class="cell-data">{{ role.name }}</td>
+                                <select
+                                    class="form-select block w-full mt-2 py-1 px-3 border border-gray-300 dark:text-black rounded-md shadow-sm focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-50">
+                                        <option v-for="permiso in role.permisos" :key="permiso.id">
+                                            {{ permiso.name }}
+                                        </option>
+                                 </select>
                                 <td class="cell-data">{{ role.created_at }}</td>
                                 <td class="cell-data">{{ role.updated_at }}</td>
                                 <td class="cell-actions">
@@ -107,4 +114,26 @@ const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
 </script>
-<style scoped lang="css"></style>
+
+<style scoped lang="css">
+.table-row .cell-id,
+.table-row .cell-data {
+    padding-right: 10px; /* Reduce el espaciado en las celdas de la tabla */
+}
+
+.form-select {
+    max-width: 150px; /* Limita aún más el ancho del select */
+    width: auto; /* Ajusta al contenido */
+    white-space: nowrap; /* Evita el ajuste de texto y asegura que no se expanda más allá */
+}
+
+.table-header-row .table-head,
+.table-row .cell-data {
+    padding: 10px 15px; /* Ajusta el padding en las celdas de la tabla */
+}
+
+.table-container {
+    padding-right: 0; /* Elimina el margen extra en la tabla */
+}
+
+</style>

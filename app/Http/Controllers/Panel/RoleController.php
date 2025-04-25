@@ -10,6 +10,7 @@ use App\Models\Role;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -63,7 +64,10 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return Inertia::render('panel/role/components/formRole');
+        $permissions = Permission::all();
+        return Inertia::render('panel/role/components/formRole', [
+            'permisos' => $permissions,  // Pasando los permisos a la vista
+        ]);
     }
 
     /**
@@ -77,7 +81,12 @@ class RoleController extends Controller
         if (!isset($validated['guard_name'])) {
             $validated['guard_name'] = 'web'; // Asigna un valor predeterminado si no se pasa
         }
+            // Crear el rol
         $role = Role::create($validated);
+
+        // Sincronizar permisos seleccionados con el rol
+        $role->permisos()->sync($request->permisos);  // Aquí estamos sincronizando los permisos seleccionados
+
         return redirect()->route('panel.roles.index')->with('message', 'Rol creado correctamente');   
     }
 
@@ -102,6 +111,7 @@ class RoleController extends Controller
         Gate::authorize('update', $role);
         $validated = $request->validated();
         $role->update($validated);
+        //$role->permisos()->sync($request->permisos);
         return response()->json([
             'status' => true,
             'message' => 'Rol actualizado correctamente',
@@ -121,5 +131,5 @@ class RoleController extends Controller
             'message' => 'Rol eliminado correctamente',
         ]);
     }
-    
+
 }
