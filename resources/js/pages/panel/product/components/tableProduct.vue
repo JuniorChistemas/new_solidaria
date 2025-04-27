@@ -3,9 +3,8 @@
         <LoadingTable v-if="loading" :headers="6" :row-count="10" />
         <div v-else class="table-content">
             <div class="table-container">
-            <div class="table-responsive">
-                <Table>
-                    <TableHeader>
+                <Table class="table-responsive">
+                    <TableHeader class="table-header-row">
                         <TableRow class="table-header-row">
                             <TableHead class="table-head-id">ID</TableHead>
                             <TableHead class="table-head">NOMBRE</TableHead>
@@ -32,77 +31,53 @@
                             <td class="cell-data">{{ product.laboratory }}</td>
                             <td class="cell-data">{{ product.category }}</td>
                             <td class="cell-status">
-                                <span
-                                    v-if="product.state_fraction === true"
-                                    class="status-badge status-active"
-                                >
+                                <span v-if="product.state_fraction === true" class="status-badge status-active">
                                     <span class="status-indicator status-indicator-active"></span>
                                     Fraccionable
                                 </span>
-                                <span
-                                    v-else
-                                    class="status-badge status-inactive"
-                                >
+                                <span v-else class="status-badge status-inactive">
                                     <span class="status-indicator status-indicator-inactive"></span>
                                     No fraccionable
                                 </span>
                             </td>
                             <td class="cell-status">
-                                <span
-                                    v-if="product.state_igv === true"
-                                    class="status-badge status-active"
-                                >
+                                <span v-if="product.state_igv === true" class="status-badge status-active">
                                     <span class="status-indicator status-indicator-active"></span>
                                     Afectado
                                 </span>
-                                <span
-                                    v-else
-                                    class="status-badge status-inactive"
-                                >
+                                <span v-else class="status-badge status-inactive">
                                     <span class="status-indicator status-indicator-inactive"></span>
                                     Inafectado
                                 </span>
                             </td>
                             <td class="cell-status">
-                                <span
-                                    v-if="product.state === true"
-                                    class="status-badge status-active"
-                                >
+                                <span v-if="product.state === true" class="status-badge status-active">
                                     <span class="status-indicator status-indicator-active"></span>
                                     Activo
                                 </span>
-                                <span
-                                    v-else
-                                    class="status-badge status-inactive"
-                                >
+                                <span v-else class="status-badge status-inactive">
                                     <span class="status-indicator status-indicator-inactive"></span>
                                     Inactivo
                                 </span>
                             </td>
                             <td class="cell-actions">
-                  <div class="actions-container">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      class="action-button"
-                      @click="openModal(product.id)"
-                      title="Editar producto"
-                    >
-                      <UserPen class="action-icon" />
-                      <span class="sr-only">Editar producto</span>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      class="action-button"
-                      @click="openModalDelete(product.id)"
-                      title="Eliminar producto"
-                    >
-                      <Trash class="action-icon" />
-                      <span class="sr-only">Eliminar producto</span>
-                    </Button>
-                  </div>
-                </td>
+                                <div class="actions-container">
+                                    <Button variant="ghost" size="sm" class="action-button" @click="openModal(product.id)" title="Editar producto">
+                                        <UserPen class="action-icon" />
+                                        <span class="sr-only">Editar producto</span>
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        class="action-button"
+                                        @click="openModalDelete(product.id)"
+                                        title="Eliminar producto"
+                                    >
+                                        <Trash class="action-icon" />
+                                        <span class="sr-only">Eliminar producto</span>
+                                    </Button>
+                                </div>
+                            </td>
                         </TableRow>
                     </TableBody>
                 </Table>
@@ -111,7 +86,6 @@
             <PaginationProduct :meta="productPaginate" @page-change="$emit('page-change', $event)" class="mt-6" />
         </div>
     </div>
-</div>
 </template>
 
 <script setup lang="ts">
@@ -124,8 +98,8 @@ import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { Trash, UserPen } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
-import { ProductResource } from '../interface/Product';
 import PaginationProduct from '../../../../components/pagination.vue';
+import { ProductResource } from '../interface/Product';
 
 const { toast } = useToast();
 const emit = defineEmits<{
@@ -160,35 +134,4 @@ const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
 </script>
-<style scoped>
-/* Mejoras específicas para modo oscuro */
-.dark .TableHeader {
-    background-color: rgba(31, 41, 55, 0.5);
-    border-bottom-color: rgba(55, 65, 81, 0.5);
-}
-
-/* Transiciones mejoradas */
-.TableRow {
-    transition:
-        background-color 0.15s ease,
-        transform 0.1s ease;
-}
-
-.TableRow:hover {
-    transform: translateY(-1px);
-}
-
-/* Estilo para la tabla vacía */
-.TableBody:empty::after {
-    content: 'No se encontraron productos';
-    display: block;
-    text-align: center;
-    padding: 2rem;
-    color: #6b7280;
-}
-
-.dark .TableBody:empty::after {
-    color: #9ca3af;
-}
-</style>
 <style scoped lang="css"></style>
