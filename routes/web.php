@@ -76,17 +76,36 @@ Route::middleware(['auth', 'verified'])->group(function () {
         # list roles
         Route::get('listar-roles',[RoleController::class,'listarRoles'])->name('roles.listar');
 
-                # Route group for inputs, selects and autocomplete
-                Route::prefix('inputs')->name('inputs.')->group(function(){
-                    # get laboratory list
-                    Route::get('laboratory_list',[SelectController::class,'getLaboratoryList'])->name('laboratory_list');
-                    Route::get('category_list',[SelectController::class,'getCategoryList'])->name('category_list');
+            # Route group for inputs, selects and autocomplete
+            Route::prefix('inputs')->name('inputs.')->group(function(){
 
-                    Route::get('suppliers', [SelectController::class, 'getSuppliers'])->name('suppliers_list');
-                    Route::get('users', [SelectController::class, 'getUsers'])->name('users_list');
-                    Route::get('movement-types', [SelectController::class, 'getMovementTypes'])->name('movement-types_list');
-                    
-                });
+                # get laboratory list
+                Route::get('laboratory_list',[SelectController::class,'getLaboratoryList'])->name('laboratory_list');
+                # get category list
+                Route::get('category_list',[SelectController::class,'getCategoryList'])->name('category_list');
+                # get supplier list
+                Route::get('suppliers', [SelectController::class, 'getSuppliers'])->name('suppliers_list');
+                # get user list
+                Route::get('users', [SelectController::class, 'getUsers'])->name('users_list');
+                #get movements list
+                Route::get('movement-types', [SelectController::class, 'getMovementTypes'])->name('movement-types_list');
+    
+            });
+
+            # Route group for reports
+            Route::prefix('reports')->name('reports.')->group(function () {
+
+                # Exports to Excel
+                Route::get('/export-excel-laboratories', [LaboratoryController::class, 'exportExcel'])->name('laboratories.excel');
+                Route::get('/export-excel-categories', [CategoryController::class, 'exportExcel'])->name('categories.excel');
+                Route::get('/export-excel-products', [ProductController::class, 'exportExcel'])->name('products.excel');
+
+                # Excel imports
+                Route::post('/import-excel-laboratories', [LaboratoryController::class, 'importExcel'])->name('reports.laboratories.import');
+                Route::post('/import-excel-categories', [CategoryController::class, 'importExcel'])->name('reports.categories.import');
+                Route::post('/import-excel-products', [ProductController::class, 'importExcel'])->name('reports.products.import');
+                # Exports to PDF
+            });
     });
 });
 

@@ -3,7 +3,10 @@
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full w-full flex-1 flex-col gap-4 rounded-xl p-2">
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <FilterLaboratory @search="searchLaboratory" />
+                <div class="flex justify-between items-center mb-4 px-6 mt-4">
+                    <ToolsLaboratory @import-success="loadingLaboratories"/>
+                    <FilterLaboratory @search="searchLaboratory" />
+                </div>
                 <TableLaboratory
                     :laboratory-list="principal.laboratoryList"
                     :laboratory-paginate="principal.paginacion"
@@ -42,15 +45,12 @@ import { onMounted } from 'vue';
 import EditLaboratory from './components/editLaboratory.vue';
 import TableLaboratory from './components/tableLaboratory.vue';
 import { LaboratoryUpdateRequest } from './interface/Laboratory';
+import ToolsLaboratory from './components/toolsLaboratory.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Crear laboratorio',
         href: '/panel/laboratories/create',
-    },
-    {
-        title: 'Exportar',
-        href: '/panel/laboratories/export',
     },
     {
         title: 'Laboratorios',
