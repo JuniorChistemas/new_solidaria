@@ -7,9 +7,11 @@ use App\Http\Requests\StoreLocalRequest;
 use App\Http\Requests\UpdateLocalRequest;
 use App\Http\Resources\LocalResource;
 use App\Models\Local;
+use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Pipeline\Pipeline;
 use Inertia\Inertia;
 
 class LocalController extends Controller
@@ -33,10 +35,12 @@ class LocalController extends Controller
 
         try {
             $name = $request->get('name');
-            $locals = Local::when($name, function ($query, $name) {
-                return $query->whereLike('name', "%{$name}%");
-            })->orderBy('id', 'asc')->paginate(12);
-
+            $locals = app(Pipeline::class)
+                ->send(Local::query())
+                ->through([
+                    new FilterByName($name)
+                ])
+                ->thenReturn()->orderBy('id', 'asc')->paginate(12);
             return response()->json([
                 'locals' => LocalResource::collection($locals),
                 'pagination' => [

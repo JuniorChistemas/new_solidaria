@@ -11,7 +11,9 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Imports\ProductImport;
+use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
@@ -32,11 +34,14 @@ class ProductController extends Controller
 
         try {
             $name = $request->get('name');
-            $products = Product::when($name, function ($query, $name) {
-                return $query->whereLike('name', "%$name%");
-            })->orderBy('id','asc')->paginate(10);
+            $products = app(Pipeline::class)
+                ->send(Product::query())
+                ->through([
+                    new FilterByName($name)
+                ])
+                ->thenReturn()->orderBY('id', 'asc')->paginate(10);
             return response()->json([
-                'products'=> ProductResource::collection($products),
+                'products' => ProductResource::collection($products),
                 'pagination' => [
                     'total' => $products->total(),
                     'current_page' => $products->currentPage(),
@@ -56,24 +61,24 @@ class ProductController extends Controller
 
     public function create()
     {
-    $laboratory = Laboratory::select('id', 'name')
-        ->orderBy('id')
-        ->get();
-    $category = Category::select('id', 'name')
-        ->orderBy('id')
-        ->get();
+        $laboratory = Laboratory::select('id', 'name')
+            ->orderBy('id')
+            ->get();
+        $category = Category::select('id', 'name')
+            ->orderBy('id')
+            ->get();
 
-    return Inertia::render('panel/product/components/formProduct', [
-        'categories' => $category, 
-        'laboratories' => $laboratory,
-    ]);
+        return Inertia::render('panel/product/components/formProduct', [
+            'categories' => $category,
+            'laboratories' => $laboratory,
+        ]);
     }
     public function store(StoreProductRequest $request)
     {
         Gate::authorize('create', Product::class);
         $validated = $request->validated();
         $product = Product::create($validated);
-        return redirect()->route('panel.products.index')->with('message', 'Producto creado correctamente');   
+        return redirect()->route('panel.products.index')->with('message', 'Producto creado correctamente');
     }
 
     /**

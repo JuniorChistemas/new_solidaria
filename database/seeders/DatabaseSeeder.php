@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PermissionSeeder::class,
             RoleSeeder::class,
+            LocalSeeder::class,
             UserSeeder::class,
             SupplierSeeder::class,
             CategorySeeder::class,
@@ -24,7 +25,6 @@ class DatabaseSeeder extends Seeder
             ClientTypeSeeder::class,
             ZoneSeeder::class,
             ClientTypeSeeder::class,
-            LocalSeeder::class,
             ProductSeeder::class,
             TypeMovementSeeder::class,
             GuideSeeder::class,

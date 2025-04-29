@@ -5,17 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen,  
-    Folder, 
-    GitPullRequest, 
-    LayoutGrid, 
-    UserCog,   
-    Map,
-    Users,
-    Box,
-    PackageCheck,
-    Truck,
-    Building } from 'lucide-vue-next';
+import { BookOpen, Box, Building, Folder, GitPullRequest, LayoutGrid, Map, PackageCheck, Truck, UserCog, Users } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -24,8 +14,8 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
-    ];
-    const mainNavItems2: NavItem[] = [
+];
+const mainNavItems2: NavItem[] = [
     {
         title: 'Proveedores',
         href: '/panel/suppliers',
@@ -36,64 +26,68 @@ const mainNavItems: NavItem[] = [
         title: 'Doctores',
         href: '/panel/doctors',
         icon: GitPullRequest,
-    },    
+    },
     {
         title: 'Tipos de cliente',
         href: '/panel/clientTypes',
         icon: Users,
     },
-    ];
-    const mainNavItems3: NavItem[] = [  
+];
+const mainNavItems3: NavItem[] = [
     {
         title: 'Productos',
         href: '#',
         icon: Box,
         items: [
-    {
-        title: 'Productos Disponibles',
-        href: '/panel/products',
-    },
-    {
-        title: 'Categorías',
-        href: '/panel/categories',
-    },
-    {
-        title: 'Laboratorios',
-        href: '/panel/laboratories',
-    },
+            {
+                title: 'Productos Disponibles',
+                href: '/panel/products',
+            },
+            {
+                title: 'Categorías',
+                href: '/panel/categories',
+            },
+            {
+                title: 'Laboratorios',
+                href: '/panel/laboratories',
+            },
         ],
-    }, 
+    },
     {
         title: 'Movimientos',
         href: '#',
         icon: Truck,
         items: [
-        {
-        title: 'Movimientos',
-        href: '/panel/movements',
-    },
-    ],
+            {
+                title: 'Movimientos',
+                href: '/panel/movements',
+            },
+        ],
     },
 ];
-  
-const mainNavItems4: NavItem[] = [     
-    {   
+
+const mainNavItems4: NavItem[] = [
+    {
+        title: 'Usuarios',
+        href: '/panel/users',
+        icon: Users,
+    },
+    {
         title: 'Roles',
         href: '/panel/roles',
-        icon: UserCog, 
-    },  
+        icon: UserCog,
+    },
     {
         title: 'Zonas',
         href: '/panel/zones',
-         icon: Map,
+        icon: Map,
     },
     {
         title: 'Locales',
         href: '/panel/locals',
-         icon: Building,
+        icon: Building,
     },
 ];
-
 
 const footerNavItems: NavItem[] = [
     {
@@ -124,12 +118,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain 
-            :items="mainNavItems" 
-            :items2="mainNavItems2" 
-            :items3="mainNavItems3" 
-            :items4="mainNavItems4" 
-            />
+            <NavMain :items="mainNavItems" :items2="mainNavItems2" :items3="mainNavItems3" :items4="mainNavItems4" />
         </SidebarContent>
 
         <SidebarFooter>

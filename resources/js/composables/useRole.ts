@@ -1,9 +1,8 @@
-
 import { Pagination } from '@/interface/paginacion';
-import { RoleRequest, RoleResource, RoleUpdateRequest } from '@/pages/panel/role/interface/Role';
+import { getRoleList, RoleResource, RoleUpdateRequest } from '@/pages/panel/role/interface/Role';
 import { RoleServices } from '@/services/roleServices';
 import { showSuccessMessage } from '@/utils/message';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export const useRole = () => {
     const principal = reactive<{
@@ -41,15 +40,17 @@ export const useRole = () => {
             updated_at: '',
         },
     });
-        //reset role data
-        const resetroleData = () => {
-            principal.roleData = {
-                id: 0,
-                name: '',
-                created_at: '',
-                updated_at: '',
-            };
+    //reset role data
+    const resetroleData = () => {
+        principal.roleData = {
+            id: 0,
+            name: '',
+            created_at: '',
+            updated_at: '',
         };
+    };
+
+    const roles = ref<getRoleList[]>([]);
 
     // loading roles
     const loadingRoles = async (page: number = 1, name: string = '') => {
@@ -65,26 +66,26 @@ export const useRole = () => {
             principal.loading = false;
         }
     };
-            // creating roles
-            const createRole = async (data: { name: string; permisos: number[] }) => {
-                try {
-                    await RoleServices.store(data);  // Aquí estamos enviando el rol con sus permisos
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-        // get role by id
-        const getRoleById = async (id: number) => {
-            try {
-                if (id === 0) {
-                    principal.roleData = {
-                        id: 0,
-                        name: '',
-                        created_at: '',
-                        updated_at: '',
-                    };
-                    return;
-                }
+    // creating roles
+    const createRole = async (data: { name: string; permisos: number[] }) => {
+        try {
+            await RoleServices.store(data); // Aquí estamos enviando el rol con sus permisos
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    // get role by id
+    const getRoleById = async (id: number) => {
+        try {
+            if (id === 0) {
+                principal.roleData = {
+                    id: 0,
+                    name: '',
+                    created_at: '',
+                    updated_at: '',
+                };
+                return;
+            }
             const response = await RoleServices.show(id);
             if (response.status) {
                 principal.roleData = response.role;
@@ -125,13 +126,24 @@ export const useRole = () => {
             principal.statusModal.delete = false;
         }
     };
+    // GET ROLES
+    const getRoles = async () => {
+        try {
+            const response = await RoleServices.getRoles();
+            roles.value = response;
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return {
         principal,
+        roles,
         loadingRoles,
         createRole,
         getRoleById,
         resetroleData,
         updateRole,
         deleteRole,
+        getRoles,
     };
 };

@@ -7,7 +7,9 @@ use App\Http\Requests\StoreZoneRequest;
 use App\Http\Requests\UpdateZoneRequest;
 use App\Http\Resources\ZoneResource;
 use App\Models\Zone;
+use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -31,11 +33,17 @@ class ZoneController extends Controller
 
         try {
             $name = $request->get('name');
-            $zones = Zone::when($name, function ($query, $name) {
-                return $query->whereLike('name', "%$name%");
-            })->orderBy('id','asc')->paginate(12);
+            // $zones = Zone::when($name, function ($query, $name) {
+            //     return $query->whereLike('name', "%$name%");
+            // })->orderBy('id','asc')->paginate(12);
+            $zones = app(Pipeline::class)
+                ->send(Zone::query())
+                ->through([
+                    new FilterByName($name)
+                ])
+                ->thenReturn()->orderBY('id', 'asc')->paginate(10);
             return response()->json([
-                'zones'=> ZoneResource::collection($zones),
+                'zones' => ZoneResource::collection($zones),
                 'pagination' => [
                     'total' => $zones->total(),
                     'current_page' => $zones->currentPage(),
@@ -71,7 +79,7 @@ class ZoneController extends Controller
         $validated = $request->safe()->except(['status']);
         $zone = Zone::create(Arr::except($validated, ['status']));
         // // $validated['status'] = $validated['status'] === 'activo' ? true : false;
-        return redirect()->route('panel.zones.index')->with('message', 'Zona creada correctamente');   
+        return redirect()->route('panel.zones.index')->with('message', 'Zona creada correctamente');
     }
 
     /**
@@ -115,6 +123,4 @@ class ZoneController extends Controller
             'message' => 'Zona eliminada correctamente',
         ]);
     }
-
-    
 }
