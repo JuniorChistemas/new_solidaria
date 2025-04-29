@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product_locals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_id')->constrained('products','id');
-            $table->foreignId('local_id')->constrained('categories','id');
+            $table->foreignId('local_id')->constrained('locals','id');
             $table->double('StockFraction', 8, 2)->default(0.00);
             $table->double('StockBox', 8, 2);
             $table->smallInteger('stock_min')->default(0);

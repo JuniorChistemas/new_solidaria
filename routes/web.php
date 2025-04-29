@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientTypeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\Panel\CategoryController;
 use App\Http\Controllers\Panel\ZoneController;
 use App\Http\Controllers\Panel\DoctorController;
@@ -70,6 +71,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('movements', MovementController::class); 
         # list Movements
         Route::get('listar-movements',[MovementController::class,'listMovements'])->name('movements.listar');
+        # module Inventory
+        Route::resource('inventory', InventoryController::class);
+        # list Inventory
+        Route::get('listar-inventory',[InventoryController::class,'listInventory'])->name('inventory.listar');
+
       
       
                 # Route group for inputs, selects and autocomplete

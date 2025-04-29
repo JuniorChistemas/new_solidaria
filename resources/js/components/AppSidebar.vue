@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Car, FlaskConical, Folder, GitPullRequest, LayoutGrid, List } from 'lucide-vue-next';
+import { BookOpen, Car, FlaskConical, Folder, GitPullRequest, LayoutGrid, List , BookText , ArrowLeftRight} from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -52,9 +52,13 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Movimientos',
         href: '/panel/movements',
-        icon: Car,
+        icon: ArrowLeftRight,
     },
-
+    {
+        title: 'Inventario',
+        href: '/panel/inventory',
+        icon: BookText,
+    },
 ];
 
 const footerNavItems: NavItem[] = [
