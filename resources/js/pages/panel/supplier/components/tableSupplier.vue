@@ -3,64 +3,56 @@
         <LoadingTable v-if="loading" :headers="7" :row-count="12" />
         <div v-else class="table-content">
             <div class="table-container">
-                <div class="table-responsive">
-                    <Table>
-                        <TableHeader>
-                            <TableRow class="table-header-row">
-                                <TableHead class="table-head-id">ID</TableHead>
-                                <TableHead class="table-head">Nombre</TableHead>
-                                <TableHead class="table-head">Ruc</TableHead>
-                                <TableHead class="table-head">Teléfono</TableHead>
-                                <TableHead class="table-head">Dirección</TableHead>
-                                <TableHead class="table-head-status">Estado</TableHead>
-                                <TableHead class="table-head-actions">Acciones</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody class="table-body">
-                            <TableRow v-for="supplier in supplierList" :key="supplier.id" class="table-row">
-                                <td class="cell-id">{{ supplier.id }}</td>
-                                <td class="cell-data">{{ supplier.name }}</td>
-                                <td class="cell-data">{{ supplier.ruc }}</td>
-                                <td class="cell-data">{{ supplier.phone }}</td>
-                                <td class="cell-data">{{ supplier.address }}</td>
-                                <td class="cell-status">
-                                    <span v-if="supplier.state === true" class="status-badge status-active">
-                                        <span class="status-indicator status-indicator-active"></span>
-                                        Activo
-                                    </span>
-                                    <span v-else class="status-badge status-inactive">
-                                        <span class="status-indicator status-indicator-inactive"></span>
-                                        Inactivo
-                                    </span>
-                                </td>
-                                <td class="cell-actions">
-                                    <div class="actions-container">
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            class="action-button"
-                                            @click="openModal(supplier.id)"
-                                            title="Editar proveedor"
-                                        >
-                                            <UserPen class="action-icon" />
-                                            <span class="sr-only">Editar proveedor</span>
-                                        </Button>
-                                        <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            class="action-button"
-                                            @click="openModalDelete(supplier.id)"
-                                            title="Eliminar proveedor"
-                                        >
-                                            <Trash class="action-icon" />
-                                            <span class="sr-only">Eliminar proveedor</span>
-                                        </Button>
-                                    </div>
-                                </td>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </div>
+                <Table class="table-responsive">
+                    <TableHeader class="table-header-row">
+                        <TableRow>
+                            <TableHead class="table-head-id">ID</TableHead>
+                            <TableHead class="table-head">Nombre</TableHead>
+                            <TableHead class="table-head">Ruc</TableHead>
+                            <TableHead class="table-head">Teléfono</TableHead>
+                            <TableHead class="table-head">Dirección</TableHead>
+                            <TableHead class="table-head-status">Estado</TableHead>
+                            <TableHead class="table-head-actions">Acciones</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody class="table-body">
+                        <TableRow v-for="supplier in supplierList" :key="supplier.id" class="table-row">
+                            <td class="cell-id">{{ supplier.id }}</td>
+                            <td class="cell-data">{{ supplier.name }}</td>
+                            <td class="cell-data">{{ supplier.ruc }}</td>
+                            <td class="cell-data">{{ supplier.phone }}</td>
+                            <td class="cell-data">{{ supplier.address }}</td>
+                            <td class="cell-status">
+                                <span v-if="supplier.state === true" class="status-badge status-active">
+                                    <span class="status-indicator status-indicator-active"></span>
+                                    Activo
+                                </span>
+                                <span v-else class="status-badge status-inactive">
+                                    <span class="status-indicator status-indicator-inactive"></span>
+                                    Inactivo
+                                </span>
+                            </td>
+                            <td class="cell-actions">
+                                <div class="actions-container">
+                                    <Button variant="ghost" size="sm" class="action-button" @click="openModal(supplier.id)" title="Editar proveedor">
+                                        <UserPen class="action-icon" />
+                                        <span class="sr-only">Editar proveedor</span>
+                                    </Button>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        class="action-button"
+                                        @click="openModalDelete(supplier.id)"
+                                        title="Eliminar proveedor"
+                                    >
+                                        <Trash class="action-icon" />
+                                        <span class="sr-only">Eliminar proveedor</span>
+                                    </Button>
+                                </div>
+                            </td>
+                        </TableRow>
+                    </TableBody>
+                </Table>
             </div>
 
             <div class="pagination-container">
@@ -123,4 +115,3 @@ const openModalDelete = (id: number) => {
 };
 </script>
 <style scoped lang="css"></style>
-

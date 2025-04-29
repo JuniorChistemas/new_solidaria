@@ -3,11 +3,13 @@ import { Pagination } from "@/interface/paginacion";
 export type RoleResource = {
   id: number;
   name: string;
+  permisos: RoleRequest[];
   created_at: string;
   updated_at: string;
 };
 
 export type RoleRequest = {
+    id: number;
     name: string;
 };
 
@@ -23,10 +25,13 @@ export type RoleDeleteResponse = {
 };
 
 export type RoleUpdateRequest = {
-    name: string;
+  id: number;
+  name: string;
+  //permisos: number[]; // Asegúrate de que permisos sea un array de números
 };
 
 export type RoleResponse = {
   roles: RoleResource[];
+  permisos: RoleRequest[];
   pagination: Pagination;
 };

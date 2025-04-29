@@ -3,9 +3,8 @@
         <LoadingTable v-if="loading" :headers="7" :row-count="12" />
         <div v-else class="table-content">
             <div class="table-container">
-            <div class="table-responsive">
-                <Table>
-                    <TableHeader>
+                <Table class="table-responsive">
+                    <TableHeader class="table-header-row">
                         <TableRow>
                             <TableHead class="table-head-id">ID</TableHead>
                             <TableHead class="table-head">Nombre</TableHead>
@@ -15,8 +14,8 @@
                             <TableHead class="table-head-actions">acciones</TableHead>
                         </TableRow>
                     </TableHeader>
-                    <TableBody>
-                        <TableRow v-for="doctor in doctorList" :key="doctor.id"class="table-row">
+                    <TableBody class="table-body">
+                        <TableRow v-for="doctor in doctorList" :key="doctor.id" class="table-row">
                             <td class="cell-id">{{ doctor.id }}</td>
                             <td class="cell-data">{{ doctor.name }}</td>
                             <td class="cell-data">{{ doctor.code }}</td>
@@ -59,17 +58,16 @@
                     </TableBody>
                 </Table>
             </div>
-        </div>
-        <div class="pagination-container">
-            <div class="pagination-summary">
-                Mostrando <span class="pagination-emphasis">{{ doctorPaginate.from || 0 }}</span> a
-                <span class="pagination-emphasis">{{ doctorPaginate.to || 0 }}</span> de
-                <span class="pagination-emphasis">{{ doctorPaginate.total }}</span> proveedores
+            <div class="pagination-container">
+                <div class="pagination-summary">
+                    Mostrando <span class="pagination-emphasis">{{ doctorPaginate.from || 0 }}</span> a
+                    <span class="pagination-emphasis">{{ doctorPaginate.to || 0 }}</span> de
+                    <span class="pagination-emphasis">{{ doctorPaginate.total }}</span> proveedores
+                </div>
+                <PaginationDoctors :meta="doctorPaginate" @page-change="$emit('page-change', $event)" />
             </div>
-            <PaginationDoctors :meta="doctorPaginate" @page-change="$emit('page-change', $event)" />
         </div>
     </div>
-</div>
 </template>
 <script setup lang="ts">
 import LoadingTable from '@/components/loadingTable.vue';
@@ -102,7 +100,7 @@ onMounted(() => {
     }
 });
 
-const { doctorList, doctorPaginate} = defineProps<{
+const { doctorList, doctorPaginate } = defineProps<{
     doctorList: DoctorResource[];
     doctorPaginate: Pagination;
     loading: boolean;

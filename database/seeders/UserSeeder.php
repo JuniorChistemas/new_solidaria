@@ -40,7 +40,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'status' => 1,
         ]);
-        $vendedor_1->assignRole($vendedorRole);
+        $vendedor_1->assignRole($adminRole);
 
         $almacen_1 = User::create([
             'name' => 'Renato Moran',
@@ -49,7 +49,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'status' => 1,
         ]);
-        $almacen_1->assignRole($almacenRole);
+        $almacen_1->assignRole($adminRole);
 
         $auditor_1 = User::create([
             'name' => 'Jeferson Coveñas',
@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'status' => 1,
         ]);
-        $auditor_1->assignRole($auditorRole);
+        $auditor_1->assignRole($adminRole);
 
         $admin_2 = User::create([
             'name' => 'Pablo Lupu',

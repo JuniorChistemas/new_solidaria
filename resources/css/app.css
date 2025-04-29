@@ -106,69 +106,85 @@ html {
     }
 }
 
+/* Ajuste del filtro para alinearlo con la tabla */
+.filter-container {
+    @apply flex items-center justify-between; /* Alinea el filtro horizontalmente */
+}
+
 /* Estilos generales para contenedores de tabla */
 .container-table {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full p-4 sm:px-6 lg:px-2;
 }
 
-.table-content {
-    @apply space-y-6;
+/* Table wrapper with responsive scroll */
+.table-wrapper {
+    @apply relative overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800;
 }
 
+/* Responsive table container with scroll */
 .table-container {
-    @apply overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:shadow-none;
+    @apply w-full overflow-x-auto;
 }
 
+/* Table styles with min-width to ensure horizontal scroll when needed */
 .table-responsive {
-    @apply overflow-x-auto;
+    @apply min-w-full divide-y divide-gray-200 dark:divide-gray-700;
+
+    /* Prevent double border on mobile */
+    border-collapse: collapse;
+    width: 100%;
 }
 
-/* Estilos de cabecera de tabla */
+/* Table header sticky on vertical scroll (if needed) */
 .table-header-row {
-    @apply bg-gray-50 dark:bg-gray-800/60;
+    @apply sticky top-0 bg-gray-50 dark:bg-gray-800/60;
 }
 
+/* Table head cells */
 .table-head {
-    @apply py-3 font-medium text-gray-700 dark:text-gray-300;
+    @apply px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300;
 }
 
 .table-head-id {
-    @apply w-16 py-3 text-center font-medium text-gray-700 dark:text-gray-300;
+    @apply px-4 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300;
 }
 
 .table-head-status {
-    @apply w-24 py-3 text-center font-medium text-gray-700 dark:text-gray-300;
+    @apply px-4 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300;
 }
 
 .table-head-actions {
-    @apply w-24 py-3 text-center font-medium text-gray-700 dark:text-gray-300;
+    @apply px-4 py-3 text-center text-xs font-medium uppercase tracking-wider text-gray-700 dark:text-gray-300;
 }
 
-/* Estilos del cuerpo de la tabla */
+/* Table body */
 .table-body {
-    @apply cursor-pointer divide-y divide-gray-200 dark:divide-gray-700;
+    @apply divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800;
 }
 
+/* Table rows */
 .table-row {
     @apply transition-colors hover:bg-gray-50 dark:hover:bg-gray-800/30;
 }
 
-/* Estilos de celdas */
+/* Table cells */
 .cell-id {
-    @apply py-3 text-center font-medium text-gray-600 dark:text-gray-400;
+    @apply whitespace-nowrap px-4 py-3 text-center text-sm font-medium text-gray-600 dark:text-gray-400;
 }
 
 .cell-data {
-    @apply py-3 text-gray-600 dark:text-gray-400;
+    @apply whitespace-nowrap px-4 py-3 text-sm text-gray-600 dark:text-gray-400;
 }
 
 .cell-status {
-    @apply py-3 text-center;
+    @apply whitespace-nowrap px-4 py-3 text-center text-sm;
 }
 
 .cell-actions {
-    @apply py-2;
+    @apply whitespace-nowrap px-4 py-3 text-center text-sm;
 }
+
+/* The rest of your existing styles can remain the same */
 
 /* Estilos de indicadores de estado */
 .status-badge {
