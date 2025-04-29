@@ -1,32 +1,18 @@
 import { Pagination } from "@/interface/paginacion";
 
-/**
- * Estructura de un producto en el inventario
- */
-export type InventoryResource = {
+
+export interface InventoryResource {
     id: number;
     nombre: string;
     composicion: string;
     presentacion: string;
     laboratorio: string;
     categoria: string;
-    cajas: string | number;
-    fracciones: string | number;
-};
+    cajas: number;
+    fracciones: number;
+}
 
-/**
- * Respuesta de la API al solicitar un producto específico
- */
-export type showInventoryResponse = {
-    state: boolean;
-    message: string;
-    product: InventoryResource;
-};
-
-/**
- * Respuesta de la API al listar productos
- */
-export type InventoryResponse = {
+export interface InventoryResponse {
     data: InventoryResource[];
     links: {
         first: string;
@@ -35,4 +21,10 @@ export type InventoryResponse = {
         next: string | null;
     };
     meta: Pagination;
-};
+}
+
+export interface showInventoryResponse {
+    state: boolean;
+    message: string;
+    product: InventoryResource;
+}

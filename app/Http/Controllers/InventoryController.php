@@ -27,16 +27,16 @@ class InventoryController extends Controller
         // Gate::authorize('viewAny', Product::class);
 
         try {
-            $name = $request->query('name');
+            $nombre = $request->query('nombre');
             $perPage = $request->query('per_page', 10);
             $localId = $request->query('localId');
             $laboratorioId = $request->query('laboratorioId');
             $categoriaId = $request->query('categoriaId');
-
+            $estadoStock = $request->query('estadoStock', '3'); // Valor por defecto '3' (todos)
 
             $products = Product::with(['laboratory', 'category', 'product_locals'])
-                ->when($name, function ($query, $name) {
-                    return $query->where('name', 'like', "%$name%");
+                ->when($nombre, function ($query, $nombre) {
+                    return $query->where('name', 'like', "%$nombre%");
                 })
                 ->when($laboratorioId, function ($query, $laboratorioId) {
                     return $query->where('laboratory_id', $laboratorioId);
@@ -47,6 +47,24 @@ class InventoryController extends Controller
                 ->when($localId, function ($query, $localId) {
                     return $query->whereHas('product_locals', function ($q) use ($localId) {
                         $q->where('local_id', $localId);
+                    });
+                })
+                // Filtro por estado de stock (0=sin stock, 1=con stock, 3=todos)
+                ->when($estadoStock != '3', function ($query) use ($estadoStock, $localId) {
+                    return $query->whereHas('product_locals', function ($q) use ($estadoStock, $localId) {
+                        $q->when($localId, function ($subquery) use ($localId) {
+                            return $subquery->where('local_id', $localId);
+                        });
+                        
+                        if ($estadoStock == '1') { // Con stock
+                            $q->where(function ($sq) {
+                                $sq->where('StockBox', '>', 0)
+                                   ->orWhere('StockFraction', '>', 0);
+                            });
+                        } else { // Sin stock (0)
+                            $q->where('StockBox', 0)
+                               ->where('StockFraction', 0);
+                        }
                     });
                 })
                 ->orderBy('id', 'asc')

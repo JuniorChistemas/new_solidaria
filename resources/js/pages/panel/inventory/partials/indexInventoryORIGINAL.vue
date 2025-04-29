@@ -3,7 +3,7 @@
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-2">
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <FilterInventory @search="searchInventory" />
+                <FilterInventory @search="applyFilters" />
                 <TableInventory
                     :product-list="principal.productList"
                     :product-paginate="principal.paginacion"
@@ -16,12 +16,12 @@
 </template>
 
 <script setup lang="ts">
-import FilterInventory from './components/FilterInventory.vue';
+import FilterInventory from '@/components/filter.vue';
 import { useInventory } from '@/composables/useInventory';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import TableInventory from './components/TableInventory.vue';
 import { FilterParams } from '@/services/inventoryService';
 
@@ -32,20 +32,39 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const { principal, loadingProducts, getProductById } = useInventory();
-
-onMounted(() => {
-    loadingProducts();
+// Almacenar los filtros activos
+const activeFilters = ref<FilterParams>({
+    page: 1,
+    per_page: 10,
+    nombre: '',
+    estadoStock: '3',
+    localId: null,
+    laboratorioId: null,
+    categoriaId: null
 });
 
-// Manejo de paginación
+onMounted(() => {
+    // Cargar con los filtros por defecto
+    loadingProducts(1, activeFilters.value);
+});
+
+const { principal, loadingProducts, getProductById } = useInventory();
+
+// Manejar cambio de página
 const handlePageChange = (page: number) => {
-    loadingProducts(page);
+    activeFilters.value.page = page;
+    loadingProducts(page, activeFilters.value);
 };
 
-// Búsqueda con filtros
-const searchInventory = (filters: FilterParams) => {
-    loadingProducts(1, filters);
+// Aplicar filtros
+const applyFilters = (filters: FilterParams) => {
+    activeFilters.value = { ...filters };
+    loadingProducts(1, activeFilters.value);
+};
+
+// Obtener producto por id para edición
+const getIdProduct = (id: number) => {
+    getProductById(id);
 };
 </script>
 

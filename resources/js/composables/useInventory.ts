@@ -1,5 +1,5 @@
 import { reactive } from 'vue';
-import { inventoryService } from '../services/inventoryService';
+import { inventoryService, FilterParams } from '../services/inventoryService';
 import { Pagination } from '@/interface/paginacion';
 import { InventoryResource } from '@/pages/panel/inventory/partials/interface/Inventory';
 
@@ -14,12 +14,22 @@ export function useInventory() {
     /**
      * Carga la lista de productos con paginación y filtros opcionales
      * @param page Número de página
-     * @param name Nombre del producto para filtrar (opcional)
+     * @param filters Parámetros de filtrado
      */
-    const loadingProducts = async (page = 1, name = '') => {
+    const loadingProducts = async (page = 1, filters: Partial<FilterParams> = {}) => {
         try {
             principal.loading = true;
-            const params = { page, name };
+            
+            const params: FilterParams = {
+                page,
+                per_page: 10,
+                nombre: filters.nombre || '',
+                estadoStock: filters.estadoStock || '3',
+                localId: filters.localId || null,
+                laboratorioId: filters.laboratorioId || null,
+                categoriaId: filters.categoriaId || null,
+                ...filters
+            };
             
             const response = await inventoryService.getInventory(params);
             

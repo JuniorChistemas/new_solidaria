@@ -1,5 +1,21 @@
 <template>
     <div class="container-table">
+        <!-- Filtros con comboboxes uno al lado del otro -->
+        <div class="flex flex-wrap gap-4 mb-4">
+            <div class="w-full sm:w-72">
+                <label class="text-sm font-medium mb-1 block">Categoría</label>
+                <CategoryCombobox @select="handleCategorySelect" />
+            </div>
+            <div class="w-full sm:w-72">
+                <label class="text-sm font-medium mb-1 block">Laboratorio</label>
+                <LaboratoryCombobox @select="handleLaboratorySelect" />
+            </div>
+            <div class="w-full sm:w-72">
+                <label class="text-sm font-medium mb-1 block">Local</label>
+                <LocalCombobox @select="handleLocalSelect" />
+            </div>
+        </div>
+
         <LoadingTable v-if="loading" :headers="8" :row-count="12" />
         <div v-else class="table-content">
             <div class="table-container">
@@ -59,6 +75,7 @@
 <script setup lang="ts">
 import LoadingTable from '@/components/loadingTable.vue';
 import PaginationInventory from '@/components/pagination.vue';
+import Button from '@/components/ui/button/Button.vue';
 import { Table, TableBody, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { useToast } from '@/components/ui/toast';
 import { Pagination } from '@/interface/paginacion';
@@ -66,11 +83,19 @@ import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 import { InventoryResource } from '../interface/Inventory';
+import CategoryCombobox from '@/components/Inputs/CategoryCombobox.vue';
+import LaboratoryCombobox from '@/components/Inputs/LaboratoryCombobox.vue';
+import LocalCombobox from '@/components/Inputs/LocalCombobox.vue';
 
 const { toast } = useToast();
 
 const emit = defineEmits<{
     (e: 'page-change', page: number): void;
+    (e: 'open-modal', id_product: number): void;
+    (e: 'open-modal-delete', id_product: number): void;
+    (e: 'filter-category', category_id: number): void;
+    (e: 'filter-laboratory', laboratory_id: number): void;
+    (e: 'filter-local', local_id: number): void;
 }>();
 
 const page = usePage<SharedData>();
@@ -91,32 +116,17 @@ const { productList, productPaginate, loading } = defineProps<{
     productPaginate: Pagination;
     loading: boolean;
 }>();
+
+// Handlers para los comboboxes
+const handleCategorySelect = (category_id: number) => {
+    emit('filter-category', category_id);
+};
+
+const handleLaboratorySelect = (laboratory_id: number) => {
+    emit('filter-laboratory', laboratory_id);
+};
+
+const handleLocalSelect = (local_id: number) => {
+    emit('filter-local', local_id);
+};
 </script>
-
-<style scoped>
-.container-table {
-    padding: 1rem;
-}
-
-.table-content {
-    width: 100%;
-}
-
-.pagination-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    padding: 0.5rem;
-}
-
-.pagination-summary {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-}
-
-.pagination-emphasis {
-    font-weight: 600;
-    color: var(--text-primary);
-}
-</style>
