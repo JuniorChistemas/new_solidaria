@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -42,5 +43,10 @@ class Product extends Model
     public function zones()
     {
         return $this->belongsToMany(Zone::class, 'product_zone');
+    }
+
+      // Añadir la relación faltante product_locals
+    public function product_locals(): HasMany {
+        return $this->hasMany(Product_Local::class, 'product_id', 'id');
     }
 }

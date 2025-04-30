@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Box, Building, Folder, GitPullRequest, LayoutGrid, Map, PackageCheck, Truck, UserCog, Users } from 'lucide-vue-next';
+import { BookOpen, Car, FlaskConical, Folder,LayoutGrid, DoorClosed, BookText, ArrowLeftRight, Package, List, User2, Syringe, Box, Building, GitPullRequest, Map, PackageCheck, Truck, UserCog, Users } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -25,7 +25,7 @@ const mainNavItems2: NavItem[] = [
     {
         title: 'Doctores',
         href: '/panel/doctors',
-        icon: GitPullRequest,
+        icon: Syringe,
     },
     {
         title: 'Tipos de cliente',
@@ -54,13 +54,17 @@ const mainNavItems3: NavItem[] = [
         ],
     },
     {
-        title: 'Movimientos',
+        title: 'Movimientos E inventario',
         href: '#',
         icon: Truck,
         items: [
             {
                 title: 'Movimientos',
                 href: '/panel/movements',
+            },
+            {
+                title: 'Inventario',
+                href: '/panel/inventory',
             },
         ],
     },
