@@ -19,63 +19,89 @@ class InventoryController extends Controller
         return Inertia::render('panel/inventory/partials/indexInventory');
     }
 
-    /**
-     * List products with pagination and optional filters.
-     */
     public function listInventory(Request $request)
     {
         Gate::authorize('viewAny', Product::class);
-
+    
         try {
             $nombre = $request->query('nombre');
             $perPage = $request->query('per_page', 10);
             $localId = $request->query('localId');
             $laboratorioId = $request->query('laboratorioId');
             $categoriaId = $request->query('categoriaId');
-            $estadoStock = $request->query('estadoStock', '3'); // Valor por defecto '3' (todos)
-
-            $products = Product::with(['laboratory', 'category', 'product_locals'])
-                ->when($nombre, function ($query, $nombre) {
-                    return $query->where('name', 'like', "%$nombre%");
-                })
-                ->when($laboratorioId, function ($query, $laboratorioId) {
-                    return $query->where('laboratory_id', $laboratorioId);
-                })
-                ->when($categoriaId, function ($query, $categoriaId) {
-                    return $query->where('category_id', $categoriaId);
-                })
-                ->when($localId, function ($query, $localId) {
-                    return $query->whereHas('product_locals', function ($q) use ($localId) {
+            $estadoStock = $request->query('estadoStock', '3');
+    
+   
+            $query = Product::with(['laboratory', 'category', 'product_locals' => function ($q) use ($localId, $estadoStock) {
+                if ($localId) {
+                    $q->where('local_id', $localId);
+                }
+                if ($estadoStock == '0') {
+                    $q->where('StockBox', 0)->where('StockFraction', 0);
+                } elseif ($estadoStock == '1') {
+                    $q->where(function ($subquery) {
+                        $subquery->where('StockBox', '>', 0)
+                                 ->orWhere('StockFraction', '>', 0);
+                    });
+                }
+            }]);
+    
+            if ($nombre) {
+                $query->where('name', 'like', "%$nombre%");
+            }
+    
+            if ($laboratorioId) {
+                $query->where('laboratory_id', $laboratorioId);
+            }
+    
+            if ($categoriaId) {
+                $query->where('category_id', $categoriaId);
+            }
+    
+            if ($localId) {
+                $query->whereHas('product_locals', function ($q) use ($localId) {
+                    $q->where('local_id', $localId);
+                });
+            }
+    
+            if ($estadoStock != '3') {
+                $query->whereHas('product_locals', function ($q) use ($estadoStock, $localId) {
+                    if ($localId) {
                         $q->where('local_id', $localId);
-                    });
-                })
-                // Filtro por estado de stock (0=sin stock, 1=con stock, 3=todos)
-                ->when($estadoStock != '3', function ($query) use ($estadoStock, $localId) {
-                    return $query->whereHas('product_locals', function ($q) use ($estadoStock, $localId) {
-                        $q->when($localId, function ($subquery) use ($localId) {
-                            return $subquery->where('local_id', $localId);
+                    }
+                    if ($estadoStock == '1') {
+                        $q->where(function ($subquery) {
+                            $subquery->where('StockBox', '>', 0)
+                                     ->orWhere('StockFraction', '>', 0);
                         });
-                        
-                        if ($estadoStock == '1') { // Con stock
-                            $q->where(function ($sq) {
-                                $sq->where('StockBox', '>', 0)
-                                   ->orWhere('StockFraction', '>', 0);
-                            });
-                        } else { // Sin stock (0)
-                            $q->where('StockBox', 0)
-                               ->where('StockFraction', 0);
-                        }
-                    });
-                })
-                ->orderBy('id', 'asc')
-                ->paginate($perPage);
-
-            $formattedProducts = $products->map(function ($product) use ($localId) {
-          
-                $productLocal = $localId
-                    ? $product->product_locals->where('local_id', $localId)->first()
-                    : $product->product_locals->first();
-
+                    } elseif ($estadoStock == '0') {
+                        $q->where('StockBox', 0)
+                          ->where('StockFraction', 0);
+                    }
+                });
+            }
+    
+            $products = $query->orderBy('id', 'asc')->paginate($perPage);
+    
+            $formattedProducts = $products->map(function ($product) use ($localId, $estadoStock) {
+               
+                $productLocal = null;
+                if ($localId) {
+                    $productLocal = $product->product_locals
+                        ->where('local_id', $localId)
+                        ->when($estadoStock == '0', function ($collection) {
+                            return $collection->where('StockBox', 0)->where('StockFraction', 0);
+                        })
+                        ->first();
+                } else {
+                   
+                    $productLocal = $product->product_locals
+                        ->when($estadoStock == '0', function ($collection) {
+                            return $collection->where('StockBox', 0)->where('StockFraction', 0);
+                        })
+                        ->first();
+                }
+    
                 return [
                     'id' => $product->id,
                     'nombre' => $product->name,
@@ -83,11 +109,11 @@ class InventoryController extends Controller
                     'presentacion' => $product->presentation,
                     'laboratorio' => $product->laboratory ? $product->laboratory->name : null,
                     'categoria' => $product->category ? $product->category->name : null,
-                    'cajas' => $productLocal ? ($productLocal->StockBox ?? 0) : 0,
-                    'fracciones' => $productLocal ? ($productLocal->StockFraction ?? 0) : 0,
+                    'cajas' => $productLocal ? $productLocal->StockBox : 0,
+                    'fracciones' => $productLocal ? $productLocal->StockFraction : 0,
                 ];
             });
-
+    
             return response()->json([
                 'data' => $formattedProducts,
                 'links' => [
@@ -132,8 +158,8 @@ class InventoryController extends Controller
             'presentacion' => $product->presentation,
             'laboratorio' => $product->laboratory ? $product->laboratory->name : null,
             'categoria' => $product->category ? $product->category->name : null,
-            'cajas' => $product->product_locals->first() ? ($product->product_locals->first()->StockBox ?? 0) : 0,
-            'fracciones' => $product->product_locals->first() ? ($product->product_locals->first()->StockFraction ?? 0) : 0,
+            'cajas' => $product->product_locals->first() ? $product->product_locals->first()->StockBox : 0,
+            'fracciones' => $product->product_locals->first() ? $product->product_locals->first()->StockFraction : 0,
         ];
 
         return response()->json([

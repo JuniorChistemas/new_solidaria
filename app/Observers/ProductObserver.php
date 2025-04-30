@@ -13,29 +13,59 @@ use Illuminate\Support\Facades\Log;
 
 class ProductObserver
 {
-    /**
+    // /**
+    //  * Handle the Product "created" event.
+    //  */
+    // public function created(Product $product): void
+    // {
+    //     $numberZone = Zone::count();
+    //     for ($i = 1; $i <= $numberZone; $i++) {
+    //        Product_Zone::create([
+    //         'product_id' => $product->id,
+    //         'zone_id' => $i,
+    //         'purchase_price' => 0,
+    //         'percentage' => 0,
+    //         'unit_price' => 0,
+    //         'fraction_price' => 0,
+    //        ]);
+    //     }
+    //     $numberLocals = Local::count();
+    //     for ($i = 1; $i <= $numberLocals; $i++) {
+    //         Product_Local::create([
+    //             'product_id' => $product->id,
+    //             'local_id' => $i,
+    //             'StockFraction' => 0,
+    //             'StockBox' => 0,
+    //             'stock_min' => 3,
+    //             'stock_max' => 5,
+    //         ]);
+    //     }
+    // }
+
+        /**
      * Handle the Product "created" event.
      */
     public function created(Product $product): void
     {
         $numberZone = Zone::count();
         for ($i = 1; $i <= $numberZone; $i++) {
-           Product_Zone::create([
-            'product_id' => $product->id,
-            'zone_id' => $i,
-            'purchase_price' => 0,
-            'percentage' => 0,
-            'unit_price' => 0,
-            'fraction_price' => 0,
-           ]);
+            Product_Zone::create([
+                'product_id' => $product->id,
+                'zone_id' => $i,
+                'purchase_price' => 0,
+                'percentage' => 0,
+                'unit_price' => 0,
+                'fraction_price' => 0,
+            ]);
         }
+
         $numberLocals = Local::count();
         for ($i = 1; $i <= $numberLocals; $i++) {
             Product_Local::create([
                 'product_id' => $product->id,
                 'local_id' => $i,
-                'StockFraction' => 0,
-                'StockBox' => 0,
+                'StockFraction' => rand(0, 100),
+                'StockBox' => rand(0, 100),
                 'stock_min' => 3,
                 'stock_max' => 5,
             ]);
