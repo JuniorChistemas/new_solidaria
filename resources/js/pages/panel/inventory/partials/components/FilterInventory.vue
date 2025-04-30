@@ -8,7 +8,7 @@
           type="text"
           v-model="filters.nombre"
           placeholder="Buscar por nombre..."
-          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
         />
       </div>
 
@@ -71,7 +71,7 @@
     <div class="flex flex-wrap gap-3 container-table mx-auto">
       <button
         @click="applyFilters"
-        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        class="px-4 py-2 bg-green-600 dark:bg-blue-600 text-white rounded-md hover:bg-green-700 dark:hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-green-500 dark:focus:ring-blue-500 focus:ring-offset-2"
       >
         <span class="flex items-center">
           <svg
