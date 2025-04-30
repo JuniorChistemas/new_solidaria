@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('composition', 400)->nullable();
             $table->string('presentation', 100)->nullable();
             $table->string('form_farm', 200)->nullable();
-            $table->string('barcode', 8)->nullable();
+            $table->string('barcode', 13)->nullable();
             $table->foreignId('laboratory_id')->constrained('laboratories','id');
             $table->foreignId('category_id')->constrained('categories','id');
             $table->boolean('state_fraction')->default(true)->comment('true: fraccionable, false: no fraccionable');

@@ -11,21 +11,36 @@ class ProductImport implements ToCollection, WithHeadingRow
 {
     public function collection(Collection $rows)
     {
+        $batch = [];
+
         foreach ($rows as $row) {
             if (filled($row['nombre'])) {
-                Product::create([
+                $batch[] = [
                     'name'            => $row['nombre'],
                     'composition'     => $row['composicion'] ?? null,
                     'presentation'    => $row['presentacion'] ?? null,
                     'form_farm'       => $row['forma_farmaceutica'] ?? null,
-                    'barcode'         => $row['codigo_de_barras'] ?? null,
+                    'barcode'         => $row['codigo_barras'] ?? null,
                     'laboratory_id'   => $row['laboratorio_id'],
                     'category_id'     => $row['categoria_id'],
                     'state_fraction'  => $this->normalizeYesNo($row['fraccionable']),
                     'state_igv'       => $this->normalizeYesNo($row['igv']),
                     'state'           => $this->normalizeActiveInactive($row['estado']),
-                ]);
+                    'created_at'      => now(),
+                    'updated_at'      => now(),
+                ];
+
+                // Cuando el batch llega a 500, lo insertamos y limpiamos
+                if (count($batch) === 500) {
+                    Product::insert($batch);
+                    $batch = [];
+                }
             }
+        }
+
+        // Insertamos el resto (si quedó algo)
+        if (!empty($batch)) {
+            Product::insert($batch);
         }
     }
 
@@ -39,4 +54,5 @@ class ProductImport implements ToCollection, WithHeadingRow
     {
         return strtolower(trim($value ?? '')) === 'activo';
     }
+
 }
