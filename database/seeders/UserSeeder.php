@@ -88,6 +88,7 @@ class UserSeeder extends Seeder
             'name' => 'Gustavo Siancas',
             'email' => 'gustavo@gmail.com',
             'username' => 'gustavo25',
+            'local_id' => 1,
             'password' => Hash::make('12345678'),
             'status' => 1,
         ]);
