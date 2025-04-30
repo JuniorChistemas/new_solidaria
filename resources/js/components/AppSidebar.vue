@@ -5,7 +5,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { BookOpen, Car, FlaskConical, Folder, LayoutGrid, DoorClosed , BookText , ArrowLeftRight , Package, List , User2 , Syringe} from 'lucide-vue-next';
+import { BookOpen, Car, FlaskConical, Folder,LayoutGrid, DoorClosed, BookText, ArrowLeftRight, Package, List, User2, Syringe, Box, Building, GitPullRequest, Map, PackageCheck, Truck, UserCog, Users } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -14,50 +14,82 @@ const mainNavItems: NavItem[] = [
         href: '/dashboard',
         icon: LayoutGrid,
     },
+];
+const mainNavItems2: NavItem[] = [
     {
         title: 'Proveedores',
         href: '/panel/suppliers',
-        icon: Car,
+        icon: PackageCheck,
     },
-    {
-        title: 'Categorías',
-        href: '/panel/categories',
-        icon: List,
-    },
+
     {
         title: 'Doctores',
         href: '/panel/doctors',
         icon: Syringe,
     },
     {
-        title: 'Laboratorios',
-        href: '/panel/laboratories',
-        icon: FlaskConical,
+        title: 'Tipos de cliente',
+        href: '/panel/clientTypes',
+        icon: Users,
+    },
+];
+const mainNavItems3: NavItem[] = [
+    {
+        title: 'Productos',
+        href: '#',
+        icon: Box,
+        items: [
+            {
+                title: 'Productos Disponibles',
+                href: '/panel/products',
+            },
+            {
+                title: 'Categorías',
+                href: '/panel/categories',
+            },
+            {
+                title: 'Laboratorios',
+                href: '/panel/laboratories',
+            },
+        ],
+    },
+    {
+        title: 'Movimientos E inventario',
+        href: '#',
+        icon: Truck,
+        items: [
+            {
+                title: 'Movimientos',
+                href: '/panel/movements',
+            },
+            {
+                title: 'Inventario',
+                href: '/panel/inventory',
+            },
+        ],
+    },
+];
+
+const mainNavItems4: NavItem[] = [
+    {
+        title: 'Usuarios',
+        href: '/panel/users',
+        icon: Users,
+    },
+    {
+        title: 'Roles',
+        href: '/panel/roles',
+        icon: UserCog,
     },
     {
         title: 'Zonas',
         href: '/panel/zones',
-         icon: DoorClosed,
+        icon: Map,
     },
     {
-        title: 'Tipos de cliente',
-        href: '/panel/clientTypes',
-        icon: User2,
-    },
-    {
-        title: 'Productos',
-        href: '/panel/products',
-        icon: Package,
-    }, 
-    {
-        title: 'Movimientos',
-        href: '/panel/movements',
-        icon: ArrowLeftRight,
-    },
-    {
-        title: 'Inventario',
-        href: '/panel/inventory',
-        icon: BookText,
+        title: 'Locales',
+        href: '/panel/locals',
+        icon: Building,
     },
 ];
 
@@ -90,7 +122,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="mainNavItems" :items2="mainNavItems2" :items3="mainNavItems3" :items4="mainNavItems4" />
         </SidebarContent>
 
         <SidebarFooter>

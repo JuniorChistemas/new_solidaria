@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Exports\ProductExport;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
@@ -10,9 +11,12 @@ use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Imports\ProductImport;
+use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -30,11 +34,14 @@ class ProductController extends Controller
 
         try {
             $name = $request->get('name');
-            $products = Product::when($name, function ($query, $name) {
-                return $query->whereLike('name', "%$name%");
-            })->orderBy('id','asc')->paginate(10);
+            $products = app(Pipeline::class)
+                ->send(Product::query())
+                ->through([
+                    new FilterByName($name)
+                ])
+                ->thenReturn()->orderBY('id', 'asc')->paginate(10);
             return response()->json([
-                'products'=> ProductResource::collection($products),
+                'products' => ProductResource::collection($products),
                 'pagination' => [
                     'total' => $products->total(),
                     'current_page' => $products->currentPage(),
@@ -54,24 +61,24 @@ class ProductController extends Controller
 
     public function create()
     {
-    $laboratory = Laboratory::select('id', 'name')
-        ->orderBy('id')
-        ->get();
-    $category = Category::select('id', 'name')
-        ->orderBy('id')
-        ->get();
+        $laboratory = Laboratory::select('id', 'name')
+            ->orderBy('id')
+            ->get();
+        $category = Category::select('id', 'name')
+            ->orderBy('id')
+            ->get();
 
-    return Inertia::render('panel/product/components/formProduct', [
-        'categories' => $category, 
-        'laboratories' => $laboratory,
-    ]);
+        return Inertia::render('panel/product/components/formProduct', [
+            'categories' => $category,
+            'laboratories' => $laboratory,
+        ]);
     }
     public function store(StoreProductRequest $request)
     {
         Gate::authorize('create', Product::class);
         $validated = $request->validated();
         $product = Product::create($validated);
-        return redirect()->route('panel.products.index')->with('message', 'Producto creado correctamente');   
+        return redirect()->route('panel.products.index')->with('message', 'Producto creado correctamente');
     }
 
     /**
@@ -119,6 +126,25 @@ class ProductController extends Controller
         return response()->json([
             'state' => true,
             'message' => 'Producto eliminado de manera correcta',
+        ]);
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new ProductExport, 'products.xlsx');
+    }
+
+    // IMPORTAR EXCEL
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        Excel::import(new ProductImport, $request->file('archivo'));
+        
+        return response()->json([
+            'message' => 'Importación de productos realizado correctamente',
         ]);
     }
 }

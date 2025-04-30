@@ -19,25 +19,24 @@
                             </FormItem>
                         </FormField>
                         <FormField v-slot="{ componentField }" name="status">
-                            <FormItem>
-                                <FormLabel>Estado</FormLabel>
-                                <FormControl>
-                                    <Select v-bind="componentField" class="w-full rounded-md border border-slate-950 p-2">
-                                        <SelectTrigger class="w-full">
-                                            <SelectValue placeholder="Seleccione el estado" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>Estado</SelectLabel>
-                                                <SelectItem value="activo"> Activo </SelectItem>
-                                                <SelectItem value="inactivo"> Inactivo </SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
+                    <FormItem>
+                        <FormLabel>Estado</FormLabel>
+                        <FormControl>
+                            <Select v-bind="componentField" disabled>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Selecciona el estado" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Estado</SelectLabel>
+                                        <SelectItem value="activo">Activo</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
                         <div class="container flex justify-end gap-4">
                             <Button type="submit" variant="default"> Enviar </Button>
                             <Button type="reset" variant="outline"> Borrar </Button>
@@ -103,9 +102,11 @@ const formSchema = toTypedSchema(
 // Form submit
 const { handleSubmit } = useForm({
     validationSchema: formSchema,
+    initialValues: {         
+        status: 'activo',     
+    },
 });
 const onSubmit = handleSubmit((values) => {
-    console.log('hola')
     createCategory(values);
 });
 </script>

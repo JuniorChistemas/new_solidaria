@@ -3,7 +3,10 @@
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-2">
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <FilterCategory @search="searchCategory" />
+                <div class="flex justify-between items-center mb-4 px-6 mt-4">
+                    <ToolsCategory @import-success="loadingCategories"/>
+                    <FilterCategory @search="searchCategory" />
+                </div>
                 <TableCategory
                     :category-list="principal.categoryList"
                     :category-paginate="principal.paginacion"
@@ -41,22 +44,13 @@ import { onMounted } from 'vue';
 import EditCategory from './components/editCategory.vue';
 import TableCategory from './components/tableCategory.vue';
 import { CategoryUpdateRequest } from './interface/Category';
+import ToolsCategory from './components/toolsCategory.vue';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Crear categoría',
         href: '/panel/categories/create',
     },
-    /*{
-        title: 'Exportar a Excel',
-        href: '/panel/reports/export-excel-categories',
-        download: true,
-    },
-    {
-        title: 'Exportar a PDF',
-        href: '/panel/reports/export-pdf-categories',
-        download: true,
-    },*/
     {
         title: 'Categorías',
         href: '/panel/categories',

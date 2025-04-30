@@ -27,25 +27,24 @@
 
                         <!-- Campo para ingresar el estado del laboratorio -->
                         <FormField v-slot="{ componentField }" name="state">
-                            <FormItem>
-                                <FormLabel>Estado</FormLabel>
-                                <FormControl>
-                                    <Select v-bind="componentField" class="w-full rounded-md border border-slate-950 p-2">
-                                        <SelectTrigger class="w-full">
-                                            <SelectValue placeholder="Selecciona el estado" />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                <SelectLabel>Estado</SelectLabel>
-                                                <SelectItem value="activo">Activo</SelectItem>
-                                                <SelectItem value="inactivo">Inactivo</SelectItem>
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        </FormField>
+                    <FormItem>
+                        <FormLabel>Estado</FormLabel>
+                        <FormControl>
+                            <Select v-bind="componentField" disabled>
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Selecciona el estado" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectGroup>
+                                        <SelectLabel>Estado</SelectLabel>
+                                        <SelectItem value="activo">Activo</SelectItem>
+                                    </SelectGroup>
+                                </SelectContent>
+                            </Select>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
 
                         <!-- BOTONES PARA ENVIAR Y BORRAR -->
                         <div class="container flex justify-end gap-4">
@@ -108,6 +107,9 @@ const formSchema = toTypedSchema(
 // Envío del formulario
 const { handleSubmit } = useForm({
     validationSchema: formSchema,
+    initialValues: {         
+        state: 'activo',     
+    },
 });
 
 const onSubmit = handleSubmit((values) => {

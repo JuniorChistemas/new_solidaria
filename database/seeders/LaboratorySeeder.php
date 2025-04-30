@@ -13,6 +13,6 @@ class LaboratorySeeder extends Seeder
      */
     public function run(): void
     {
-        Laboratory::factory()->count(5)->create();
+        Laboratory::factory()->count(50)->create();
     }
 }

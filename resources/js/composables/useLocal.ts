@@ -1,8 +1,8 @@
 import { Pagination } from '@/interface/paginacion';
-import { LocalRequest, LocalResource, LocalUpdateRequest } from '@/pages/panel/local/interface/Local';
+import { GetLocalResponse, LocalRequest, LocalResource, LocalUpdateRequest } from '@/pages/panel/local/interface/Local';
 import { localServices } from '@/services/localServices';
 import { showSuccessMessage } from '@/utils/message';
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 
 export const useLocal = () => {
     const principal = reactive<{
@@ -44,22 +44,30 @@ export const useLocal = () => {
             updated_at: '',
         },
     });
-        //reset local data
-        const resetlocalData = () => {
-            principal.localData = {
-                id: 0,
-                name: '',
-                address: '',
-                series: '',
-                series_note: '',
-                status: true,
-                created_at: '',
-                updated_at: '',
-            };
+    //reset local data
+    const resetlocalData = () => {
+        principal.localData = {
+            id: 0,
+            name: '',
+            address: '',
+            series: '',
+            series_note: '',
+            status: true,
+            created_at: '',
+            updated_at: '',
         };
+    };
 
+    const locals = ref<GetLocalResponse[]>([]);
     // loading Locals
-    const loadingLocals = async (page: number = 1, name: string = '', address: string = '',series: string = '',series_note: string = '', status: boolean = true) => {
+    const loadingLocals = async (
+        page: number = 1,
+        name: string = '',
+        address: string = '',
+        series: string = '',
+        series_note: string = '',
+        status: boolean = true,
+    ) => {
         if (status) {
             principal.loading = true;
             try {
@@ -74,30 +82,30 @@ export const useLocal = () => {
             }
         }
     };
-            // creating locals
-            const createLocal = async (data: LocalRequest) => {
-                try {
-                    await localServices.store(data);
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-        // get Local by id
-        const getLocalById = async (id: number) => {
-            try {
-                if (id === 0) {
-                    principal.localData = {
-                        id: 0,
-                        name: '',
-                        address: '',
-                        series: '',
-                        series_note: '',
-                        status: true,
-                        created_at: '',
-                        updated_at: '',
-                    };
-                    return;
-                }
+    // creating locals
+    const createLocal = async (data: LocalRequest) => {
+        try {
+            await localServices.store(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+    // get Local by id
+    const getLocalById = async (id: number) => {
+        try {
+            if (id === 0) {
+                principal.localData = {
+                    id: 0,
+                    name: '',
+                    address: '',
+                    series: '',
+                    series_note: '',
+                    status: true,
+                    created_at: '',
+                    updated_at: '',
+                };
+                return;
+            }
             const response = await localServices.show(id);
             if (response.status) {
                 principal.localData = response.local;
@@ -138,13 +146,26 @@ export const useLocal = () => {
             principal.statusModal.delete = false;
         }
     };
+
+    const getLocalList = async () => {
+        try {
+            const response = await localServices.getLocals();
+            if (response) {
+                locals.value = response;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
     return {
         principal,
+        locals,
         loadingLocals,
         createLocal,
         getLocalById,
         resetlocalData,
         updateLocal,
         deleteLocal,
+        getLocalList,
     };
 };

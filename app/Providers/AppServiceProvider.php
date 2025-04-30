@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Providers;
+use App\Models\Zone;
+use App\Observers\ZoneObserver;
 
 use App\Models\Movement;
 use App\Observers\MovementObserver;
@@ -24,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Zone::observe(ZoneObserver::class);
         Movement::observe(MovementObserver::class);
         Product::observe(ProductObserver::class);
     }
