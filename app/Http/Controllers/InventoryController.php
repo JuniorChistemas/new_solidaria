@@ -24,7 +24,7 @@ class InventoryController extends Controller
      */
     public function listInventory(Request $request)
     {
-        // Gate::authorize('viewAny', Product::class);
+        Gate::authorize('viewAny', Product::class);
 
         try {
             $nombre = $request->query('nombre');
@@ -71,7 +71,7 @@ class InventoryController extends Controller
                 ->paginate($perPage);
 
             $formattedProducts = $products->map(function ($product) use ($localId) {
-                // Select product_locals record matching localId if provided, else use first
+          
                 $productLocal = $localId
                     ? $product->product_locals->where('local_id', $localId)->first()
                     : $product->product_locals->first();
@@ -121,7 +121,7 @@ class InventoryController extends Controller
      */
     public function show(Product $product)
     {
-        // Gate::authorize('view', $product);
+         Gate::authorize('view', $product);
 
         $product->load(['laboratory', 'category', 'product_locals']);
 
