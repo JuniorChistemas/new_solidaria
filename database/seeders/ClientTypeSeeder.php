@@ -13,6 +13,17 @@ class ClientTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        ClientType::factory()->count(10)->create();
+        ClientType::create([
+            'name' => 'PERSONA NATURAL',
+            'state' => true,
+        ]);
+        ClientType::create([
+            'name' => 'PERSONA JURIDICA',
+            'state' => true,
+        ]);
+        ClientType::create([
+            'name' => 'EMPRESA',
+            'state' => true,
+        ]);
     }
 }

@@ -1,10 +1,4 @@
-import {
-    RoleDeleteResponse,
-    RoleRequest,
-    RoleResponse,
-    RoleUpdateRequest,
-    showRoleResponse,
-} from '@/pages/panel/role/interface/Role';
+import { getRoleList, RoleDeleteResponse, RoleRequest, RoleResponse, RoleUpdateRequest, showRoleResponse } from '@/pages/panel/role/interface/Role';
 import { router } from '@inertiajs/vue3';
 import axios from 'axios';
 
@@ -31,6 +25,11 @@ export const RoleServices = {
     // detele roles
     async destroy(id: number): Promise<RoleDeleteResponse> {
         const response = await axios.delete(`roles/${id}`);
+        return response.data;
+    },
+    // get roles
+    async getRoles(): Promise<getRoleList[]> {
+        const response = await axios.get('/panel/inputs/role_list');
         return response.data;
     },
 };

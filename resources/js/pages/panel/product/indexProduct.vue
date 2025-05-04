@@ -3,7 +3,7 @@
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
             <div class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 dark:border-sidebar-border md:min-h-min">
-                <div class="flex justify-between items-center mb-4 px-6 mt-4">
+                <div class="mb-4 mt-4 flex items-center justify-between px-6">
                     <ToolsProduct @import-success="loadingProducts" />
                     <FilterProduct @search="searchProduct" />
                 </div>
@@ -45,8 +45,8 @@ import DeleteProduct from '../../../components/delete.vue';
 import FilterProduct from '../../../components/filter.vue';
 import EditProduct from './components/editProduct.vue';
 import TableProduct from './components/tableProduct.vue';
-import { ProductRequestUpdate } from './interface/Product';
 import ToolsProduct from './components/toolsProduct.vue';
+import { ProductRequestUpdate } from './interface/Product';
 
 const { principal, loadingProducts, getProductById, updateProduct, deleteProduct } = useProduct();
 

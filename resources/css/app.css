@@ -113,7 +113,7 @@ html {
 
 /* Estilos generales para contenedores de tabla */
 .container-table {
-    @apply mx-auto w-full p-4 sm:px-6 lg:px-2;
+    @apply container mx-auto w-full p-4 sm:px-6 lg:px-2;
 }
 
 /* Table wrapper with responsive scroll */

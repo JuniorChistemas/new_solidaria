@@ -66,7 +66,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'editar locales']);
         Permission::create(['name' => 'eliminar locales']);
         Permission::create(['name' => 'ver locales']);
-      
+
         // model productos
         Permission::create(['name' => 'crear productos']);
         Permission::create(['name' => 'editar productos']);
@@ -79,7 +79,7 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'editar movimientos']);
         Permission::create(['name' => 'eliminar movimientos']);
         Permission::create(['name' => 'ver movimientos']);
-      
+
         // model guias
         Permission::create(['name' => 'crear guias']);
         Permission::create(['name' => 'editar guias']);
@@ -91,5 +91,11 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'editar roles']);
         Permission::create(['name' => 'eliminar roles']);
         Permission::create(['name' => 'ver roles']);
+
+        // model producto_precio
+        Permission::create(['name' => 'crear producto_precio']);
+        Permission::create(['name' => 'editar producto_precio']);
+        Permission::create(['name' => 'eliminar producto_precio']);
+        Permission::create(['name' => 'ver producto_precio']);
     }
 }

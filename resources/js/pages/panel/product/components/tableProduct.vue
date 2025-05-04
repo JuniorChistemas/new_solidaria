@@ -14,6 +14,7 @@
                             <TableHead class="table-head">CODIGOB</TableHead>
                             <TableHead class="table-head">LABORATORIO</TableHead>
                             <TableHead class="table-head">CATEGORIA</TableHead>
+                            <TableHead class="table-head">FRACCIÓN_EST</TableHead>
                             <TableHead class="table-head">FRACCIÓN</TableHead>
                             <TableHead class="table-head">IGV</TableHead>
                             <TableHead class="table-head-status">ESTADO</TableHead>
@@ -40,6 +41,7 @@
                                     No fraccionable
                                 </span>
                             </td>
+                            <td class="cell-data">{{ product.fraction }}</td>
                             <td class="cell-status">
                                 <span v-if="product.state_igv === true" class="status-badge status-active">
                                     <span class="status-indicator status-indicator-active"></span>
@@ -82,7 +84,6 @@
                     </TableBody>
                 </Table>
             </div>
-
             <PaginationProduct :meta="productPaginate" @page-change="$emit('page-change', $event)" class="mt-6" />
         </div>
     </div>

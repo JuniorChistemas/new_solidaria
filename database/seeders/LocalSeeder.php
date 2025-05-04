@@ -13,6 +13,26 @@ class LocalSeeder extends Seeder
      */
     public function run(): void
     {
-        Local::factory()->count(10)->create();
+        Local::create([
+            'name' => 'ALMACEN',
+            'address' => 'PIURA',
+            'series' => 'S0001',
+            'series_note' => 'SN0001',
+            'status' => 1,
+        ]);
+        Local::create([
+            'name' => 'DISTRIBUCION',
+            'address' => 'PIURA',
+            'series' => 'S0002',
+            'series_note' => 'SN0002',
+            'status' => 1,
+        ]);
+        Local::create([
+            'name' => 'VENCIDOS',
+            'address' => 'PIURA',
+            'series' => 'S0003',
+            'series_note' => 'SN0003',
+            'status' => 1,
+        ]);
     }
 }

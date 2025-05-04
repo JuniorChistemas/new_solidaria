@@ -106,18 +106,18 @@
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
-                        </FormField>   
-                        <FormField v-slot="{ componentField }" name="state_fraction">
+                        </FormField>
+                <FormField v-slot="{ componentField }" name="state_fraction">
                     <FormItem>
-                        <FormLabel>Fraccion</FormLabel>
+                        <FormLabel>Fraccion_estado</FormLabel>
                         <FormControl>
-                            <Select v-bind="componentField">
+                            <Select v-bind="componentField" v-model="stateFraction">
                                 <SelectTrigger>
                                     <SelectValue placeholder="Selecciona una opción" />
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectGroup>
-                                        <SelectLabel>Fraccion</SelectLabel>
+                                        <SelectLabel>Fraccion_estado</SelectLabel>
                                         <SelectItem value="fraccionable">Fraccionable</SelectItem>
                                         <SelectItem value="no fraccionable">No fraccionable</SelectItem>
                                     </SelectGroup>
@@ -127,6 +127,30 @@
                         <FormMessage />
                     </FormItem>
                 </FormField>
+                <FormField v-slot="{ componentField }" name="fraction">
+                    <FormItem>
+                        <FormLabel>Fracción</FormLabel>
+                        <FormControl>
+                            <Select v-bind="componentField" :disabled="stateFraction !== 'fraccionable'">
+                            <SelectTrigger>
+                            <SelectValue placeholder="Selecciona una opción" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Fracción</SelectLabel>
+                                <SelectItem value="12">12</SelectItem>
+                                <SelectItem value="15">15</SelectItem>
+                                <SelectItem value="30">30</SelectItem>
+                                <SelectItem value="50">50</SelectItem>
+                                <SelectItem value="100">100</SelectItem>
+                                <SelectItem value="150">150</SelectItem>
+                            </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                    </FormField>
                 <FormField v-slot="{ componentField }" name="state_igv">
                     <FormItem>
                         <FormLabel>IGV</FormLabel>
@@ -192,6 +216,9 @@ import { AlertCircle } from 'lucide-vue-next';
 import { useForm } from 'vee-validate';
 import { computed} from 'vue';
 import { z } from 'zod';
+import { ref } from 'vue'
+
+const stateFraction = ref('');
 const { createProduct } = useProduct();
 const page = usePage<SharedData>();
 
@@ -248,6 +275,18 @@ const formShema = toTypedSchema(
         state_fraction: z.enum(['fraccionable', 'no fraccionable'], { message: 'Estado inválido' }),
         state_igv: z.enum(['afectado', 'inafectado'], { message: 'Estado inválido' }),
         state: z.enum(['activo', 'inactivo'], { message: 'Estado inválido' }),
+        fraction: z
+      .string({ message: 'campo obligatorio' })
+      .refine((val) => val !== '', { message: 'Debes seleccionar una fracción válida' })
+      .transform((val) => parseInt(val, 10)), 
+  }).refine((data) => {
+    if (data.state_fraction === 'fraccionable') {
+      return data.fraction !== undefined && !isNaN(data.fraction);
+    }
+    return true;
+  }, {
+    path: ['fraction'],
+    message: 'Debes seleccionar una fracción',
     }),
 );
 
@@ -267,6 +306,7 @@ const onSubmit = handleSubmit((values) => {
         barcode: values.barcode,
         laboratory_id: values.laboratory_id,
         category_id: values.category_id,
+        fraction: values.fraction,
         state_fraction: values.state_fraction === 'fraccionable',
         state_igv: values.state_igv === 'afectado',
         state: values.state === 'activo',

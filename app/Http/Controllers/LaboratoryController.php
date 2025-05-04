@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\LaboratoryExport;
 use App\Models\Laboratory;
 use App\Http\Requests\StoreLaboratoryRequest;
 use App\Http\Requests\UpdateLaboratoryRequest;
 use App\Http\Resources\LaboratoryResource;
+use App\Imports\LaboratoryImport;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LaboratoryController extends Controller
 {
@@ -111,12 +114,32 @@ class LaboratoryController extends Controller
             'message' => 'Laboratorio eliminado de manera correcta',
         ]);
     }
+
     public function validateName(Request $request)
-{
-    $name = strtoupper($request->get('name'));
-    $exists = Laboratory::whereRaw('UPPER(name) = ?', [$name])->exists();
+    {
+        $name = strtoupper($request->get('name'));
+        $exists = Laboratory::whereRaw('UPPER(name) = ?', [$name])->exists();
 
-    return response()->json(['exists' => $exists]);
-}
+        return response()->json(['exists' => $exists]);
+    }
 
+    // EXPORTAR A EXCEL
+    public function exportExcel()
+    {
+        return Excel::download(new LaboratoryExport, 'laboratorios.xlsx');
+    }
+
+    // IMPORTAR EXCEL
+    public function importExcel(Request $request)
+    {
+        $request->validate([
+            'archivo' => 'required|mimes:xlsx,xls,csv',
+        ]);
+
+        Excel::import(new LaboratoryImport, $request->file('archivo'));
+        
+        return response()->json([
+            'message' => 'Importación de laboratorios realizado correctamente',
+        ]);
+    }
 }

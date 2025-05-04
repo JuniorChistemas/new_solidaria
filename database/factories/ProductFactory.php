@@ -25,6 +25,7 @@ class ProductFactory extends Factory
             'barcode'  => $this->faker->numerify('8#######'),
             'laboratory_id' => $this->faker->numberBetween(1, 5),
             'category_id' => $this->faker->numberBetween(1, 50),
+            'fraction'    => $this->faker->randomElement([12, 15, 30, 50, 100, 150]),
             'state_fraction'    => $this->faker->boolean(),
             'state_igv'    => $this->faker->boolean(),
             'state'    => $this->faker->boolean(),

@@ -30,6 +30,7 @@ class StoreProductRequest extends FormRequest
             'laboratory_id' => 'required|exists:laboratories,id',
             'category_id' => 'required|exists:categories,id',
             'state_fraction' => 'required|boolean',
+            'fraction' => 'required|integer',
             'state_igv' => 'required|boolean',
             'state' => 'required|boolean',
         ];

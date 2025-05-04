@@ -1,4 +1,5 @@
 import {
+    GetLocalResponse,
     LocalDeleteResponse,
     LocalRequest,
     LocalResponse,
@@ -31,6 +32,11 @@ export const localServices = {
     // detele locals
     async destroy(id: number): Promise<LocalDeleteResponse> {
         const response = await axios.delete(`locals/${id}`);
+        return response.data;
+    },
+    // get locals
+    async getLocals(): Promise<GetLocalResponse[]> {
+        const response = await axios.get('/panel/inputs/local_list');
         return response.data;
     },
 };

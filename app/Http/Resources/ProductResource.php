@@ -25,6 +25,7 @@ class ProductResource extends JsonResource
             'laboratory'=> $this->laboratory->name,
             'category_id'=> $this->category->id,
             'category'=> $this->category->name,
+            'fraction' => $this->fraction,
             'state_fraction'=> $this->state_fraction,
             'state_igv'=> $this->state_igv,
             'state'=> $this->state,

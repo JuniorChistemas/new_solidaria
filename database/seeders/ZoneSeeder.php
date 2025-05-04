@@ -13,6 +13,9 @@ class ZoneSeeder extends Seeder
      */
     public function run(): void
     {
-        Zone::factory()->count(5)->create();
+        ZOne::create([
+            'name' => 'ALMACEN',
+            'status' => true,
+        ]);
     }
 }

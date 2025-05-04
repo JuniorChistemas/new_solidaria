@@ -1,160 +1,187 @@
 <template>
     <Dialog :open="modal" @update:open="clouseModal">
-        <DialogContent>
+        <DialogContent class="w-full max-w-4xl">
             <DialogHeader>
                 <DialogTitle>Editar Producto</DialogTitle>
                 <DialogDescription>
                     <p class="text-sm text-muted-foreground">Edita los datos del producto</p>
                 </DialogDescription>
             </DialogHeader>
-            <form @submit="onSubmit" class="flex flex-col gap-4 py-4">
-                <FormField v-slot="{ componentField }" name="name">
+            <form @submit="onSubmit" class="flex flex-col gap-6 py-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6"> <!-- Grilla para dos columnas -->
+                    <FormField v-slot="{ componentField }" name="name">
+                        <FormItem>
+                            <FormLabel>Nombre</FormLabel>
+                            <FormControl>
+                                <Input id="name" type="text" v-bind="componentField" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="composition">
+                        <FormItem>
+                            <FormLabel>Composición</FormLabel>
+                            <FormControl>
+                                <Input id="composition" type="text" v-bind="componentField" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="presentation">
+                        <FormItem>
+                            <FormLabel>Presentación</FormLabel>
+                            <FormControl>
+                                <Input id="presentation" type="text" v-bind="componentField" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="form_farm">
+                        <FormItem>
+                            <FormLabel>Form_farm</FormLabel>
+                            <FormControl>
+                                <Input id="form_farm" type="text" v-bind="componentField" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="barcode">
+                        <FormItem>
+                            <FormLabel>Código de Barras</FormLabel>
+                            <FormControl>
+                                <Input id="barcode" type="text" v-bind="componentField" />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="laboratory_id">
+                        <FormItem>
+                            <FormLabel>Laboratorio</FormLabel>
+                            <FormControl>
+                                <Select v-bind="componentField">
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecciona el laboratorio" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Laboratorio</SelectLabel>
+                                            <SelectItem v-for="type in props.laboratory" :key="type.id" :value="type.id">
+                                                {{ type.name }}
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="category_id">
+                        <FormItem>
+                            <FormLabel>Categoria</FormLabel>
+                            <FormControl>
+                                <Select v-bind="componentField">
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecciona la categoria" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Categoria</SelectLabel>
+                                            <SelectItem v-for="type in props.category" :key="type.id" :value="type.id">
+                                                {{ type.name }}
+                                            </SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="state_fraction">
+                        <FormItem>
+                            <FormLabel>Fraccion_estado</FormLabel>
+                            <FormControl>
+                                <Select v-bind="componentField">
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecciona una opción" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Fraccion_estado</SelectLabel>
+                                            <SelectItem value="fraccionable">Fraccionable</SelectItem>
+                                            <SelectItem value="no fraccionable">No fraccionable</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="fraction">
                     <FormItem>
-                        <FormLabel>Nombre</FormLabel>
+                        <FormLabel>Fracción</FormLabel>
                         <FormControl>
-                            <Input id="name" type="text" v-bind="componentField" />
+                            <Select v-bind="componentField" :disabled="values.state_fraction === 'no fraccionable' || !values.state_fraction">
+                         <SelectTrigger>
+                            <SelectValue placeholder="Selecciona una opción" />
+                            </SelectTrigger>
+                            <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Fracción</SelectLabel>
+                                <SelectItem value="12">12</SelectItem>
+                                <SelectItem value="15">15</SelectItem>
+                                <SelectItem value="30">30</SelectItem>
+                                <SelectItem value="50">50</SelectItem>
+                                <SelectItem value="100">100</SelectItem>
+                                <SelectItem value="150">150</SelectItem>
+                            </SelectGroup>
+                            </SelectContent>
+                        </Select>
                         </FormControl>
                         <FormMessage />
                     </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="composition">
-                    <FormItem>
-                        <FormLabel>Composición</FormLabel>
-                        <FormControl>
-                            <Input id="composition" type="text" v-bind="componentField" />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="presentation">
-                    <FormItem>
-                        <FormLabel>Presentación</FormLabel>
-                        <FormControl>
-                            <Input id="presentation" type="text" v-bind="componentField" />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="form_farm">
-                    <FormItem>
-                        <FormLabel>Form_farm</FormLabel>
-                        <FormControl>
-                            <Input id="form_farm" type="text" v-bind="componentField" />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="barcode">
-                    <FormItem>
-                        <FormLabel>Código de Barras</FormLabel>
-                        <FormControl>
-                            <Input id="barcode" type="text" v-bind="componentField" />
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="laboratory_id">
-                    <FormItem>
-                        <FormLabel>Laboratorio</FormLabel>
-                        <FormControl>
-                            <Select v-bind="componentField">
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona el laboratorio" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Laboratorio</SelectLabel>
-                                        <SelectItem v-for="type in props.laboratory" :key="type.id" :value="type.id">
-                                            {{ type.name }}
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="category_id">
-                    <FormItem>
-                        <FormLabel>Categoria</FormLabel>
-                        <FormControl>
-                            <Select v-bind="componentField">
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona la categoria" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Categoria</SelectLabel>
-                                        <SelectItem v-for="type in props.category" :key="type.id" :value="type.id">
-                                            {{ type.name }}
-                                        </SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="state_fraction">
-                    <FormItem>
-                        <FormLabel>Fraccion</FormLabel>
-                        <FormControl>
-                            <Select v-bind="componentField">
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona una opción" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Fraccion</SelectLabel>
-                                        <SelectItem value="fraccionable">Fraccionable</SelectItem>
-                                        <SelectItem value="no fraccionable">No fraccionable</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="state_igv">
-                    <FormItem>
-                        <FormLabel>IGV</FormLabel>
-                        <FormControl>
-                            <Select v-bind="componentField">
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona una opcion" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>IGV</SelectLabel>
-                                        <SelectItem value="afectado">Afectado</SelectItem>
-                                        <SelectItem value="inafectado">Inafectado</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
-                <FormField v-slot="{ componentField }" name="state">
-                    <FormItem>
-                        <FormLabel>Estado</FormLabel>
-                        <FormControl>
-                            <Select v-bind="componentField">
-                                <SelectTrigger>
-                                    <SelectValue placeholder="Selecciona el estado" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Estado</SelectLabel>
-                                        <SelectItem value="activo">Activo</SelectItem>
-                                        <SelectItem value="inactivo">Inactivo</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                        </FormControl>
-                        <FormMessage />
-                    </FormItem>
-                </FormField>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="state_igv">
+                        <FormItem>
+                            <FormLabel>IGV</FormLabel>
+                            <FormControl>
+                                <Select v-bind="componentField">
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecciona una opcion" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>IGV</SelectLabel>
+                                            <SelectItem value="afectado">Afectado</SelectItem>
+                                            <SelectItem value="inafectado">Inafectado</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                    <FormField v-slot="{ componentField }" name="state">
+                        <FormItem>
+                            <FormLabel>Estado</FormLabel>
+                            <FormControl>
+                                <Select v-bind="componentField">
+                                    <SelectTrigger>
+                                        <SelectValue placeholder="Selecciona el estado" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup>
+                                            <SelectLabel>Estado</SelectLabel>
+                                            <SelectItem value="activo">Activo</SelectItem>
+                                            <SelectItem value="inactivo">Inactivo</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                    </FormField>
+                </div> 
+
                 <DialogFooter class="flex justify-end gap-2">
                     <Button type="submit">Guardar Cambios</Button>
                     <Button type="button" variant="outline" @click="clouseModal">Cancelar</Button>
@@ -171,8 +198,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { InputLaboratory, InputCategory } from '@/interface/Inputs';
 import { toTypedSchema } from '@vee-validate/zod';
-import { useForm } from 'vee-validate';
-import { watch } from 'vue';
+import { useForm} from 'vee-validate';
+import { watch, computed } from 'vue';
 import { z } from 'zod';
 import { ProductRequestUpdate, ProductResource } from '../interface/Product';
 
@@ -182,6 +209,8 @@ const props = defineProps<{
     laboratory: InputLaboratory[];
     category: InputCategory[];
 }>();
+
+
 
 const emit = defineEmits<{
     (e: 'closeModal', open: boolean): void;
@@ -219,10 +248,23 @@ const formShema = toTypedSchema(
         state_fraction: z.enum(['fraccionable', 'no fraccionable'], { message: 'Estado inválido' }),
         state_igv: z.enum(['afectado', 'inafectado'], { message: 'Estado inválido' }),
         state: z.enum(['activo', 'inactivo'], { message: 'Estado inválido' }),
-    }),
+        fraction: z
+        .string({ message: 'campo obligatorio' })
+        .min(1, { message: 'Debe ser mínimo 1 carácter' })
+        .refine((val) => val !== '', { message: 'Debes seleccionar una fracción válida' })
+        .transform((val) => parseInt(val, 10)),
+        }).refine((data) => {
+        if (data.state_fraction === 'fraccionable') {
+            return String(data.fraction).length >= 2; 
+        }
+        return true;
+        }, {
+        path: ['fraction'],
+        message: 'Porfavor Seleccionar la cantidad fraccionable',
+            }),
 );
 
-const { handleSubmit, setValues } = useForm({
+const { handleSubmit, setValues, values, setFieldValue  } = useForm({
     validationSchema: formShema,
     initialValues: {
         name: props.productData.name,
@@ -232,6 +274,7 @@ const { handleSubmit, setValues } = useForm({
         barcode: props.productData.barcode,
         laboratory_id: props.productData.laboratory_id,
         category_id: props.productData.category_id,
+        fraction: String(props.productData.fraction),
         state_fraction: props.productData.state_fraction ? 'fraccionable' : 'no fraccionable',
         state_igv: props.productData.state_igv ? 'afectado' : 'inafectado',
         state: props.productData.state ? 'activo' : 'inactivo',
@@ -250,15 +293,25 @@ watch(
     barcode: newData.barcode, 
     laboratory_id: newData.laboratory_id,
     category_id: newData.category_id,
+    fraction: String(newData.fraction), 
     state_fraction: newData.state_fraction ? 'fraccionable' : 'no fraccionable',
     state_igv: newData.state_igv ? 'afectado' : 'inafectado',
     state: newData.state ? 'activo' : 'inactivo',
             });
         }
     },
+    
     { deep: true, immediate: true },
 );
 
+watch(
+  () => values.state_fraction,
+  (newVal) => {
+    if (newVal === 'no fraccionable') {
+        setFieldValue('fraction', '1');
+    }
+  }
+);
 const onSubmit = handleSubmit((values) => {
     const updatedProduct: ProductRequestUpdate = {
         name: values.name,
@@ -268,6 +321,7 @@ const onSubmit = handleSubmit((values) => {
         barcode: values.barcode,
         laboratory_id: values.laboratory_id,
         category_id: values.category_id,
+        fraction: values.fraction, 
         state_fraction: values.state_fraction === 'fraccionable',
         state_igv: values.state_igv === 'afectado',
         state: values.state === 'activo',

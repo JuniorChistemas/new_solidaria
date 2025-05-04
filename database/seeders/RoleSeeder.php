@@ -24,16 +24,30 @@ class RoleSeeder extends Seeder
         $administrador->syncPermissions(Permission::all());
 
         $vendedor->syncPermissions([
-            'crear clientes', 'editar clientes', 'eliminar clientes', 'ver clientes',
+            'crear clientes',
+            'editar clientes',
+            'eliminar clientes',
+            'ver clientes',
         ]);
 
         $almacen->syncPermissions([
-            'crear categorias', 'editar categorias', 'eliminar categorias', 'ver categorias',
-            'crear proveedores', 'editar proveedores', 'eliminar proveedores', 'ver proveedores',
+            'crear categorias',
+            'editar categorias',
+            'eliminar categorias',
+            'ver categorias',
+            'crear proveedores',
+            'editar proveedores',
+            'eliminar proveedores',
+            'ver proveedores',
         ]);
 
         $auditor->syncPermissions([
-            'ver usuarios', 'ver clientes', 'ver proveedores', 'ver categorias', 'ver doctores', 'ver laboratorios',
+            'ver usuarios',
+            'ver clientes',
+            'ver proveedores',
+            'ver categorias',
+            'ver doctores',
+            'ver laboratorios',
         ]);
     }
 }

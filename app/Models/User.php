@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -17,6 +18,7 @@ class User extends Authenticatable
         'name',
         'email',
         'username',
+        'local_id',
         'status',
         'password',
     ];
@@ -38,5 +40,10 @@ class User extends Authenticatable
     public function movements()
     {
         return $this->hasMany(Movement::class, 'idUser');
+    }
+
+    public function local(): BelongsTo
+    {
+        return $this->belongsTo(Local::class, 'local_id', 'id');
     }
 }
