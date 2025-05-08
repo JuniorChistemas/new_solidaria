@@ -14,7 +14,6 @@ class Role extends Model
     // atributos al que va a tener acceso
     protected $fillable = [
         'name',
-        //'permisos',
         'guard_name',
     ];
     // atributos que no tendra acceso

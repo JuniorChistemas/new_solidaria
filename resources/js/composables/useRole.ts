@@ -67,7 +67,7 @@ export const useRole = () => {
         }
     };
     // creating roles
-    const createRole = async (data: { name: string; permisos: number[] }) => {
+    const createRole = async (data: { name: string }) => {
         try {
             await RoleServices.store(data); // Aquí estamos enviando el rol con sus permisos
         } catch (error) {
