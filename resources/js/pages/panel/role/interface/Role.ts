@@ -23,7 +23,6 @@ export type RoleDeleteResponse = {
 };
 
 export type RoleUpdateRequest = {
-    id: number;
     name: string;
 };
 
