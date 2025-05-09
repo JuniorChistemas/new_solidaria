@@ -2,20 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Zone;
+use App\Models\Sale;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ZoneSeeder extends Seeder
+class SaleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Zone::create([
-            'name' => 'ALMACEN',
-            'status' => true,
-        ]);
+        Sale::factory(100)->create();
     }
 }

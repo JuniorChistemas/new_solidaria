@@ -15,8 +15,9 @@ class GuideResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id ?? '000',
             'code' => $this->code,
-            'type_movement' => $this->typeMovements->nombre,
+            'type_movement' => $this->typeMovements->name,
             'origin_local' => $this->originLocals->name,
             'destination_local' => $this->destinationLocals->name,
             'sent_at' => $this->sent_at,

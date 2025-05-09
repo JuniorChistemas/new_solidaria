@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGuideRequest extends FormRequest
+class UpdateSaleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,7 @@ class UpdateGuideRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'origin_local_id' => 'required|exists:locals,id|different:destination_local_id',
-            'destination_local_id' => 'required|exists:locals,id|different:origin_local_id',
-            'type_movement_id' => 'required|exists:type_movements,id',
-            'code' => 'required|string|max:150',
-            'status' => 'required|in:pending,completed,in_progress',
-            'sent_at' => 'required|date',
+            //
         ];
     }
 }
