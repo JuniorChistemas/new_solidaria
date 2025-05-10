@@ -42,9 +42,10 @@ import EditRole from './components/editRole.vue';
 import TableRole from './components/tableRole.vue';
 import { RoleUpdateRequest } from './interface/Role';
 
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Crear rol',
+        title: 'Crear Rol',
         href: '/panel/roles/create',
     },
     /*{
@@ -64,6 +65,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 onMounted(() => {
+    console.log('onMounted: Cargando roles...');
     loadingRoles();
 });
 
@@ -106,5 +108,6 @@ const emitDeleteRole = (roleId: number | string) => {
 const searchRole = (text: string) => {
     loadingRoles(1, text);
 };
+
 </script>
 <style lang="css" scoped></style>

@@ -9,7 +9,7 @@
                             <TableRow>
                                 <TableHead class="table-head-id">ID</TableHead>
                                 <TableHead class="table-head">Nombre</TableHead>
-                                <TableHead class="table-head">Permisos</TableHead>
+                                <!--TableHead class="table-head">Permisos</TableHead-->
                                 <TableHead class="table-head">Fecha de creación</TableHead>
                                 <TableHead class="table-head">Fecha de modificación</TableHead>
                                 <TableHead class="table-head-actions">Acciones</TableHead>
@@ -19,12 +19,12 @@
                             <TableRow v-for="role in roleList" :key="role.id" class="table-row">
                                 <td class="cell-id">{{ role.id }}</td>
                                 <td class="cell-data">{{ role.name }}</td>
-                                <select
+                                <!--select
                                     class="form-select block w-full mt-2 py-1 px-3 border border-gray-300 dark:text-black rounded-md shadow-sm focus:outline-none focus:ring focus:ring-orange-400 focus:ring-opacity-50">
                                         <option v-for="permiso in role.permisos" :key="permiso.id">
                                             {{ permiso.name }}
                                         </option>
-                                 </select>
+                                 </select-->
                                 <td class="cell-data">{{ role.created_at }}</td>
                                 <td class="cell-data">{{ role.updated_at }}</td>
                                 <td class="cell-actions">
@@ -33,18 +33,29 @@
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
-                                            @click="openModal(role.id)"
-                                            title="Editar proveedor"
+                                            @click="openFormEditPermission(role.id)"
+                                            title="Editar rol"
                                         >
                                             <UserPen class="action-icon" />
                                             <span class="sr-only">Editar rol</span>
                                         </Button>
+                                        <!--Button
+                                            variant="ghost"
+                                            size="sm"
+                                            class="action-button"
+                                            @click="openFormEditPermission(role.id)"
+                                            title="Gestionar permisos"
+                                        >
+                                            <KeyRound class="action-icon" />
+                                            <span class="sr-only">Gestionar permisos</span>
+                                        </Button-->
+
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
                                             @click="openModalDelete(role.id)"
-                                            title="Eliminar proveedor"
+                                            title="Eliminar rol"
                                         >
                                             <Trash class="action-icon" />
                                             <span class="sr-only">Eliminar rol</span>
@@ -76,7 +87,7 @@ import { useToast } from '@/components/ui/toast';
 import { Pagination } from '@/interface/paginacion';
 import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
-import { Trash, UserPen } from 'lucide-vue-next';
+import { Trash, UserPen, KeyRound } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import { RoleResource } from '../interface/Role';
 
@@ -86,6 +97,7 @@ const emit = defineEmits<{
     (e: 'page-change', page: number): void;
     (e: 'open-modal', id_role: number): void;
     (e: 'open-modal-delete', id_role: number): void;
+    (e: 'open-modal-permissions', id_role: number): void; //HICE CAMBIOS
 }>();
 const page = usePage<SharedData>();
 
@@ -113,6 +125,12 @@ const openModal = (id: number) => {
 const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
+
+//HICE CAMBIOS
+const openFormEditPermission = (id: number) => {
+    window.location.href = `/panel/roles/${id}/edit`;
+};
+
 </script>
 
 <style scoped lang="css">

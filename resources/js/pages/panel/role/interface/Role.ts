@@ -9,7 +9,7 @@ export type RoleResource = {
 };
 
 export type RoleRequest = {
-    id: number;
+    id?: number;
     name: string;
 };
 
@@ -25,9 +25,9 @@ export type RoleDeleteResponse = {
 };
 
 export type RoleUpdateRequest = {
-    id: number;
+    id?: number;
     name: string;
-    //permisos: number[]; // Asegúrate de que permisos sea un array de números
+    permisos: number[];
 };
 
 export type RoleResponse = {

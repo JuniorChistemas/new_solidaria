@@ -62,7 +62,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/panel/roles',
     },
     {
-        title: 'Crear rol',
+        title: 'Crear Rol',
         href: '/panel/roles/create',
     },
 ];
@@ -102,7 +102,7 @@ const props = defineProps<{
 }>();
 // Al cargar el componente, seleccionamos todos los permisos por defecto
 onMounted(() => {
-    selectedPermissions.value = props.permisos.map(permiso => permiso.id);
+    //selectedPermissions.value = props.permisos.map(permiso => permiso.id);
 });
 
 // Reset selectedPermissions when clicking "Borrar"
