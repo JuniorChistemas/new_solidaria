@@ -3,10 +3,16 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\GuidePipelineRequest;
 use App\Http\Requests\StoreGuideRequest;
 use App\Http\Requests\UpdateGuideRequest;
 use App\Http\Resources\GuideResource;
 use App\Models\Guide;
+use App\Pipelines\General\UpdateStock;
+use App\Pipelines\General\validateProducts;
+use App\Pipelines\Guides\CreateGuide;
+use App\Pipelines\Guides\CreateGuideDetails;
+use Illuminate\Support\Facades\Pipeline as FacadesPipeline;
 
 class GuideController extends Controller
 {
@@ -15,12 +21,21 @@ class GuideController extends Controller
      */
     public function index()
     {
+        //Gate::authorize('viewAny', Guide::class);
         $guides = Guide::with('originLocals', 'destinationLocals', 'typeMovements')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->paginate(10);
         return response()->json([
             'guides' => GuideResource::collection($guides),
-        ]);
+            'pagination' => [
+                'total' => $guides->total(),
+                'current_page' => $guides->currentPage(),
+                'per_page' => $guides->perPage(),
+                'last_page' => $guides->lastPage(),
+                'from' => $guides->firstItem(),
+                'to' => $guides->lastItem(),
+            ],
+        ])->setStatusCode(200);
     }
 
 
@@ -33,6 +48,7 @@ class GuideController extends Controller
         $validated = $request->validated();
         $guide = Guide::create($validated);
         return response()->json([
+            'status' => true,
             'message' => 'Guide created successfully',
             'guide' => new GuideResource($guide),
         ], 201);
@@ -44,6 +60,7 @@ class GuideController extends Controller
     public function show(Guide $guide)
     {
         return response()->json([
+            'status' => true,
             'guide' => new GuideResource($guide),
         ]);
     }
@@ -68,7 +85,32 @@ class GuideController extends Controller
     {
         $guide->delete();
         return response()->json([
-            'message' => 'Guide deleted successfully',
+            'message' => 'Guia eliminada correctamente',
         ]);
+    }
+
+    public function pruebaApi()
+    {
+        return response()->json([
+            'message' => 'hola desde la api',
+        ]);
+    }
+
+    public function sendGuide(GuidePipelineRequest $request)
+    {
+        $guideData = $request->validated();
+        $guide = FacadesPipeline::send($guideData)
+            ->through([
+                validateProducts::class,
+                CreateGuide::class,
+                CreateGuideDetails::class,
+                UpdateStock::class,
+            ])
+            ->thenReturn();
+        return response()->json([
+            'status' => true,
+            'message' => 'Guia enviada correctamente',
+            'guide' => $guide,
+        ])->setStatusCode(200);
     }
 }

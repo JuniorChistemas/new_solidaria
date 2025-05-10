@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('guides', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('origin_local_id')->constrained('locals','id');
-            $table->foreignId('destination_local_id')->constrained('locals','id');
-            $table->foreignId('type_movement_id')->constrained('type_movements','id');
+            $table->foreignId('origin_local_id')->constrained('locals', 'id');
+            $table->foreignId('destination_local_id')->constrained('locals', 'id');
+            $table->foreignId('type_movement_id')->constrained('type_movements', 'id');
             $table->string('code')->unique();
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'in_progress', 'completed', 'canceled'])->default('pending');
             $table->timestamp('sent_at')->nullable();
             $table->timestamps();
         });
