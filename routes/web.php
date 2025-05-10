@@ -83,6 +83,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('roles', RoleController::class);
         # list roles
         Route::get('listar-roles',[RoleController::class,'listarRoles'])->name('roles.listar');
+        
          # Module Users
         Route::resource('users', UserController::class);
         # list users

@@ -23,7 +23,8 @@ class UpdateRoleRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            //'permisos' => 'required',
+            'permisos' => 'required|array',  // Asegura que permisos sea un array y sea obligatorio.
+            'permisos.*' => 'integer|exists:permissions,id',  // Cada permiso debe ser un ID válido en la tabla 'permissions'.
         ];
     }
 }

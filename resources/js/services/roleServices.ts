@@ -10,16 +10,32 @@ export const RoleServices = {
     },
     //inertia
     async store(data: RoleRequest) {
-        router.post(route('panel.roles.store'), data);
+        try {
+            await router.post(route('panel.roles.store'), data);
+        } catch (error) {
+            console.error('Error al crear rol:', error);
+            throw error;
+        }
     },
     // show roles
     async show(id: number): Promise<showRoleResponse> {
-        const response = await axios.get(`roles/${id}`);
+        const response = await axios.get(`/panel/roles/${id}`);
         return response.data;
     },
     // update roles
     async update(id: number, data: RoleUpdateRequest): Promise<showRoleResponse> {
-        const response = await axios.put(`roles/${id}`, data);
+        // Verificar que `data.permisos` sea un array de IDs
+        const permisos = Array.isArray(data.permisos) ? data.permisos : [];
+
+        // Convertir explícitamente a un array de IDs si es necesario
+        const permisoIds = permisos.map((perm: any) => perm.id || perm);  // Mapear a los IDs si `permisos` son objetos
+        
+        const response = await axios.put(`/panel/roles/${id}`, {
+            name: data.name,
+            permisos: permisoIds,  // Enviar solo los IDs de los permisos
+
+        });
+        //console.log('Respuesta del servidor:', response.data);
         return response.data;
     },
     // detele roles

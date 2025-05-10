@@ -1,7 +1,7 @@
 import { Pagination } from '@/interface/paginacion';
 import { getRoleList, RoleResource, RoleUpdateRequest } from '@/pages/panel/role/interface/Role';
 import { RoleServices } from '@/services/roleServices';
-import { showSuccessMessage } from '@/utils/message';
+import { showErrorMessage, showSuccessMessage } from '@/utils/message';
 import { reactive, ref } from 'vue';
 
 export const useRole = () => {
@@ -36,6 +36,7 @@ export const useRole = () => {
         roleData: {
             id: 0,
             name: '',
+            permisos: [], 
             created_at: '',
             updated_at: '',
         },
@@ -45,6 +46,7 @@ export const useRole = () => {
         principal.roleData = {
             id: 0,
             name: '',
+            permisos: [],
             created_at: '',
             updated_at: '',
         };
@@ -59,9 +61,10 @@ export const useRole = () => {
             const response = await RoleServices.index(page, name);
             principal.roleList = response.roles;
             principal.paginacion = response.pagination;
-            console.log(response);
+            console.log('Roles cargados:',response);
         } catch (error) {
             console.error(error);
+            showErrorMessage('Error al cargar los roles', 'Hubo un problema al obtener los roles.');
         } finally {
             principal.loading = false;
         }
@@ -69,7 +72,7 @@ export const useRole = () => {
     // creating roles
     const createRole = async (data: { name: string; permisos: number[] }) => {
         try {
-            await RoleServices.store(data); // Aquí estamos enviando el rol con sus permisos
+            await RoleServices.store(data); // Incluimos un id predeterminado
         } catch (error) {
             console.error(error);
         }
@@ -81,6 +84,7 @@ export const useRole = () => {
                 principal.roleData = {
                     id: 0,
                     name: '',
+                    permisos: [],
                     created_at: '',
                     updated_at: '',
                 };
@@ -95,19 +99,16 @@ export const useRole = () => {
             }
         } catch (error) {
             console.error(error);
+            showErrorMessage('Error al obtener el rol', 'Hubo un problema al obtener los datos del rol.');
         }
     };
     // update role
     const updateRole = async (id: number, data: RoleUpdateRequest) => {
         try {
-            const response = await RoleServices.update(id, data);
-            if (response.status) {
-                showSuccessMessage('Rol actualizado', 'El rol se actualizó correctamente');
-                principal.statusModal.update = false;
-                loadingRoles(principal.paginacion.current_page, principal.filter);
-            }
+            await RoleServices.update(id, data);
         } catch (error) {
             console.error(error);
+            showErrorMessage('Error al actualizar el rol', 'Hubo un problema al actualizar el rol.');
         }
     };
     // delete role
@@ -122,6 +123,7 @@ export const useRole = () => {
             }
         } catch (error) {
             console.error(error);
+            showErrorMessage('Error al eliminar el rol', 'Hubo un problema al eliminar el rol.');
         } finally {
             principal.statusModal.delete = false;
         }
