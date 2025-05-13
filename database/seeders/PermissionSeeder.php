@@ -92,6 +92,12 @@ class PermissionSeeder extends Seeder
         Permission::create(['name' => 'eliminar roles']);
         Permission::create(['name' => 'ver roles']);
 
+        // model permisos
+        Permission::create(['name' => 'crear permisos']);
+        Permission::create(['name' => 'editar permisos']);
+        Permission::create(['name' => 'eliminar permisos']);
+        Permission::create(['name' => 'ver permisos']);
+
         // model producto_precio
         Permission::create(['name' => 'crear producto_precio']);
         Permission::create(['name' => 'editar producto_precio']);

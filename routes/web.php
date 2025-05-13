@@ -15,6 +15,7 @@ use App\Http\Controllers\Inputs\SelectController;
 use App\Http\Controllers\MovementController;
 use App\Http\Controllers\Panel\GuideController;
 use App\Http\Controllers\Panel\RoleController;
+use App\Http\Controllers\Panel\PermissionController;
 use App\Http\Controllers\Panel\SaleController;
 use App\Http\Controllers\Panel\UserController;
 use Inertia\Inertia;
@@ -84,6 +85,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::resource('roles', RoleController::class);
         # list roles
         Route::get('listar-roles', [RoleController::class, 'listarRoles'])->name('roles.listar');
+         # module permission
+        Route::resource('permissions', PermissionController::class);
+        # list permissions
+        Route::get('listar-permissions', [PermissionController::class, 'listarPermissions'])->name('permissions.listar');
         # Module Users
         Route::resource('users', UserController::class);
         # list users
