@@ -12,7 +12,7 @@ use App\Pipelines\FilterByName;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Inertia\Inertia;
 
 class DoctorController extends Controller
@@ -30,7 +30,7 @@ class DoctorController extends Controller
         Gate::authorize('viewAny', Doctor::class);
         try {
             $name = $request->get('name');
-            $doctors = app(Pipeline::class)
+            $doctors = Pipeline::send($name)
                 ->send(Doctor::query())
                 ->through([
                     new FilterByName($name),

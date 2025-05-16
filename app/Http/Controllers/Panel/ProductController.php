@@ -13,7 +13,7 @@ use App\Http\Resources\ProductResource;
 use App\Imports\ProductImport;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
@@ -34,7 +34,7 @@ class ProductController extends Controller
 
         try {
             $name = $request->get('name');
-            $products = app(Pipeline::class)
+            $products = Pipeline::send($name)
                 ->send(Product::query())
                 ->through([
                     new FilterByName($name)

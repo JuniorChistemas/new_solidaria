@@ -70,6 +70,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         # module Products
         Route::resource('products', ProductController::class);
         # list Products
+        Route::get('listar-products',[ProductController::class,'listarProducts'])->name('products.listar');
+        # module Products
+        Route::resource('product_prices', ProductPriceController::class); 
+        # list Products
+        Route::get('listar-product_prices',[ProductPriceController::class,'listarProductsprice'])->name('product_prices.listar');
         Route::get('listar-products', [ProductController::class, 'listarProducts'])->name('products.listar');
         # module Products
         Route::resource('product_prices', ProductPriceController::class);

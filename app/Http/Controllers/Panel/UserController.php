@@ -9,7 +9,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
@@ -27,7 +27,7 @@ class UserController extends Controller
     {
         try {
             $name = $request->get('name');
-            $users = app(Pipeline::class)
+            $users = Pipeline::send($name)
                 ->send(User::query())
                 ->through([
                     new FilterByName($name),

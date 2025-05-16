@@ -11,7 +11,7 @@ use App\Imports\CategoryImport;
 use App\Models\Category;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -36,7 +36,7 @@ class CategoryController extends Controller
 
         try {
             $name = $request->get('name');
-            $categories = app(Pipeline::class)
+            $categories = Pipeline::send($name)
                 ->send(Category::query())
                 ->through([
                     new FilterByName($name),

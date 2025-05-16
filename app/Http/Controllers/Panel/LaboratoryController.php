@@ -11,7 +11,7 @@ use App\Http\Resources\LaboratoryResource;
 use App\Imports\LaboratoryImport;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Maatwebsite\Excel\Facades\Excel;
@@ -33,7 +33,7 @@ class LaboratoryController extends Controller
 
         try {
             $name = $request->get('name');
-            $laboratories = app(Pipeline::class)
+            $laboratories = Pipeline::send($name)
                 ->send(Laboratory::query())
                 ->through([
                     new FilterByName($name),

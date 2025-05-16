@@ -54,7 +54,6 @@ class ProductPriceController extends Controller
     {
         Gate::authorize('view', $productprice);
         return response()->json([
-            'state' => true,
             'message' => 'Producto encontrado',
             'product_price' => new ProductpriceResource($productprice),
         ]);
@@ -66,10 +65,8 @@ class ProductPriceController extends Controller
     {
         Gate::authorize('update', $productprice);
         $validated = $request->validated();
-        $validated['state'] = ($validated['state'] ?? false) === true;
         $productprice->update($validated);
         return response()->json([
-            'state' => true,
             'message' => 'Producto actualizado de manera correcta',
             'product' => new ProductpriceResource($productprice->refresh()),
         ]);
@@ -83,7 +80,6 @@ class ProductPriceController extends Controller
         Gate::authorize('delete', $productprice);
         $productprice->delete();
         return response()->json([
-            'state' => true,
             'message' => 'Producto precio eliminado de manera correcta',
         ]);
     }

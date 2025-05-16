@@ -9,7 +9,7 @@ use App\Http\Resources\ZoneResource;
 use App\Models\Zone;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -36,7 +36,7 @@ class ZoneController extends Controller
             // $zones = Zone::when($name, function ($query, $name) {
             //     return $query->whereLike('name', "%$name%");
             // })->orderBy('id','asc')->paginate(12);
-            $zones = app(Pipeline::class)
+            $zones = Pipeline::send($name)
                 ->send(Zone::query())
                 ->through([
                     new FilterByName($name)

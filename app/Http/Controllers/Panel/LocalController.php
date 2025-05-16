@@ -11,7 +11,7 @@ use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Inertia\Inertia;
 
 class LocalController extends Controller
@@ -35,7 +35,7 @@ class LocalController extends Controller
 
         try {
             $name = $request->get('name');
-            $locals = app(Pipeline::class)
+            $locals = Pipeline::send($name)
                 ->send(Local::query())
                 ->through([
                     new FilterByName($name)

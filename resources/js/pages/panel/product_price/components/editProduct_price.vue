@@ -15,11 +15,11 @@
                             <FormControl>
                                 <Select v-bind="componentField">
                                     <SelectTrigger>
-                                        <SelectValue placeholder="Selecciona la categoria" />
+                                        <SelectValue placeholder="Selecciona el producto" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
-                                            <SelectLabel>Categoria</SelectLabel>
+                                            <SelectLabel>Producto</SelectLabel>
                                             <SelectItem v-for="type in props.product" :key="type.id" :value="type.id">
                                                 {{ type.name }}
                                             </SelectItem>

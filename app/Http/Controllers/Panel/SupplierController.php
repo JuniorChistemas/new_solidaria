@@ -9,7 +9,7 @@ use App\Http\Requests\UpdateSupplierRequest;
 use App\Http\Resources\SupplierResource;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -31,7 +31,7 @@ class SupplierController extends Controller
 
         try {
             $name = $request->get('name');
-            $suppliers = app(Pipeline::class)
+            $suppliers = Pipeline::send($name)
                 ->send(Supplier::query())
                 ->through([
                     new FilterByName($name),

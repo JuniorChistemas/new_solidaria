@@ -23,7 +23,7 @@ class StoreProduct_priceRequest extends FormRequest
     {
         return [
             'product_id' => 'required|exists:products,id',
-            'box_price' => 'sometimes|numeric|min:0',
+            'box_price' => 'required|numeric|min:0',
             'fraction_price' => 'required|numeric|min:0',        
         ];
     }

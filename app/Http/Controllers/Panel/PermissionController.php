@@ -9,7 +9,7 @@ use App\Http\Resources\PermissionResource;
 use App\Models\Permission;
 use App\Pipelines\FilterByName;
 use Illuminate\Http\Request;
-use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -32,7 +32,7 @@ class PermissionController extends Controller
         try {
             $name = $request->get('name');
 
-            $permissions = app(Pipeline::class)
+            $permissions = Pipeline::send($name)
                 ->send(Permission::query())
                 ->through([
                     new FilterByName($name)
