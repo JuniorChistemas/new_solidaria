@@ -16,7 +16,7 @@ class GuideFactory extends Factory
      */
     public function definition(): array
     {
-        $locales = [1, 2, 3];
+        $locales = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
         $origin = $this->faker->randomElement($locales);
         // Filtramos para que el destino no sea igual al origen

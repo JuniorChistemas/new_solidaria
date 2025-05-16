@@ -1,7 +1,7 @@
 import { useToast } from '@/components/ui/toast'; // ✅ Agregado
 import { Pagination } from '@/interface/paginacion';
 import { LaboratoryRequest, LaboratoryResource, LaboratoryUpdateRequest } from '@/pages/panel/laboratory/interface/Laboratory';
-import { showSuccessMessage } from '@/utils/message';
+import { showErrorMessage, showSuccessMessage } from '@/utils/message';
 import axios from 'axios';
 import { reactive } from 'vue';
 import { LaboratoryServices } from '../services/laboratoryServices';
@@ -118,6 +118,7 @@ export const useLaboratory = () => {
                 loadingLaboratories(principal.paginacion.current_page, principal.filter);
             }
         } catch (error) {
+            showErrorMessage('Laboratorio no eliminado', 'El laboratorio no se eliminó correctamente');
             console.error(error);
         } finally {
             principal.stateModal.delete = false;

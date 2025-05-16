@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use App\Models\ProductPrice;
-use App\Models\Product;
-use App\Http\Requests\StoreProduct_priceRequest;
 use App\Http\Requests\UpdateProduct_priceRequest;
 use App\Http\Resources\ProductpriceResource;
 
@@ -30,9 +29,9 @@ class ProductPriceController extends Controller
             $id = $request->get('id');
             $productsprice = Productprice::when($id, function ($query, $id) {
                 return $query->whereLike('id', "%$id%");
-            })->orderBy('id','asc')->paginate(10);
+            })->orderBy('id', 'asc')->paginate(10);
             return response()->json([
-                'productsprice'=> ProductpriceResource::collection($productsprice),
+                'productsprice' => ProductpriceResource::collection($productsprice),
                 'pagination' => [
                     'total' => $productsprice->total(),
                     'current_page' => $productsprice->currentPage(),

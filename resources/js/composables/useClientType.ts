@@ -1,5 +1,6 @@
-import { ClientTypeResource, ClientTypeRequest, ClientTypeUpdateRequest } from '@/pages/panel/clientType/interface/ClientType';
+import { ClientTypeRequest, ClientTypeResource, ClientTypeUpdateRequest } from '@/pages/panel/clientType/interface/ClientType';
 import { ClientTypeServices } from '@/services/clientTypeService';
+import { showSuccessMessage } from '@/utils/message';
 import { reactive } from 'vue';
 
 export function useClientType() {
@@ -7,14 +8,12 @@ export function useClientType() {
         clientTypeList: [] as ClientTypeResource[],
         clientTypeData: {} as ClientTypeResource,
         paginacion: {
-            current_page: 1,
-            from: 0,
-            last_page: 0,
-            links: [],
-            path: '',
-            per_page: 10,
-            to: 0,
             total: 0,
+            current_page: 0,
+            per_page: 0,
+            last_page: 0,
+            from: 0,
+            to: 0,
         },
         idClientType: 0,
         loading: true,
@@ -61,7 +60,8 @@ export function useClientType() {
     // Update client type
     const updateClientType = async (id: number, data: ClientTypeUpdateRequest) => {
         try {
-            await ClientTypeServices.update(id, data);
+            const response = await ClientTypeServices.update(id, data);
+            showSuccessMessage(response.message);
             loadingClientTypes();
         } catch (error) {
             console.error('Error updating client type:', error);
@@ -71,8 +71,9 @@ export function useClientType() {
     // Delete client type
     const deleteClientType = async (id: number) => {
         try {
-            await ClientTypeServices.destroy(id);
+            const response = await ClientTypeServices.destroy(id);
             loadingClientTypes();
+            showSuccessMessage(response.message);
             principal.statusModal.delete = false;
         } catch (error) {
             console.error('Error deleting client type:', error);

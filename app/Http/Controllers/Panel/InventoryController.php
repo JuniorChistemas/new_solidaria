@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -22,7 +23,7 @@ class InventoryController extends Controller
     public function listInventory(Request $request)
     {
         Gate::authorize('viewAny', Product::class);
-    
+
         try {
             $nombre = $request->query('nombre');
             $perPage = $request->query('per_page', 10);
@@ -30,8 +31,8 @@ class InventoryController extends Controller
             $laboratorioId = $request->query('laboratorioId');
             $categoriaId = $request->query('categoriaId');
             $estadoStock = $request->query('estadoStock', '3');
-    
-   
+
+
             $query = Product::with(['laboratory', 'category', 'product_locals' => function ($q) use ($localId, $estadoStock) {
                 if ($localId) {
                     $q->where('local_id', $localId);
@@ -41,29 +42,29 @@ class InventoryController extends Controller
                 } elseif ($estadoStock == '1') {
                     $q->where(function ($subquery) {
                         $subquery->where('StockBox', '>', 0)
-                                 ->orWhere('StockFraction', '>', 0);
+                            ->orWhere('StockFraction', '>', 0);
                     });
                 }
             }]);
-    
+
             if ($nombre) {
                 $query->where('name', 'like', "%$nombre%");
             }
-    
+
             if ($laboratorioId) {
                 $query->where('laboratory_id', $laboratorioId);
             }
-    
+
             if ($categoriaId) {
                 $query->where('category_id', $categoriaId);
             }
-    
+
             if ($localId) {
                 $query->whereHas('product_locals', function ($q) use ($localId) {
                     $q->where('local_id', $localId);
                 });
             }
-    
+
             if ($estadoStock != '3') {
                 $query->whereHas('product_locals', function ($q) use ($estadoStock, $localId) {
                     if ($localId) {
@@ -72,19 +73,19 @@ class InventoryController extends Controller
                     if ($estadoStock == '1') {
                         $q->where(function ($subquery) {
                             $subquery->where('StockBox', '>', 0)
-                                     ->orWhere('StockFraction', '>', 0);
+                                ->orWhere('StockFraction', '>', 0);
                         });
                     } elseif ($estadoStock == '0') {
                         $q->where('StockBox', 0)
-                          ->where('StockFraction', 0);
+                            ->where('StockFraction', 0);
                     }
                 });
             }
-    
+
             $products = $query->orderBy('id', 'asc')->paginate($perPage);
-    
+
             $formattedProducts = $products->map(function ($product) use ($localId, $estadoStock) {
-               
+
                 $productLocal = null;
                 if ($localId) {
                     $productLocal = $product->product_locals
@@ -94,14 +95,14 @@ class InventoryController extends Controller
                         })
                         ->first();
                 } else {
-                   
+
                     $productLocal = $product->product_locals
                         ->when($estadoStock == '0', function ($collection) {
                             return $collection->where('StockBox', 0)->where('StockFraction', 0);
                         })
                         ->first();
                 }
-    
+
                 return [
                     'id' => $product->id,
                     'nombre' => $product->name,
@@ -113,7 +114,7 @@ class InventoryController extends Controller
                     'fracciones' => $productLocal ? $productLocal->StockFraction : 0,
                 ];
             });
-    
+
             return response()->json([
                 'data' => $formattedProducts,
                 'links' => [
@@ -147,7 +148,7 @@ class InventoryController extends Controller
      */
     public function show(Product $product)
     {
-         Gate::authorize('view', $product);
+        Gate::authorize('view', $product);
 
         $product->load(['laboratory', 'category', 'product_locals']);
 

@@ -26,18 +26,29 @@
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
-                                            @click="openModal(role.id)"
-                                            title="Editar proveedor"
+                                            @click="openFormEditPermission(role.id)"
+                                            title="Editar rol"
                                         >
                                             <UserPen class="action-icon" />
                                             <span class="sr-only">Editar rol</span>
                                         </Button>
+                                        <!--Button
+                                            variant="ghost"
+                                            size="sm"
+                                            class="action-button"
+                                            @click="openFormEditPermission(role.id)"
+                                            title="Gestionar permisos"
+                                        >
+                                            <KeyRound class="action-icon" />
+                                            <span class="sr-only">Gestionar permisos</span>
+                                        </Button-->
+
                                         <Button
                                             variant="ghost"
                                             size="sm"
                                             class="action-button"
                                             @click="openModalDelete(role.id)"
-                                            title="Eliminar proveedor"
+                                            title="Eliminar rol"
                                         >
                                             <Trash class="action-icon" />
                                             <span class="sr-only">Eliminar rol</span>
@@ -69,7 +80,7 @@ import { useToast } from '@/components/ui/toast';
 import { Pagination } from '@/interface/paginacion';
 import { SharedData } from '@/types';
 import { usePage } from '@inertiajs/vue3';
-import { Trash, UserPen } from 'lucide-vue-next';
+import { Trash, UserPen, KeyRound } from 'lucide-vue-next';
 import { onMounted, ref } from 'vue';
 import { RoleResource } from '../interface/Role';
 
@@ -79,6 +90,7 @@ const emit = defineEmits<{
     (e: 'page-change', page: number): void;
     (e: 'open-modal', id_role: number): void;
     (e: 'open-modal-delete', id_role: number): void;
+    (e: 'open-modal-permissions', id_role: number): void; //HICE CAMBIOS
 }>();
 const page = usePage<SharedData>();
 
@@ -106,6 +118,12 @@ const openModal = (id: number) => {
 const openModalDelete = (id: number) => {
     emit('open-modal-delete', id);
 };
+
+//HICE CAMBIOS
+const openFormEditPermission = (id: number) => {
+    window.location.href = `/panel/roles/${id}/edit`;
+};
+
 </script>
 
 <style scoped lang="css"></style>

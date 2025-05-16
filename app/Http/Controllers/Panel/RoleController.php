@@ -13,6 +13,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Log;
 
 class RoleController extends Controller
 {
@@ -77,7 +78,7 @@ class RoleController extends Controller
         if (!isset($validated['guard_name'])) {
             $validated['guard_name'] = 'web'; // Asigna un valor predeterminado si no se pasa
         }
-            // Crear el rol
+        // Crear el rol
         $role = Role::create($validated);
         return redirect()->route('panel.roles.index')->with('message', 'Rol creado correctamente');   
     }
@@ -95,19 +96,47 @@ class RoleController extends Controller
         ], 200);
     }
 
+    public function edit(Role $role)
+    {
+        // Obtener todos los permisos
+        $permissions = Permission::all();
+
+        // Obtener los permisos del rol
+        $rolePermissions = $role->permisos;
+
+        // Pasar los permisos al formulario de edición
+        return Inertia::render('panel/role/components/formEditRole', [
+            'roleData' => $role,
+            'permisos' => $permissions,
+            'selectedPermissions' => $rolePermissions->pluck('id')->toArray(),  // Pasar los permisos seleccionados
+        ]);
+    }
+
+
     /**
      * Update the specified resource in storage.
      */
     public function update(UpdateRoleRequest $request, Role $role)
     {
         Gate::authorize('update', $role);
+
+        //Log::info('Datos recibidos para actualizar rol:', $request->all());
+
+        // Validar y actualizar el rol
         $validated = $request->validated();
-        $role->update($validated); 
+        $role->update($validated);
+
+        // Sincronizar los permisos seleccionados
+        $role->permisos()->sync($request->permisos);
+     
+        // Recargar la relación permisos para que se incluyan en la respuesta JSON
+        $role->load('permisos');
         return response()->json([
             'status' => true,
             'message' => 'Rol actualizado correctamente',
-            'role' => new RoleResource($role->refresh()),
+            'role' => new RoleResource($role),
         ]);
+        
     }
 
     /**

@@ -50,7 +50,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/panel/roles',
     },
     {
-        title: 'Crear rol',
+        title: 'Crear Rol',
         href: '/panel/roles/create',
     },
 ];
@@ -65,12 +65,38 @@ const formSchema = toTypedSchema(
     }),
 );
 const { handleSubmit } = useForm({
-     validationSchema: formSchema,
- });
- const onSubmit = handleSubmit((values) => {
-     console.log('hola')
-     createRole(values);
- });
+    validationSchema: formSchema,
+});
+
+const selectedPermissions = ref<number[]>([]);  // Aquí está la definición de ref
+
+// Manejo de formulario
+const onSubmit = handleSubmit(async (values) => {
+    // Llamada al composable para crear el rol
+    await createRole({
+        name: values.name,
+        permisos: selectedPermissions.value, // Aquí pasamos los permisos seleccionados (IDs)
+    });
+    console.log('Rol creado con permisos:', selectedPermissions.value);
+});
+
+const props = defineProps<{
+    permisos: {
+        id: number;
+        name: string;
+    }[]; // Definir los permisos como un array de objetos con id y name
+}>();
+// Al cargar el componente, seleccionamos todos los permisos por defecto
+onMounted(() => {
+    //selectedPermissions.value = props.permisos.map(permiso => permiso.id);
+});
+
+// Reset selectedPermissions when clicking "Borrar"
+const resetPermissions = () => {
+    selectedPermissions.value = [];
+};
+
+console.log(props.permisos);
 </script>
 
 <style scoped></style>

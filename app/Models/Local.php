@@ -42,4 +42,8 @@ class Local extends Model
     {
         return $this->hasMany(User::class, 'local_id', 'id');
     }
+    public function sales(): HasMany
+    {
+        return $this->hasMany(Sale::class, 'local_id', 'id');
+    }
 }

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
+use App\Http\Controllers\Controller;
 use App\Models\ClientType;
 use App\Http\Requests\StoreClientTypeRequest;
 use App\Http\Requests\UpdateClientTypeRequest;
@@ -29,7 +30,7 @@ class ClientTypeController extends Controller
             $name = $request->get('name');
             $clientTypes = ClientType::when($name, function ($query, $name) {
                 return $query->where('name', 'like', "%$name%");
-            })->orderBy('id','asc')->paginate(15);
+            })->orderBy('id', 'asc')->paginate(15);
 
             return response()->json([
                 'clientTypes' => ClientTypeResource::collection($clientTypes),
@@ -66,7 +67,7 @@ class ClientTypeController extends Controller
         $validated = $request->validated();
         $validated = $request->safe()->except(['state']);
         $clientType = ClientType::create(Arr::except($validated, ['state']));
-        return redirect()->route('panel.clientTypes.index')->with('message', 'Tipo de cliente creado correctamente'); 
+        return redirect()->route('panel.clientTypes.index')->with('message', 'Tipo de cliente creado correctamente');
     }
 
     /**
@@ -110,5 +111,4 @@ class ClientTypeController extends Controller
             'message' => 'Tipo de cliente eliminado de manera correcta',
         ]);
     }
-
 }

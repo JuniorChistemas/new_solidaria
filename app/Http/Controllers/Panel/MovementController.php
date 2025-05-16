@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
+use App\Http\Controllers\Controller;
 use App\Models\Movement;
 use App\Http\Requests\StoreMovementRequest;
 use App\Http\Requests\UpdateMovementRequest;
@@ -31,7 +32,7 @@ class MovementController extends Controller
         try {
 
             $codigo = $request->get('codigo');
-            $movements = Movement::with(['supplier', 'user' , 'typemovement'])  // Cargar las relaciones
+            $movements = Movement::with(['supplier', 'user', 'typemovement'])  // Cargar las relaciones
                 ->when($codigo, function ($query, $codigo) {
                     return $query->where('codigo', 'like', "%$codigo%");
                 })
@@ -74,7 +75,7 @@ class MovementController extends Controller
         Gate::authorize('create', Movement::class);
         $validated = $request->validated();
         $movement = Movement::create($validated);
-        
+
         return redirect()->route('panel.movements.index')->with('message', 'Movimiento creado correctamente');
     }
 
@@ -110,7 +111,7 @@ class MovementController extends Controller
         Gate::authorize('update', $movement);
         $validated = $request->validated();
         $movement->update($validated);
-        
+
         return response()->json([
             'state' => true,
             'message' => 'Movimiento actualizado de manera correcta',
@@ -125,7 +126,7 @@ class MovementController extends Controller
     {
         Gate::authorize('delete', $movement);
         $movement->delete();
-        
+
         return response()->json([
             'state' => true,
             'message' => 'Movimiento eliminado de manera correcta',

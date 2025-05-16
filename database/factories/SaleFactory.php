@@ -19,7 +19,7 @@ class SaleFactory extends Factory
         return [
             'user_id' => $this->faker->randomElement([1, 7]),
             'customer_id' => CustomerFactory::new()->create()->id,
-            'local_id' => $this->faker->randomElement([1, 3]),
+            'local_id' => $this->faker->numberBetween(1, 10),
             'doctor_id' => $this->faker->randomElement([1, 20]),
             'type_voucher_id' => $this->faker->randomElement([1, 3]),
             'type_payment_id' => $this->faker->randomElement([1, 5]),

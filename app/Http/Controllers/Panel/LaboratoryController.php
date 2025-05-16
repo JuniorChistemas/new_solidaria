@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Panel;
 
 use App\Exports\LaboratoryExport;
+use App\Http\Controllers\Controller;
 use App\Models\Laboratory;
 use App\Http\Requests\StoreLaboratoryRequest;
 use App\Http\Requests\UpdateLaboratoryRequest;
@@ -37,10 +38,10 @@ class LaboratoryController extends Controller
                 ->through([
                     new FilterByName($name),
                 ])
-                ->thenReturn()->orderBy('id','asc')->paginate(12);
+                ->thenReturn()->orderBy('id', 'asc')->paginate(12);
 
             return response()->json([
-                'laboratories'=> LaboratoryResource::collection($laboratories),
+                'laboratories' => LaboratoryResource::collection($laboratories),
                 'pagination' => [
                     'total' => $laboratories->total(),
                     'current_page' => $laboratories->currentPage(),
@@ -137,7 +138,7 @@ class LaboratoryController extends Controller
         ]);
 
         Excel::import(new LaboratoryImport, $request->file('archivo'));
-        
+
         return response()->json([
             'message' => 'Importación de laboratorios realizado correctamente',
         ]);

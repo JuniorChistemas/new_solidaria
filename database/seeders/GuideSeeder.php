@@ -14,7 +14,7 @@ class GuideSeeder extends Seeder
     public function run(): void
     {
         Guide::factory()
-            ->count(100)
+            ->count(500)
             ->create();
     }
 }
